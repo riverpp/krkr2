@@ -1,70 +1,68 @@
-<?xml version="1.0" encoding="Shift_JIS" ?>
+<?xml version="1.0" encoding="ISO-8859-1" ?>
 
 <doc>
-<title>未読/既読処理について</title>
+<title>About Read/Unread Status</title>
 
 <para>
-<ptitle>未読/既読処理</ptitle>
-　未読とはユーザがシナリオをいまだ読んでいないということで、既読とはユーザがすでに読んだということです。<r/>
-　KAG は、未読の部分と既読の部分でメッセージの表示速度を変えたり、既読の部分では [l] タグを無効にしたりする事ができます。<r/>
+<ptitle>Read/Unread Status</ptitle>
+"Unread" means the user hasn't read the scenario yet, while "read" means the user has already read it.<r/>
+KAG can change message display speed between read and unread text, and can also disable [l] tags for read text.<r/>
 <r/>
-　未読/既読の記録はシステム変数のうち、<tt>trail_</tt> で始まる変数に記録されます。未読/既読の記録を行うには <tt>Config.tjs</tt> の <tt>autoRecordPageShowing</tt> を true に設定する必要があります。<r/>
+Read/unread records are stored in system variables beginning with <tt>trail_</tt>. To enable read/unread recording, <tt>autoRecordPageShowing</tt> must be set to true in <tt>Config.tjs</tt>.<r/>
 </para>
 
 <para>
-<ptitle>未読部分と既読部分</ptitle>
-　KAG では、未読部分/既読部分はラベルを目印にして分けられています。<r/>
-　システム変数の <tt>trail_シナリオファイル名_ラベル</tt> という形式の変数に記録されます。たとえば、first.ks の *start というラベルであれば、<tt>sf.trail_first_start</tt> という変数名になります。<r/>
-　この変数が void ( つまり未定義; 数値と比較するときは 0 として見なされます ) ならば 未読で、1 以上であれば既読です。1 以上の場合はその部分を読んだ回数になります。<r/>
+<ptitle>Read Text and Unread Text</ptitle>
+In KAG, read/unread status is managed per label.<r/>
+It's recorded in system variables formatted as <tt>trail_scenariofilename_label</tt>. For example, for a label called *start in first.ks, it would be <tt>sf.trail_first_start</tt>.<r/>
+If this variable is void (undefined; treated as 0 when compared with numbers) it's unread, if 1 or higher it's read. Numbers higher than 1 indicate how many times it's been read.<r/>
 <r/>
-　基本的に、一つのラベルから次のラベルや [s] タグまでが一つの「部分」として処理されます。<r/>
-　たとえば、以下のようなシナリオがあるとすると、各色で色分けされたシナリオが各部分ということになります。<r/>
+Basically, a "block" from one label to the next [s] tag is treated as a unit.<r/>
+For example, with the following scenario, each colored section would be treated as one block:<r/>
 <r/>
 <include file="desc0._html"/>
 <r/>
-　この「部分」を単位にして、未読既読が処理されます。<r/>
+Read/unread status is managed based on these "blocks" as units.<r/>
 <r/>
-　初期状態ではすべての部分が未読であるとされています。<r/>
+In this state, all text is considered unread.<r/>
 </para>
 
 <para>
-<ptitle>既読判定</ptitle>
-　これらの「部分」が既読と見なされるには条件があります。原則として、「次のラベルに到達したり [s] タグに到達した」場合にその「部分」が既読であると見なされ、システム変数に記録されます。<r/>
-　つまり、ユーザが「部分」の途中でプログラムを終了したりして読むのをやめた場合は既読とは見なされない事になります。最後までその「部分」を読まないとなりません。<r/>
+<ptitle>Read Status</ptitle>
+There are conditions for a "block" to be considered read. Specifically, a "block" is considered read and recorded in system variables when "the user reaches from the label to the [s] tag".<r/>
+Also, if the user skips through a "block" using rapid advancement, it won't be considered read. The entire "block" must be read.<r/>
 </para>
 
 <para>
-<ptitle>シナリオ制御と既読判定</ptitle>
-　途中にリンクや jump タグなどがあってシナリオが分岐したりする場合はすこし処理が変わります。<r/>
+<ptitle>Scenario Branching and Read Status</ptitle>
+The behavior changes when using links or jump tags to branch the scenario.<r/>
 <r/>
 <dl>
-<dt>リンクの類 ( link や button タグ ) でジャンプする場合</dt>
+<dt>When jumping with links (link or button tags)</dt>
 <dd>
-　これらのタグによってユーザが選択肢などを選択してシナリオの別の部分にジャンプする場合は自動的に既読となります。<r/>
-　たとえば以下の例で、<r/>
+When jumping to different parts of the scenario through user selection, it automatically becomes read.<r/>
+For example:<r/>
 <bq>
 *select<r/>
-ここの部分は、ユーザが選択肢を選択した時に既読になります。[r]<r/>
-[link target=*t1]選択肢1[endlink][r]<r/>
-[link target=*t2]選択肢2[endlink][r]<r/>
+This text becomes read when the user makes a selection.[r]<r/>
+[link target=*t1]Choice 1[endlink][r]<r/>
+[link target=*t2]Choice 2[endlink][r]<r/>
 @wait time=3000<r/>
 @jump target=*timeout<r/>
 </bq>
-　選択肢が @wait タグでタイムアウトになる前に選択された場合はその時点で既読という事になります。ちなみに通常の選択肢の使い方では link タグで選択を表示し終わると [s] タグが来ると思うのでその時点で既読になります。<r/>
-　link タグや button タグには contpage という属性があって、これを false にすると、その時点でジャンプを行っても既読とはされません。<r/>
+If a selection is made before the @wait tag times out, it becomes read at that point. Note that in normal selection usage, there's usually an [s] tag after displaying choices with link tags, so it becomes read at that point.<r/>
+Link and button tags have a contpage parameter which, when set to false, prevents marking as read when jumping.<r/>
 </dd>
-<dt>jump タグ</dt>
+<dt>jump tag</dt>
 <dd>
-　jump タグでジャンプを行う場合もその時点で既読とされます。この場合も coutpage という属性があって、これを false に設定すると既読とはされません。<r/>
+When jumping with the jump tag, it becomes read at that point. In this case, there's a contpage parameter which, when set to false, prevents marking as read.<r/>
 </dd>
-<dt>call と return</dt>
+<dt>call and return</dt>
 <dd>
-　call タグでサブルーチンを呼ぶときは既読となりません。この場合も coutpage という属性があって、これを true に設定するとその時点で既読とされます。<r/>
-　retrun タグはその時点で既読となります ( 呼び出し元が既読になるのではなくて、そのサブルーチンの、return タグのある部分が既読になる )。この場合も coutpage という属性があって、これを false に設定すると既読とはされません。<r/>
+When calling a subroutine with the call tag, it doesn't become read. In this case, there's a contpage parameter which, when set to true, marks it as read at that point.<r/>
+The return tag marks that point as read (not the calling point, but the subroutine's return tag section becomes read). In this case, there's a contpage parameter which, when set to false, prevents marking as read.<r/>
 </dd>
 </dl>
 </para>
 
 </doc>
-
-

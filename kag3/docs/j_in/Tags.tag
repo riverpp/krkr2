@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="Shift_JIS" ?>
+<?xml version="1.0" encoding="ISO-8859-1" ?>
 <doc>
-<title>タグリファレンス</title>
+<title>Tag Reference</title>
 </doc>

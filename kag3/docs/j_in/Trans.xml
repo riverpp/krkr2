@@ -1,281 +1,281 @@
-<?xml version="1.0" encoding="Shift_JIS" ?>
+<?xml version="1.0" encoding="ISO-8859-1" ?>
 <doc>
 
-<title>トランジションを使おう</title>
+<title>Using Transitions</title>
 
 <para>
-<ptitle>その前に</ptitle>
-　フェードインやフェードアウト、ブラインドなど、時間をかけて画面を切り替える効果を<kw>トランジション</kw>(移り変わり)と呼びます。<r/>
-　吉里吉里/KAGでは、クロスフェードトランジション、ユニバーサルトランジション、スクロールトランジションの、３つの種類のトランジションを使用することができます。<r/>
-　また、拡張トランジションプラグイン ( extrans.dll ) を用いると、いくつかのトランジションをさらに使うことができるようになります ( 吉里吉里 SDK ヘルプの「トランジションについて」を参照してください )。<r/>
+<ptitle>Introduction</ptitle>
+Screen transitions like fade, fade-out, blind, etc., that change scenes over time are called <kw>transitions</kw>. <r/>
+In TyranoScript/KAG, you can use three types of transitions: cross-fade transitions, universal transitions, and scroll transitions.<r/>
+Additionally, by using the TyranoScript transition plugin (extrans.dll), you can use even more transition effects (please refer to "About Transitions" in the TyranoScript SDK help).<r/>
 </para>
 
 <para>
-<ptitle>クロスフェードトランジション</ptitle>
-　クロスフェードトランジションは、単純な画面切り替え効果です。<r/>
-　トランジション(移り変わり)ですから、トランジション前の画像と、トランジション後の画像が必要になります。KAG の場合、トランジション前の画像は表ページのレイヤで、トランジション後の画像は裏ページのレイヤになります。つまり、裏ページのレイヤの画像が表ページにくるわけです。<r/>
-　トランジションの開始とともに、時間をかけて表ページの画像が裏ページの画像に置き換わり、最終的に裏ページの画像が表ページの画像になります。<r/>
+<ptitle>Cross-fade Transitions</ptitle>
+Cross-fade transitions are simple scene switching effects.<r/>
+For transitions, you need both the pre-transition image and the post-transition image. In KAG, the pre-transition image is on the fore page, and the post-transition image is on the back page. The back page's image can also be shown on the fore page.<r/>
+When the transition starts, the fore page's image is gradually replaced by the back page's image over time, and finally, the back page's image becomes the fore page's image.<r/>
 <r/>
 <note>
-　KAG には<kw>フェードアウト</kw>、<kw>フェードイン</kw>という概念がありません。黒にフェードアウトさせたい場合は裏ページを真っ黒な状態にしてからクロスフェードトランジションをかけます。
+KAG has <kw>fade-out</kw> and <kw>fade-in</kw> tags. When you want to fade out first, make the back page transparent and perform a cross-fade transition.
 </note>
 </para>
 
 <para>
-<ptitle>ユニバーサルトランジション</ptitle>
-　ユニバーサルトランジションというのは、ユニバーサル(汎用的な) トランジション(移り変わり)のことで、いわゆる「画面切り替え効果」を自由に作成することができるモノです。<r/>
+<ptitle>Universal Transitions</ptitle>
+Universal transitions are a versatile transition mechanism that allows you to create "scene switching effects" freely.<r/>
 <r/>
-　また、ユニバーサルトランジションには、<kw>ルール画像</kw>と呼ばれる、グレースケールの画像が必要になります。ルール画像のサイズがトランジションを行いたいレイヤよりも小さい場合は、自動的にタイル状に敷き詰められて使用されます。この画像を「ルール」として、トランジションを進行させます。<r/>
-　そして、ユニバーサルトランジションに必要な属性、<kw>time</kw> (トランジションを行っている時間)と、<kw>vague</kw> (<kw>あいまい領域値</kw>) が必要になります。<r/>
+First, universal transitions require what's called a <kw>rule image</kw>, which is a grayscale image. If the rule image's size differs from the transition area, it will be automatically tiled to fill the space. This image is used as a "rule" to progress the transition.<r/>
+Additionally, universal transitions require two parameters: <kw>time</kw> (duration of the transition) and <kw>vague</kw> (<kw>blur value</kw>).<r/>
 <r/>
-　例を示します。<r/>
+Let me explain.<r/>
 <r/>
-　以下の画像を見てください。<r/>
+Please look at these images.<r/>
 <descimg>
-<dititle>トランジション前、トランジション後、ルール画像</dititle>
+<dititle>Pre-transition, Post-transition, and Rule image</dititle>
 <img src="univtrans_A.png"/><img src="univtrans_B.png"/><img src="univtrans_R.png"/>
 </descimg>
 <r/>
-　このように、A と書いてある画像が、B と書いてある画像に移り変わるとします。また、ルール画像には、単純ですが 上から下へ、黒から白へのグラデーションの画像を使うとします。<r/>
+Like this, we'll transition from image A to image B. For the rule image, we'll use a simple top-to-bottom, left-to-right gradient image.<r/>
 <r/>
-　さて、まず <kw>vague</kw> (あいまい領域値) を 1 にすると、以下のようにトランジションが進行します。左から右へと進行しています。便宜上、移り変わりを横に並べて示していますが、実際はこれが連続して同じ場所で表示されるのです。<r/>
+Now, if we set <kw>vague</kw> (blur value) to 1, the transition progresses as follows. It progresses from left to right. Although it looks like the images are arranged side by side, they are actually displayed at the same place at the same time.<r/>
 <descimg>
-<dititle>vague=1 のとき</dititle>
+<dititle>When vague=1</dititle>
 <img src="univtrans_V1.png"/>
 </descimg>
 <r/>
-　つまり、ルール画像の黒いところから、白いところに向かって、だんだんと B の画像に置き換わっていっているのです。<r/>
+Following the rule image's brightness, from light to dark, image B gradually replaces image A.<r/>
 <r/>
-　ここで vague=64 としてみましょう。<r/>
+Let's try setting vague=64.<r/>
 <descimg>
-<dititle>vague=64 のとき</dititle>
+<dititle>When vague=64</dititle>
 <img src="univtrans_V64.png"/>
 </descimg>
-　こんどは、A の画像と B の画像の境界がぼやけていますね？ このように、vague の値を大きくすると、移り変わりの中で、A でも B でもない、あいまいな部分を大きくすることができます。vague には 1 以上の数値を指定できます。<r/>
+Notice how the boundary between images A and B is blurred? By increasing the vague value, you can create a larger blended area during the transition where neither A nor B is fully visible. You can specify any positive number for vague.<r/>
 <r/>
-　ルール画像には、このように単純なグラデーションだけではなく、いろいろな模様を指定することによって、それに従って自由にトランジションを行わせることができます。<r/>
+By using rule images with various patterns instead of simple gradients, you can create natural transitions that follow these patterns.<r/>
 <r/>
-　吉里吉里ダウンロードページ<at target="_top"  href="http://kikyou.info/tvp/">http://kikyou.info/tvp/</at> には、「<kw>トランジションライブラリ</kw>」として、ユニバーサルトランジションのルール画像が 20 種類以上入ったものが公開されています。<!-- また、ユニバーサルトランジショントランジションがどういうものかを実際に目で見ることができるスクリプトも同梱されていますので、ユニバーサルトランジションに関する理解を深めてください。--><r/>
+The TyranoScript download page <at target="_top" href="http://kikyou.info/tvp/">http://kikyou.info/tvp/</at> offers a "Transition Library" with over 20 rule images for universal transitions.<r/>
 </para>
 
 <para>
-<ptitle>スクロールトランジション</ptitle>
-　スクロールトランジションは、ユニバーサルトランジションとは違い、切り替え元 ( 裏画面 ) の画像が切り替え先 ( 表画面 ) の画像の領域内にスクロールして入ってくる感じの物です。<r/>
-　切り替え元 ( 裏画面 ) の画像が入ってくる方向は、左、上、右、下の4方向から選べます。<r/>
-　また、スクロールの仕方で3つの種類があります。<r/>
+<ptitle>Scroll Transitions</ptitle>
+Unlike universal transitions, scroll transitions work by scrolling the switching (back) image's area over the current (fore) image.<r/>
+For the switching (back) image, you can choose from four directions: up, down, right, and left.<r/>
+There are also three types of scroll behaviors.<r/>
 <r/>
-　まず、<kw>stay</kw> 属性に "stayfore" を指定した場合のスクロールトランジションは、以下のようになります(下から入ってくる場合)。<r/>
+First, when <kw>stay</kw> is set to "stayfore", the scroll transition looks like this (when scrolling from left):<r/>
 <descimg>
-<dititle>stay=stayfore のとき</dititle>
+<dititle>When stay=stayfore</dititle>
 <img src="univtrans_Sstay.png"/>
 </descimg>
-　このように、stay 属性に "stayfore" を指定すると、表ページの画像がその場にとどまったまま、裏ページが外から移動して入ってくる感じになります。<r/>
+Like this, when stay is set to "stayfore", the fore page image remains fixed while the back page moves in from the edge.<r/>
 <r/>
-　また、stay 属性に "stayback" を指定した場合のスクロールトランジションは以下のようになります。<r/>
+When stay is set to "stayback", the scroll transition looks like this:<r/>
 <descimg>
-<dititle>stay=stayback のとき</dititle>
+<dititle>When stay=stayback</dititle>
 <img src="univtrans_Sstaysrc.png"/>
 </descimg>
-　この場合は、表ページのレイヤが移動して出ていく後ろから、裏ページのレイヤが見えてくる感じになります。<r/>
+In this case, the fore page layer moves out while the back page layer remains fixed.<r/>
 <r/>
-　stay 属性に "nostay" を指定すると以下のようになります。<r/>
+When stay is set to "nostay", it looks like this:<r/>
 <descimg>
 <dititle>stay=nostay</dititle>
 <img src="univtrans_Snostay.png"/>
 </descimg>
-　このように、入ってきた切り替え元の画像に押されるようにしてスクロール元の画像が出ていきます。A の画像と B の画像を横または縦に連続した物にすれば、大きな画面をスクロールさせているような効果を出すことができます。でも前景レイヤの切り替え効果にはあんまり向いていません<tt>(^^;;</tt><r/>
+Like this, both images scroll together. By connecting images A and B horizontally or vertically, you can create the effect of scrolling across a large screen. However, it's not very suitable for foreground layer transitions <tt>(^^;;</tt><r/>
 </para>
 
 <para>
-<ptitle>表ページと裏ページ</ptitle>
-　トランジションを行ううえで非常に重要なのが<kw>表ページ</kw>と<kw>裏ページ</kw>という概念です。<r/>
-　<link href="DispBase"/> でも紹介しましたが、KAG は、普段目に見える表ページと、目には見えない裏ページがあって、両方は見えるか見えないかだけが違うほかは、まったく同じ構成をしています。<r/>
-　KAG のトランジションは常に、いま表示されている表ページの内容にかわって、裏ページの内容がだんだんと表示されてくるという方向で行われます。トランジションが終わると、表ページの内容は完全に裏ページの内容と同じになります。<r/>
-　というわけで、トランジション前には裏ページを操作しなければなりません。<r/>
+<ptitle>Fore Page and Back Page</ptitle>
+The concepts of <kw>fore page</kw> and <kw>back page</kw> are particularly important when performing transitions.<r/>
+As introduced in <link href="DispBase"/>, KAG has a fore page that is directly visible and a back page that isn't visible, displaying content differently on these pages.<r/>
+KAG transitions always work by showing the back page's content while the fore page's content is currently displayed. When the transition ends, the fore page's content becomes identical to the back page's content.<r/>
+Therefore, you must prepare the back page before the transition.<r/>
 <r/>
-　例を示します。背景レイヤのみを入れ替える場合を考えます。<r/>
-　まず、トランジション前、レイヤの状態が次のようであったとします ( 左が表、右が裏 )<r/>
+Let me explain. Let's consider changing just the background layer.<r/>
+First, before the transition, let's say the layers are in this state (fore, back):<r/>
 <r/>
 <descimg>
-<dititle>トランジション前</dititle>
+<dititle>Before Transition</dititle>
 <img src="trans0f.jpg"/>
 <img src="trans0b.jpg"/>
 </descimg>
-　この時点で表ページは背景レイヤに全景レイヤ、メッセージレイヤが表示されています。裏ページはどのような状態でもかまわないものとします。<r/>
-　ここで [backlay] タグで裏ページを表ページと同じにします。<r/>
+At this point, the fore page shows the background layer, foreground layer, and message layer. The back page's state is undefined.<r/>
+Then we use the [backlay] tag to make the back page identical to the fore page.<r/>
 <descimg>
-<dititle>backlay タグ実行後</dititle>
+<dititle>After backlay tag</dititle>
 <img src="trans0f.jpg"/>
 <img src="trans0f.jpg"/>
 </descimg>
-　トランジションは裏ページの内容を表ページに移すものですので、トランジションを行う前に、裏ページをいじらないといけません。<r/>
-　ここでは背景レイヤのみを入れ替えたいので、裏ページの背景レイヤに画像を読み込みます。<r/>
+
+Since transitions move the back page's content to the fore page, we must prepare the back page before performing the transition.<r/>
+Here, since we're only changing the background layer, we load an image into the back page's background layer.<r/>
 <descimg>
-<dititle>裏ページの背景レイヤに画像を読み込んだ後</dititle>
+<dititle>After loading image to back page's background layer</dititle>
 <img src="trans0f.jpg"/>
 <img src="trans2b.jpg"/>
 </descimg>
-　ここでやっと trans タグでトランジションを行えます。くどいようですが、トランジションは裏ページの画像を表ページに持ってきます。<r/>
-　トランジション中は以下のようになります ( トランジションの例 )。<r/>
+Now we perform the transition using the trans tag. As you can see, the transition shows the back page's image on the fore page.<r/>
+During transition, it looks like this (transition example):<r/>
 <descimg>
-<dititle>トランジション中</dititle>
+<dititle>During Transition</dititle>
 <img src="trans3f.jpg"/>
 <img src="trans2b.jpg"/>
 </descimg>
-　トランジションは [wt] タグで待ちます。<r/>
-　トランジションが終われば、以下のように、裏ページと表ページが同じになります。<r/>
+We wait for the transition using the [wt] tag.<r/>
+When the transition ends, the back page and fore page become identical, like this:<r/>
 <descimg>
-<dititle>トランジション後</dititle>
+<dititle>After Transition</dititle>
 <img src="trans2b.jpg"/>
 <img src="trans2b.jpg"/>
 </descimg>
 </para>
 
 <para>
-<ptitle>背景レイヤを切り替えてみよう</ptitle>
-　トランジションを行うには <kw>trans</kw> タグを使います。<r/>
-　基本的にトランジションは、裏ページに [<kw>backlay</kw>] タグにてすべての表ページのレイヤ情報を裏ページにコピーして、裏ページで変化させたい部分を image タグなどでいじり、そして trans タグでトランジションを実行します。すると、裏ページに適用した変化が、現在の表ページと入れ替わるように、表ページに適用されます。<r/>
+<ptitle>Let's Try Changing the Background Layer</ptitle>
+To perform transitions, we use the <kw>trans</kw> tag.<r/>
+Basically, transitions first use the [<kw>backlay</kw>] tag to copy all fore page layers to the back page, then make changes to the back page using tags like image, and finally perform the transition using the trans tag. This applies the changes made to the back page to the fore page, replacing the current fore page.<r/>
 <r/>
-　まずは、背景レイヤをクロスフェードトランジションで切り替えてみましょう。<r/>
+First, let's try changing the background layer using a cross-fade transition.<r/>
 <r/>
 <bq>
 [image storage="bg0" page=fore layer=base]<r/>
 [wait time=200]<r/>
-*start|スタート<r/>
+*start|Start<r/>
 [cm]<r/>
-こんにちは。背景レイヤを切り替えます。[l][r]<r/>
+Hello. I'll change the background layer.[l][r]<r/>
 <b>[backlay]</b><r/>
 [image storage="bg1" layer=base <b>page=back</b>]<r/>
 <b>[trans method=crossfade time=1500]</b><r/>
 <b>[wt]</b><r/>
-切り替わりましたか？<r/>
+Did it change?<r/>
 </bq>
-　まず、[backlay] タグで表ページのレイヤの情報を裏ページにコピーしています。<r/>
-　そして、裏ページの背景レイヤに、次に表示すべき画像を読み込んでいます。<r/>
-　この時点で、裏ページが表ページと違うのは背景画像だけです。<r/>
-　次に trans タグでトランジションを実行しています。このように、trans の属性で <tt>method=crossfade</tt> と指定するとユニバーサルトランジションとなります。この例では時間は 1.5 秒と指定しています。時間はミリ秒単位で指定するので <tt>time=1500</tt> と指定します。<r/>
+First, the [backlay] tag copies the fore page layer content to the back page.<r/>
+Then, we load the image to be displayed next into the back page's background layer.<r/>
+At this point, the back page differs from the fore page only in the background image.<r/>
+Then we perform the transition using the trans tag. As shown, specifying <tt>method=crossfade</tt> makes it a universal transition. In this example, we specify 1.5 seconds for the duration. Time is specified in milliseconds as <tt>time=1500</tt>.<r/>
 <note>
-　ミリ秒単位で指定をしますが、精度がミリ秒単位ほどあるというわけではありません。
+Although specified in milliseconds, it may not be exactly millisecond-precise.
+</note>
+
+Then, we wait for the transition to end using the <kw>wt</kw> tag. <b>In KAG, if you omit the wt tag, the transition won't wait to complete before proceeding</b>, so please don't forget the wt tag.<r/>
+<note>
+Regardless of transitions, most KAG tags that "perform something over time" don't wait for completion by themselves and need separate wait tags. This allows things like transitioning while fading out BGM.<r/>
+Also, <b>make sure to include the corresponding "wait" tag</b>. Even when combining different operations (like waiting for transition completion with a wait tag), you still need to include all corresponding "wait" tags.<r/>
 </note>
 <r/>
-　その後、<kw>wt</kw> タグでトランジションの終了を待っています。<b>KAG は wt タグを書かないとトランジションを待たずに次にいってしまいます</b>ので、wt タグを忘れないようにしてください。<r/>
-<note>
-　トランジションに限らず、KAG の「時間をかけて何かを処理するもの」のほとんどのタグはそれ自体では終了を待たずに、終了を待つためのタグが別にあります。これにより、トランジションしながらBGM のフェードアウト、というようなことができます。<r/>
-　また、<b>対応する「待つ」タグは必ず書いてください</b>。異種類の物でまとうとする場合 ( トランジションの終了を wait タグで待つなど ) でも、正しく対応する「待つ」タグは一応書いておく必要があります。<r/>
-</note>
 <r/>
-<r/>
-　また、ユニバーサルトランジションを使ってみると以下のようになります。<r/>
+Now, using a universal transition would look like this:<r/>
 <bq>
 [image storage="bg0" page=fore layer=base]<r/>
 [wait time=200]<r/>
-*start|スタート<r/>
+*start|Start<r/>
 [cm]<r/>
-こんにちは。背景レイヤを切り替えます。[l][r]<r/>
+Hello. I'll change the background layer.[l][r]<r/>
 <b>[backlay]</b><r/>
 [image storage="bg1" layer=base <b>page=back</b>]<r/>
 <b>[trans method=universal rule="rule1" vague=1 time=1500]</b><r/>
 <b>[wt]</b><r/>
-切り替わりましたか？<r/>
+Did it change?<r/>
 </bq>
 <r/>
-　この例でも trans タグでトランジションを実行しています。このように、trans の属性で <tt>method=universal</tt> と指定するとユニバーサルトランジションとなります ( method タグを省略しても universal であると見なされます )。この例では、ルール画像として "rule1" 、時間は 1.5 秒、あいまい領域値は 1 という設定です。<r/>
-<r/>
-　また、これをスクロールトランジション、右から、居座りなしでトランジションを行うとすると・・・<r/>
+And for a scroll transition, scrolling from right with no stay effect:<r/>
 <r/>
 <bq>
 [image storage="bg0" page=fore layer=base]<r/>
 [wait time=200]<r/>
-*start|スタート<r/>
+*start|Start<r/>
 [cm]<r/>
-こんにちは。背景レイヤを切り替えます。[l][r]<r/>
+Hello. I'll change the background layer.[l][r]<r/>
 [backlay]<r/>
 [image storage="bg1" layer=base <b>page=back</b>]<r/>
 [trans <b>method=scroll from=right stay=nostay children=false</b> time=1500]<r/>
 [wt]<r/>
-切り替わりましたか？<r/>
+Did it change?<r/>
 </bq>
-　となります。ここでは <tt>children=false</tt> と指定しているのは、このように指定しないと「<kw>子レイヤ</kw>」も一緒に移動してしまうからです。KAG では、背景レイヤが親、前景レイヤとメッセージレイヤは背景レイヤの子にあたります。<r/>
-　子レイヤも一緒にスクロールしていいのであれば <tt>children=true</tt> にしてもかまいません。<r/>
+Here we specify <tt>children=false</tt> because without it, the "<kw>child layers</kw>" would move together. In KAG, the foreground layer and message layer are children of the background layer.<r/>
+If you want the child layers to scroll together, set <tt>children=true</tt>.<r/>
 </para>
 
 <para>
-<ptitle>前景レイヤを切り替えてみよう</ptitle>
-　前景レイヤを切り替えるにも trans タグを使います。<r/>
+<ptitle>Let's Try Changing the Foreground Layer</ptitle>
+To change the foreground layer, we use the trans tag.<r/>
 <r/>
 <bq>
 [image storage="bg0" page=fore layer=base]<r/>
 [wait time=200]<r/>
-*start|スタート<r/>
+*start|Start<r/>
 [cm]<r/>
-こんにちは。前景レイヤをトランジションを使って表示させます。[l][r]<r/>
+Hello. I'll show the foreground layer using a transition.[l][r]<r/>
 [backlay]<r/>
 [image layer=0 page=back storage="fg0" visible=true]<r/>
-; この時点で、表ページの前景レイヤ 0 は(デフォルトのままなので)不可視、<r/>
-; この時点で、裏ページの前景レイヤ 0 は可視で画像を保持していて、<r/>
-; 他の裏ページのレイヤは backlay タグの効果で、すべて表ページと同じ<r/>
+; At this point, foreground layer 0 on the fore page is (by default) invisible,<r/>
+; At this point, foreground layer 0 on the back page has an image loaded,<r/>
+; and due to the backlay tag, all other back page layers are identical to fore page<r/>
 [trans method=crossfade time=1500][wt]<r/>
-つぎは、前景レイヤを入れ替えます。[l][r]<r/>
+
+Now, I'll change the foreground layer.[l][r]<r/>
 [backlay]<r/>
 [image layer=0 page=back storage="fg1" visible=true]<r/>
-; この時点で、裏ページの前景レイヤ 0 は fg1 という画像、<r/>
-; 他の裏ページのレイヤは backlay タグの効果で、すべて表ページと同じ<r/>
+; At this point, foreground layer 0 on the back page has image fg1,<r/>
+; and due to the backlay tag, all other back page layers are identical to fore page<r/>
 [trans method=crossfade time=1500][wt]<r/>
-そうしたら、前景レイヤを消します。[l][r]<r/>
+And now, I'll hide the foreground layer.[l][r]<r/>
 [backlay]<r/>
 [layopt layer=0 page=back visible=false]<r/>
-; この時点で、裏ページの前景レイヤ 0 は不可視、<r/>
-; 他の裏ページのレイヤは backlay タグの効果で、すべて表ページと同じ<r/>
+; At this point, foreground layer 0 on the back page is invisible,<r/>
+; and due to the backlay tag, all other back page layers are identical to fore page<r/>
 [trans method=crossfade time=1500][wt]<r/>
 </bq>
-　上の例は、前景レイヤを表示させ、それを別の画像に入れ替え、そして消しています。<r/>
-　まず、表示させる所ですが、まず、backlay タグを使って、表ページの情報をすべて裏ページにコピーしています。そのあと、変更したい部分、ここでは前景レイヤに前景を表示させたいわけですから、裏ページの前景レイヤに画像を読み込んでいます。<r/>
-　そのあと、trans タグを使用しています。<r/>
+This example shows displaying the foreground layer, changing it to a different image, and then hiding it.<r/>
+First, we use the backlay tag to copy all fore page content to the back page. Then, after making the desired changes - in this case displaying the foreground layer - we load the image into the back page's foreground layer.<r/>
+After that, we use the trans tag.<r/>
 <r/>
-　つぎに前景レイヤを入れ替えていますが、これも、backlay で裏ページにコピーした後、変更したい部分を操作し、trans タグでトランジションを行わせています。<r/>
+Next, to change the foreground layer, we again use backlay to copy to the back page, make the desired changes, and perform the transition using the trans tag.<r/>
 <r/>
-　最後に前景レイヤを消していますが、backlay で裏ページにコピーした後、該当する前景レイヤを非表示にしています。非表示になっているということは、つまり表示されてないということで(あたりまえか) 、トランジションを行わせると消えます。<r/>
+Finally, to hide the foreground layer, we use backlay to copy to the back page, then set the relevant foreground layer to invisible. Being invisible means it won't be displayed (will be transparent), and when we perform the transition, it will fade out.<r/>
 <r/>
-　なお、このなかで、裏ページにあるレイヤに対して visible=true としているので、表示されてしまうのか、と心配かもしれませんが、裏ページ ( 背景レイヤとその子レイヤ ) はもともと非表示にしかならないので、visible=true と指定しても表示される心配はありません。<r/>
+Note that while you might wonder about setting visible=true for layers on the back page, since the back page (background layer and its child layers) is always invisible by default, there's no need to worry about the visible=true setting causing premature display.<r/>
 <r/>
 <note>
-　上記の例のように、trans タグの layer 属性を省略すると base ( 背景レイヤ ) が指定されたとみなされ、children 属性を省略すると true が指定された ( 子レイヤも含めて一緒にトランジション ) をするという意味になります。<r/>
-　前景レイヤをトランジションを使って表示したいとき、入れ替えたいとき、消したいときなどや、その他の諸々のトランジションは、背景レイヤに対して、子レイヤも含めて一緒にトランジションさせるというのがミソです。layer=0 などとして前景レイヤやメッセージレイヤに対して個別にトランジションをかけることもできますが、通常は使いません。<r/>
+In the above example, when the trans tag omits the layer parameter, it defaults to base (background layer), and when children is omitted, it defaults to true (transition includes child layers).<r/>
+When displaying foreground layers with transitions, changing them, hiding them, and other various transitions, it's desirable to transition the background layer together with its child layers. While you can perform transitions specifically on foreground layers or message layers using layer=0 etc., this is rarely used in practice.<r/>
 </note>
 </para>
 
 <para>
-<ptitle>メッセージレイヤを切り替えてみよう</ptitle>
-　メッセージレイヤも同様の方法で切り替えることが出来ます。<r/>
-　メッセージレイヤの場合、表示・非表示は layopt タグで操作できるので同様の動作を行うことができます。<r/>
+<ptitle>Let's Try Changing the Message Layer</ptitle>
+You can switch the message layer using the same method.<r/>
+For the message layer, since visibility can be controlled with the layopt tag, you can perform similar operations.<r/>
 <r/>
-　たとえば、メッセージレイヤを非表示のまま描画し、描画し終わってからトランジションで画面に表示するには以下のようにします。また、そのあと、メッセージレイヤをトランジションを使って非表示にしています。<r/>
+For example, to draw the message layer while keeping it invisible, then display it with a transition, do the following. Then, use a transition to hide the message layer.<r/>
 <r/>
 <bq>
 [layopt layer=message page=fore visible=false]<r/>
-; ↑最初は表ページメッセージレイヤを非表示に<r/>
+; First make the fore page message layer invisible<r/>
 [layopt layer=message page=back visible=true]<r/>
-; ↑裏ページのメッセージレイヤを表示状態に<r/>
+; Make the back page message layer visible<r/>
 [wait time=200]<r/>
-*start|スタート<r/>
+*start|Start<r/>
 [cm]<r/>
 [current page=back]<r/>
-; ↑操作対象のメッセージレイヤを裏ページに<r/>
+; Set target message layer to back page<r/>
 [delay speed=nowait]<r/>
-; ↑文字描画速度をノーウェイトに<r/>
-このようにトランジションを使いながらメッセージレイヤを表示させることができます。[r]<r/>
+; Set text drawing speed to no-wait<r/>
+You can display the message layer using transitions like this.[r]<r/>
 [delay speed=user]<r/>
-; ↑文字描画速度を元に戻す<r/>
+; Return text drawing speed to normal<r/>
 [trans method=universal rule="trans1" vague=1 time=1500][wt]<r/>
-; ↑ユニバーサルトランジション<r/>
+; Universal transition<r/>
 [current page=fore]<r/>
-; ↑念のために操作対象のメッセージレイヤを表ページの物に<r/>
+; Set target message layer back to fore page<r/>
 [l]<r/>
-; ↑クリック待ち<r/>
+; Wait for click<r/>
 [layopt layer=message page=back visible=false]<r/>
-; ↑裏ページのメッセージレイヤを非表示に<r/>
+; Make back page message layer invisible<r/>
 [trans method=universal rule="trans1" vague=1 time=1500][wt]<r/>
-; ↑トランジション<r/>
+; Transition<r/>
 </bq>
 </para>
 </doc>

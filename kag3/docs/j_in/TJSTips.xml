@@ -1,376 +1,361 @@
-<?xml version="1.0" encoding="Shift_JIS" ?>
+<?xml version="1.0" encoding="ISO-8859-1" ?>
 <doc>
-<title>TJSをもっと使うために</title>
+<title>TJS Tips and Usage Guidelines</title>
 
 <para>
-<ptitle>TJS2とKAG</ptitle>
-　TJS ( TJS2 ) は吉里吉里本体が直接理解できるスクリプト言語で、JavaScript や JAVA ににています。KAG はこの TJS スクリプトで記述されています。<r/>
-　TJS スクリプトは KAG が理解する ( 抽象的な ) シナリオよりもよりシステム側に近い ( 具体的な ) 記述をすることが可能で、扱いは難しくなりますができることの幅はぐっと広がります。<r/>
+<ptitle>TJS2 and KAG</ptitle>
+TJS (TJS2) is a scripting language that can directly control the game engine, similar to JavaScript and JAVA. KAG is written in this TJS script.<r/>
+TJS script in KAG can be used to write from scenario-like descriptions (externally) to system-like descriptions (internally), making it both flexible and powerful.<r/>
 <r/>
-　KAG には eval emb link if タグなどの exp 属性、各タグの cond 属性、エンティティ ( &amp; 付きのタグの属性 ) などなど、「TJS式」を指定する場面がいくつかあります。<r/>
-　TJS式を使うと、普通は KAG の裏に隠れている 吉里吉里に比較的簡単にアクセスすることができます。<r/>
-　また、iscript タグは、TJS2 スクリプトを直接実行することができます。これにより、高度な処理を実行したり、KAGの機能を拡張したりすることができます。<r/>
+KAG has several areas where "TJS expressions" can be specified, such as the exp attribute in eval emb link if tags, the cond attribute in various tags, and entities (& prefixed tag content), etc.<r/>
+Using TJS expressions allows relatively easy access to the game engine's functionality that is usually hidden behind KAG's features.<r/>
+Also, the iscript tag allows direct execution of TJS2 script, enabling complex operations and extending KAG's functionality.<r/>
 <r/>
-　TJS2 の細かい文法については TJS2 のリファレンスを、吉里吉里本体の機能については吉里吉里２のリファレンスをご覧ください。<r/>
+For detailed information about TJS2 syntax, please refer to the TJS2 reference, and for game engine functionality, please refer to the game engine reference.<r/>
 </para>
 
 <para>
-<ptitle>KAG のオブジェクト構造</ptitle>
-　KAG それ自体は TJS2 スクリプトで記述されているため、( 良くも悪くも ) KAG の内部構造に直接アクセスすることができます。<r/>
-　KAG の管理するオブジェクトの変数に値を書き込む事などは相当注意したほうが良いですが、KAG 内部の変数を参照してより高度なシナリオ記述に応用することもできます。<r/>
+<ptitle>KAG's Object Structure</ptitle>
+Since KAG itself is written in TJS2 script, you can (though care is needed) directly access KAG's internal structure.<r/>
+While it's better to be careful when assigning values to variables of KAG's management objects, you can use KAG's internal variables for advanced scenario writing.<r/>
 <r/>
 <dl>
-<dt><kw>KAGWindow クラス</kw>のオブジェクト</dt>
+<dt><kw>KAGWindow Class</kw> Objects</dt>
 <dd>
-　KAGWindow クラス ( MainWindow.tjs に記述 ) は、KAG のウィンドウを管理するためのクラスで、このクラスのオブジェクトがグローバル変数の <tt><kw>kag</kw></tt> としてアクセスできます。<r/>
-　たとえば、KAGWindow クラスの <tt>skipMode</tt> という変数 ( 現在どのようなモードでスキップ処理中かが入っている変数 ) にアクセスするには <tt><kw>kag.skipMode</kw></tt> とします。
+The KAGWindow class (described in MainWindow.tjs) is a class for managing KAG windows, and its object can be accessed through the global variable <tt><kw>kag</kw></tt>.<r/>
+For example, to access the KAGWindow class's <tt>skipMode</tt> variable (which indicates the current skip mode), use <tt><kw>kag.skipMode</kw></tt>.
 </dd>
-<dt><kw>背景レイヤ</kw></dt>
+<dt><kw>Background Layer</kw></dt>
 <dd>
-　背景レイヤは <kw>BaseLayer クラス</kw> ( GraphicLayer.tjs に記述 ) のオブジェクトです。<r/>
-　表画面の背景レイヤは <tt><kw>kag.fore.base</kw></tt>、裏画面の背景レイヤは <tt><kw>kag.back.base</kw></tt> でアクセスできます。
+The background layer is a <kw>BaseLayer class</kw> object (described in GraphicLayer.tjs).<r/>
+The foreground's background layer can be accessed via <tt><kw>kag.fore.base</kw></tt>, and the background's background layer via <tt><kw>kag.back.base</kw></tt>.
 </dd>
-<dt><kw>前景レイヤ</kw></dt>
+
+<dt><kw>Foreground Layer</kw></dt>
 <dd>
-　前景レイヤは <kw>CharacterLayer クラス</kw> ( GraphicLayer.tjs に記述 ) のオブジェクトです。<r/>
-　表画面の前景レイヤは <tt><kw>kag.fore.layers</kw>[n]</tt>、裏画面の前景レイヤは <tt><kw>kag.back.layers</kw>[n]</tt> でアクセスできます ( n は前景レイヤ番号 0 ～ )。
+The foreground layer is a <kw>CharacterLayer class</kw> object (described in GraphicLayer.tjs).<r/>
+The foreground's character layer can be accessed via <tt><kw>kag.fore.layers</kw>[n]</tt>, and the background's character layer via <tt><kw>kag.back.layers</kw>[n]</tt> (where n is the foreground layer number 0~).
 </dd>
-<dt><kw>メッセージレイヤ</kw></dt>
+<dt><kw>Message Layer</kw></dt>
 <dd>
-　メッセージレイヤは <kw>MessageLayer クラス</kw> ( MessageLayer.tjs に記述 ) のオブジェクトです。<r/>
-　表画面のメッセージレイヤは <tt><kw>kag.fore.messages</kw>[n]</tt>、裏画面のメッセージレイヤは <tt><kw>kag.back.messages</kw>[n]</tt> でアクセスできます ( n はメッセージレイヤ番号 0 ～ )。<r/>
-　<tt><kw>kag.current</kw></tt> は現在操作対象となっているメッセージレイヤを表します。
+The message layer is a <kw>MessageLayer class</kw> object (described in MessageLayer.tjs).<r/>
+The foreground's message layer can be accessed via <tt><kw>kag.fore.messages</kw>[n]</tt>, and the background's message layer via <tt><kw>kag.back.messages</kw>[n]</tt> (where n is the message layer number 0~).<r/>
+<tt><kw>kag.current</kw></tt> represents the currently targeted message layer.
 </dd>
-<dt><kw>メッセージレイヤ内のオブジェクト</kw></dt>
+<dt><kw>Objects within Message Layer</kw></dt>
 <dd>
-　メッセージレイヤ内に作成した、グラフィカルボタン、エディット、チェックボックスなどにアクセスするにはメッセージレイヤの links を使います。<r/>
-　links は配列オブジェクトで、リンク、グラフィカルボタン、エディット、チェックボックスなどが作成された順に、それぞれを管理するオブジェクトへの参照が格納されています。そのうち、グラフィカルボタン、エディット、チェックボックス についてはさらにそのなかの object 変数にアクセスすることによって各クラスのオブジェクトに直接アクセスできます。<r/>
-　たとえば、表画面のメッセージレイヤ0に以下のような記述があって、<r/>
+To access graphical buttons, edit boxes, checkboxes, etc., created in the message layer, use the message layer's links property.<r/>
+links is an array object that stores references to management objects for links, graphical buttons, edit boxes, checkboxes, etc., when they are created. For graphical buttons, edit boxes, and checkboxes, you can directly access their respective class objects through their object variable.<r/>
+For example, if you write the following in the foreground message layer 0:<r/>
 <bq>
 @cm<r/>
 @edit length=420 name="f.name"<r/>
 </bq>
-    　このエディットにフォーカスを設定する ( キーボードから入力できるようにする ) にはさらに<r/>
+    To set focus to this edit box (make it ready for keyboard input), you can write:<r/>
 <bq>
 @eval exp="kag.fore.messages[0].links[0].object.focus()"<r/>
 </bq>
-　と記述することができます ( エディットを表示してユーザに入力をすぐに促したいときに便利 )。
+This is useful when you want to process something after displaying an edit box and having the user input something.
 </dd>
-<dt><kw>効果音バッファ</kw></dt>
+<dt><kw>Sound Effect Buffer</kw></dt>
 <dd>
-　効果音バッファは <kw>SESoundBuffer クラス</kw> ( SE.tjs に記述 ) のオブジェクトです。<r/>
-　<tt><kw>kag.se</kw>[n]</tt> でアクセスできます ( n は効果音バッファ番号 0 ～ )。
+The sound effect buffer is a <kw>SESoundBuffer class</kw> object (described in SE.tjs).<r/>
+It can be accessed via <tt><kw>kag.se</kw>[n]</tt> (where n is the sound effect buffer number 0~).
 </dd>
-<dt><kw>BGM オブジェクト</kw></dt>
+<dt><kw>BGM Object</kw></dt>
 <dd>
-　BGM オブジェクトは <kw>BGM クラス</kw> ( BGM.tjs に記述 ) のオブジェクトです。<r/>
-　<tt><kw>kag.bgm</kw></tt> でアクセスできます。
+The BGM object is a <kw>BGM class</kw> object (described in BGM.tjs).<r/>
+It can be accessed via <tt><kw>kag.bgm</kw></tt>.
 </dd>
-<dt><kw>メニュー</kw></dt>
+<dt><kw>Menu</kw></dt>
 <dd>
-　メニューオブジェクトには <tt><kw>kag.menu</kw></tt> でアクセスできます。<tt>kag.menu</tt> は
-MenuItem クラスのオブジェクトで、<tt>kag.menu</tt> それ自体はメニューバーを
-示しており、その子に登録されたアイテムがメニューバーに並ぶことになります。<r/>
-　メニュー項目は Menus.tjs で作成していていますが、Menus.tjs を直接書き換えると
-KAGシステムのアップデートなどでいちいち書き換えなければならなくなるので、後述するように
-AfterInit.tjs を作成してそこに変更点を記述すると楽です。
+The menu object can be accessed via <tt><kw>kag.menu</kw></tt>. kag.menu is a
+MenuItem class object, and kag.menu itself represents the menu bar, with registered items
+appearing in the menu bar as its children.<r/>
+Menu items are created in Menus.tjs, but since Menus.tjs might need to be modified
+directly for system updates, it's better to create an AfterInit.tjs and write modifications there.
 </dd>
 </dl>
 </para>
 
-
 <para>
-<ptitle>TJS を使うときの注意</ptitle>
-　KAG が栞に保存しない物に直接手を加えると、KAG が栞を読み込んでもそこの部分を再現できません。<r/>
-　KAG プラグインの onStore や onRestore をフックして栞に情報を保存するようにすれば問題ないのですが、そうしない場合は注意する必要があります。<r/>
-　特に Layer クラスに属する描画メソッドなどを使って、KAG の管理する背景レイヤや前景レイヤの内容に変更を加える場合などは注意が必要です。KAG は、レイヤにどのような画像が読み込まれていたかまでは記録しますが、レイヤに加えられた描画や変更までは記録しません。ですので、そのような状態で「栞を保存可能なラベル」を通過し、そこで栞を保存し、その栞を読み出しても、レイヤに加えた変更は再現できないことになります。<r/>
-　このような場合は、次に「栞を保存可能なラベル」を通過するまでに画像をクリアしたり別の画像を読み込むなどして KAG が管理しきれる状態に戻しておくか、あるいは「栞を保存可能なラベル」を書かない、などで回避することができます。<r/>
-　TJS を使う場合は、栞との関連について十分注意してください。<r/>
+<ptitle>Cautions When Using TJS</ptitle>
+If you directly manipulate something without going through KAG's save system, that manipulation cannot be restored when loading a save.<r/>
+While KAG plugins can hook into onStore and onRestore to handle saving states, caution is needed when this isn't implemented.<r/>
+For example, when using Layer class drawing methods to modify the content of background or foreground layers managed by KAG, care must be taken. KAG records which images are loaded into layers, but does not record drawing modifications made to layers. Therefore, if you exceed the "saveable state level" in this state, save, and then load that save, the modifications made to the layers cannot be restored.<r/>
+In such cases, you can either clear the image before reaching the "saveable state level" and let KAG return to its managed state by loading the next image, or handle it by not exceeding the "saveable state level".<r/>
+When using TJS, please be mindful of its relationship with saves.<r/>
 </para>
 
 <para>
-<ptitle>式中の演算や条件判断、表示に使うもの</ptitle>
+<ptitle>Useful Operators and Functions for Conditions and Display</ptitle>
 <dl>
-<dt><tt><kw>&amp;&amp;</kw></tt> と <tt><kw>||</kw></tt></dt>
+<dt><tt><kw>&&</kw></tt> and <tt><kw>||</kw></tt></dt>
 <dd>
-　この二つは演算子で、<tt>&amp;&amp;</tt> は「かつ」を表し、<tt>||</tt> は「または」を表します。<r/>
-　たとえば、<tt>f.flag1</tt> が 1 で、かつ、<tt>f.flag2</tt> が 2 の場合、という条件で何かをやりたい場合は、<r/>
+These are logical operators, where <tt>&&</tt> represents "and" and <tt>||</tt> represents "or".<r/>
+For example, if you want to check if <tt>f.flag1</tt> is 1 and <tt>f.flag2</tt> is 1, you can write:<r/>
 <r/>
-<tt>[if exp="f.flag1==1 &amp;&amp; f.flag2==1"]</tt><r/>
+<tt>[if exp="f.flag1==1 && f.flag2==1"]</tt><r/>
 <r/>
-　と書くことができます。<r/>
-　また、f.flag1 が 1 または 2 または 3 の場合、という条件の場合は、<r/>
+Or if you want to check if f.flag1 is either 1, 2, or 3, you can write:<r/>
 <r/>
 <tt>[if exp="f.flag1==1 || f.flag1==2 || f.flag1==3"]</tt><r/>
 <r/>
-　と書くことができます ( f.flag1 が整数ならば <tt>f.flag1>=1 &amp;&amp; f.flag1&lt;=3</tt> とも書けますが )。<r/>
-　普通の数式で足し算よりもかけ算を優先して計算しないとならないように、<tt>&amp;&amp;</tt> と <tt>||</tt> には優先順位に違いがあって、<tt>&amp;&amp;</tt> の方が優先されます。<r/>
-　ですので、たとえば <tt>f.flag1</tt> が 1 の場合で、かつ、<tt>f.flag2</tt> が 3 または 5 のとき、という場合は、<r/>
+(If f.flag1 is numeric, you could also write <tt>f.flag1>=1 && f.flag1<=3</tt>)<r/>
+Like normal arithmetic operators, <tt>&&</tt> and <tt>||</tt> have different precedence, with <tt>&&</tt> having higher priority.<r/>
+Therefore, if you want to check if <tt>f.flag1</tt> is 1 and <tt>f.flag2</tt> is either 3 or 5, you need to use parentheses like this:<r/>
 <r/>
-<tt>[if exp="f.flag1==1 &amp;&amp; (f.flag2==3 || f.flag2==5)"]</tt><r/>
-<r/>
-　のように ( ) カッコでくくらなければなりません。
+<tt>[if exp="f.flag1==1 && (f.flag2==3 || f.flag2==5)"]</tt><r/>
 </dd>
 
-<dt><tt><kw>random</kw></tt> と <tt><kw>intrandom</kw></tt></dt>
+<dt><tt><kw>random</kw></tt> and <tt><kw>intrandom</kw></tt></dt>
 <dd>
-　random は 0 以上 1 未満の実数の乱数となります。<r/>
+random returns a random decimal number between 0 (inclusive) and 1 (exclusive).<r/>
 <r/>
 <example>@eval exp="f.ransuu = random"</example>
 <r/>
-　上記の例のようにすると、f.ransuu には 0 以上 1 未満の実数の乱数が入ります。<r/>
+In the above example, f.ransuu will contain a random decimal number between 0 and 1.<r/>
 <r/>
-　これに対し、intrandom は指定値以上、指定値以下の整数の乱数を返す関数です。<r/>
+In contrast, intrandom is a function that returns a random integer between specified minimum and maximum values (inclusive).<r/>
 <r/>
-書式 : <tt>intrandom(<b>最小値</b>, <b>最大値</b>)</tt><r/>
+Format: <tt>intrandom(<b>minimum</b>, <b>maximum</b>)</tt><r/>
 <r/>
 <example>@eval exp="f.ransuu = intrandom(0, 5)"</example>
 <r/>
-　上記の例
-のようにすると 0 以上 5 以下の整数の乱数が f.ransuu に入ります。
+The above example will store a random integer between 0 and 5 (inclusive) in f.ransuu.
 </dd>
+
 <dt><tt><kw>length</kw></tt></dt>
 <dd>
-　length は、文字列の長さを得ることのできるものです。使い方は、文字列の代入された変数の後に . (ドット) を書き、続けて length と書きます。<r/>
+length is a property used to get the length of a string. To use it, add .length after a variable containing a string.<r/>
 <r/>
-<example>[if exp="f.namae.length>=8"]名前が長すぎます。[l][jump target=*input][endif]</example>
+<example>[if exp="f.namae.length>=8"]Name is too long.[l][jump target=*input][endif]</example>
 <r/>
-　上記の例では、f.namae の長さが8文字以上だった場合に「名前が長すぎます。」と表示し、*input ラベルにジャンプします。<r/>
-　文字は半角、全角問わず、一文字は一文字として数えられます。これは他の文字列を扱う機能でも同じです。
+In the above example, if f.namae's length is 8 or more characters, it will display "Name is too long" and jump to the *input label.<r/>
+Characters are counted as one character each, regardless of whether they are single-byte or double-byte. This is the same for other string manipulation functions.
 </dd>
 
 <dt><tt><kw>substring</kw></tt></dt>
 <dd>
-　substring は、文字列の一部分(部分文字列)を取り出すことのできるものです。<r/>
-　使い方は、文字列の代入された変数 ( または文字列を表すもの ) のあとに . (ドット) を書き、続けて<r/>
+substring is used to extract a portion of a string (create a substring).<r/>
+To use it, after a variable (or string literal) containing the string, add a dot and write:<r/>
 <r/>
-<tt>substring(<b>切り取り開始位置</b>, <b>切り取る長さ</b>)</tt><r/>
+<tt>substring(<b>start_position</b>, <b>length</b>)</tt><r/>
 <r/>
-　の書式で記述します。切り取り開始位置は 0 が先頭を表します。<r/>
+The start position begins at 0 for the first character.<r/>
 <r/>
-　たとえば、f.furigana 変数の２番目の文字を取り出したい場合、<tt>f.furigana.substring(1, 1)</tt> で取り出すことができます。<r/>
+For example, to extract the second character from f.furigana variable, use <tt>f.furigana.substring(1, 1)</tt><r/>
 <r/>
 <example>@emb exp="f.furigana.substring(1, 1)"</example>
 <r/>
-　上記の例では、f.furigana 変数の２番目の文字を表示します。
+The above example will display the second character of the f.furigana variable.
 </dd>
 
 <dt><tt><kw>indexOf</kw></tt></dt>
 <dd>
-　indexOf (インデックス・オブ) は、文字列中の部分文字列が最初に現れる位置を得ることができます。使い方をかえれば、ある文字列中に他の文字列が入っているかどうかを調べることができます。<r/>
+indexOf finds the first position where a substring appears within a string. This can be used to check if a string contains another string.<r/>
 <r/>
-書式 : <tt><b>文字列</b>.indexOf(<b>部分文字列</b>)</tt><r/>
+Format: <tt><b>string</b>.indexOf(<b>search_string</b>)</tt><r/>
 <r/>
-　たとえば、文字列が <tt>"ABCDEFGHIJKL"</tt> で、部分文字列が <tt>"ABC"</tt> であった場合、<tt>"ABCDEFGHIJKL".indexOf("ABC")</tt> は <b>0</b> になります。部分文字列が <tt>"BCD"</tt> の場合は <b>1</b>、<tt>"DEF"</tt> の場合は <b>3</b> になります。
-　もし、部分文字列が文字列中に現れなかった場合は <b>-1</b> になりますので、部分文字列が文字列の一部であるかどうかを判定するには -1 と比較すればいいことになります。<r/>
+For example, if the string is <tt>"ABCDEFGHIJKL"</tt> and the search string is <tt>"ABC"</tt>, <tt>"ABCDEFGHIJKL".indexOf("ABC")</tt> returns <b>0</b>. For search string <tt>"BCD"</tt> it returns <b>1</b>, for <tt>"DEF"</tt> it returns <b>3</b>.
+If the search string isn't found in the string, it returns <b>-1</b>, so you can check if a string contains a substring by comparing with -1.<r/>
 <r/>
-<example>[if exp="'尼屁尻'.indexOf(f.objname)!=-1"]～～[endif]</example>
+<example>[if exp="'???'.indexOf(f.objname)!=-1"]...[endif]</example>
 <r/>
-　上記例では、<tt>f.objname</tt> が <tt>"尼" "屁" "尻" "尼屁" "屁尻" "尼屁尻"</tt> のいずれかであった場合に <tt>endif</tt> までを実行します。<r/>
-　これを、<tt>"尼屁" "屁尻" "尼屁尻"</tt> では NG にしたい場合 ( <tt>"尼" "屁" "尻"</tt> の場合のみ OK にしたい場合 )、<tt>'尼屁尻'</tt>のそれぞれを <tt>f.objname</tt> 内では現れることのない文字(や記号) で区切ることによって実現できます。<r/>
-　たとえば、\v という特殊な制御記号をつかって区切ると、上記の例は<r/>
+The above example will execute the code until endif if <tt>f.objname</tt> is one of <tt>"?" "?" "?" "??" "??" "???"</tt>.<r/>
+If you want to exclude <tt>"??" "??" "???"</tt> (only allow <tt>"?" "?" "?"</tt>), you can use a separator character (like below) that won't appear in f.objname.<r/>
+For example, you could write:<r/>
 <r/>
-<tt>[if exp="'尼\v屁\v尻'.indexOf(f.objname)!=-1"]～～[endif]</tt>
+<tt>[if exp="'?\v?\v?'.indexOf(f.objname)!=-1"]...[endif]</tt>
 <r/>
-とかくことができます ( \v は通常、f.objname 内には現れないから )。<r/>
+(\v is a character that normally won't appear in f.objname)<r/>
 <r/>
-　下記例では、f.itemname 内に 'コップ' という文字列が含まれている場合に endif までを実行します。<r/>
+The following example executes until endif if f.itemname contains the string '???':<r/>
 <r/>
-<example>[if exp="f.itemname.indexOf('コップ')!=-1"]～～[endif]</example>
+<example>[if exp="f.itemname.indexOf('???')!=-1"]...[endif]</example>
 </dd>
 
-<dt><kw>正規表現</kw></dt>
+<dt><kw>Regular Expressions</kw></dt>
 <dd>
-　正規表現パターン ( / と / で囲まれた部分 ) を使って正規表現パターンによる文字列の分解や検査を行うことができます。<r/>
-　正規表現パターンそのものは Perl の正規表現によく似ています ( 使い方は違いますが正規表現パターンはほぼ互換です )。<r/>
+You can use regular expression patterns (text between / and /) to perform pattern matching and searching on strings.<r/>
+The regular expression patterns themselves are very similar to Perl's regular expressions (while usage differs, the patterns are mostly compatible).<r/>
 <r/>
-　文字列が目的のパターンに適合しているかどうかを調べるには <tt><kw>test</kw></tt> を使います。<r/>
+To test if a string matches a pattern, use <tt><kw>test</kw></tt>.<r/>
 <r/>
-<example>[if exp="/[^0-9]/.test(f.nyuryoku)"]入力された文字に数字以外が混じっています[endif]</example>
+<example>[if exp="/[^0-9]/.test(f.nyuryoku)"]The input contains non-numeric characters[endif]</example>
 <r/>
-　上記の例のようにして test を使います。test はパターンに合致すると真を、合致しないと偽を返す関数(正規表現オブジェクトのメソッド)です。上記の例では、<tt>[^0-9]</tt> つまり数字以外が混じっているかどうかを検査する正規表現パターンを用いて、<tt>f.nyuryoku</tt> に数字以外の文字が混じっているかを検査しています。<r/>
+
+The above example uses test with a regular expression pattern. test is a method (of the regular expression object) that returns true if there's a match and false if there isn't. In this example, it uses the pattern <tt>[^0-9]</tt> to check if <tt>f.nyuryoku</tt> contains any non-numeric characters.<r/>
 <r/>
-　文字列を分解するには <tt><kw>match</kw></tt> を使います。<tt>match</tt> は配列オブジェクトを返します。パターンに合致しなかった場合は配列の要素数 ( <tt>count</tt> ) が 0 になります。それ以外の場合、要素 0 はマッチした部分全体、要素 1 からあとはパターン中の ( ) (カッコ) に対応してマッチした部分が返されます。<r/>
+To split strings, use <tt><kw>match</kw></tt>. <tt>match</tt> returns an array object. If there's no match to the pattern, the array's length (<tt>count</tt>) will be 0. Otherwise, element 0 contains the entire matched string, and elements 1 and onwards contain the matches corresponding to parenthesized groups in the pattern.<r/>
 <r/>
 <example>
-[eval exp="f.matched = /([0-9０-９]+)[-－]([0-9０-９]+)/.match(f.input)"]<r/>
-[if exp="f.matched.count == 0"]「数値-数値」の形式で入力してください。[jump target=*input][endif]<r/>
+[eval exp="f.matched = /([0-9?-?]+)[-|]([0-9?-?]+)/.match(f.input)"]<r/>
+[if exp="f.matched.count == 0"]Please input in the format "number-number".[jump target=*input][endif]<r/>
 [eval exp="f.s1 = str2num(f.matched[1]), f.s2 = str2num(f.matched[2])"]<r/>
 </example>
-　上記の例では、<tt>f.input</tt> が「数値-数値」の形式に合致しているかをテストして、合致していれば - (ハイフン) の前の部分の <tt>f.s1</tt> に、後の部分を <tt>f.s2</tt> に、数値に変換してから代入しています。
+The above example tests if <tt>f.input</tt> matches the "number-number" format, and if it matches, converts the numbers before and after the hyphen to numeric values and stores them in <tt>f.s1</tt> and <tt>f.s2</tt>.
 </dd>
 
 <dt><tt><kw>str2num</kw></tt></dt>
 <dd>
-　str2num は、文字列を数値に変換します。<r/>
+str2num converts a string to a numeric value.<r/>
 <r/>
-書式 : <tt>str2num(<b>文字列または文字列の入った変数</b>)</tt><r/>
+Format: <tt>str2num(<b>string or variable containing string</b>)</tt><r/>
 <r/>
-　単項の <tt>+</tt> 演算子と違うのは、<tt>str2num</tt> は、全角の数字であっても数値に変換できるということです。input タグのように、ユーザが全角で数値を入力してしまう可能性のある場合に使用できると思います。数値として認識できない文字列が渡された場合は 0 になります。<r/>
+The difference from the <tt>+</tt> operator is that <tt>str2num</tt> can convert full-width numeric characters to values. This is useful when using input tag where users might input full-width numbers. If the string cannot be recognized as a number, it returns 0.<r/>
 <r/>
-<example>[input name="f.kazu" prompt="数値を入力してください"][emb exp="f.kazu=str2num(f.kazu)"]</example>
+<example>[input name="f.kazu" prompt="Please input a number"][emb exp="f.kazu=str2num(f.kazu)"]</example>
 </dd>
 
-
-<dt><tt><kw>kansuuji</kw></tt> と <tt><kw>kansuuji_simple</kw></tt></dt>
+<dt><tt><kw>kansuuji</kw></tt> and <tt><kw>kansuuji_simple</kw></tt></dt>
 <dd>
-　<tt>kansuuji</tt> は、指定された数値を漢数字表記にします。<tt>kansuuji_simple</tt> も同様ですが、桁を表す単位をつけません。<r/>
-　9223372036854775807 という数値を、<tt>kansuuji</tt> の場合は "九百二十二京三千三百七十二兆三百六十八億五千四百七十七万五千八百七" に、<tt>kansuuji_simple</tt> の場合は "九二二三三七二〇三六八五四七七五八〇七" に変換します。<r/>
+<tt>kansuuji</tt> converts specified numeric values to Japanese number notation. <tt>kansuuji_simple</tt> does the same but without unit positions.<r/>
+For example, the number 9223372036854775807 would be converted to "??????????????????????????????????" with <tt>kansuuji</tt>, and to "???????????????????" with <tt>kansuuji_simple</tt>.<r/>
 <example>
 @emb exp="kansuuji(f.num)"<r/>
 </example>
-　上記の例では、f.num を漢数字表記にして表示しています。<r/>
+The above example displays f.num in Japanese number notation.<r/>
 </dd>
 
 <dt><tt><kw>number_format</kw></tt></dt>
 <dd>
-　<tt>number_format</tt> は、指定された数値を3桁ごとに , (カンマ) で区切った表記にします。たとえば、9223372036854775807 という数値ならば "9,223,372,036,854,775,807" に変換されます。<r/>
+<tt>number_format</tt> formats a numeric value with commas every three digits. For example, 9223372036854775807 would be formatted as "9,223,372,036,854,775,807".<r/>
 <example>
 @emb exp="number_format(f.num)"<r/>
 </example>
-　上記の例では、f.num を 3桁ごとにカンマで区切って表示しています。<r/>
+The above example displays f.num with commas separating every three digits.<r/>
 </dd>
 
-
-<dt><tt><kw>Storages.addAutoPath</kw> と <kw>System.exePath</kw></tt></dt>
+<dt><tt><kw>Storages.addAutoPath</kw> and <kw>System.exePath</kw></tt></dt>
 <dd>
-　Storages.addAutoPath は、自動検索パスを追加します。<r/>
-　System.exePath は、吉里吉里実行可能ファイルの設置されているフォルダを示します。<r/>
-　詳しくは吉里吉里 SDK Help を参照していただきたいのですが、これらを使うとアーカイブやフォルダに自動検索パスを設定できます。<r/>
-　自動検索パスは、わざわざフォルダを指定しなくても、ファイルを自動的に見つけてくるための仕組みです。標準では、system image scenario bgimage fgimage bgm sound rule others video のすべてが設定されていますが、Storages.addAutoPath で追加することができます。<r/>
-System.exePath は、吉里吉里実行可能ファイルのあるフォルダです。<r/>
+Storages.addAutoPath adds a search path for resources.<r/>
+System.exePath returns the folder where the game engine executable is installed.<r/>
+While more details can be found in the game engine SDK Help, these can be used to set search paths for archives and folders.<r/>
+Search paths are a mechanism that automatically looks for files without explicitly specifying folders. By default, system, image, scenario, bgimage, fgimage, bgm, sound, rule, others, and video are all set, but you can add more using Storages.addAutoPath.<r/>
+System.exePath is the folder containing the game engine executable.<r/>
 <r/>
-　たとえば、吉里吉里実行可能ファイルの直下に cgdata というフォルダがあって、そこの中を自動検索パスに指定したい場合は、<r/>
+For example, if you want to add a folder named 'cgdata' inside the game executable's folder to the search path:<r/>
 <r/>
 <tt>[eval exp="Storages.addAutoPath(System.exePath + 'cgdata/')"]</tt><r/>
 <r/>
-　とします ( cgdata の後の二つの / は必ずつけてください )。<r/>
+(The trailing / after cgdata is required)<r/>
 <r/>
-　もし、吉里吉里実行可能ファイルと同じ場所に cgdata.xp3 というアーカイブファイルがあって、このアーカイブ内に自動検索パスを指定したい場合は、<r/>
+Similarly, if you have an archive file named cgdata.xp3 in the same location as the game executable and want to set a search path inside this archive:<r/>
 <r/>
-<tt>[eval exp="Storages.addAutoPath(System.exePath + 'cgdata.xp3&gt;')"]</tt><r/>
+<tt>[eval exp="Storages.addAutoPath(System.exePath + 'cgdata.xp3>')"]</tt><r/>
 <r/>
-　とします。cgdata.xp3 の後の記号は '&gt;' です。アーカイブ内に検索パスを指定する場合は &gt; で、フォルダ内に検索パスを指定する場合は / です。<r/>
-　アーカイブの後の記号は 吉里吉里２ 2.19 beta 14 で '#' から '&gt;' に変更となりました。<r/>
+The symbol after cgdata.xp3 is '>'. Use '>' for searching inside archives and '/' for searching in folders.<r/>
+The archive symbol was changed from '#' to '>' in game engine 2.19 beta 14.<r/>
 </dd>
 
 <dt><tt><kw>Storages.searchCD</kw></tt></dt>
 <dd>
-　Storages.searchCD は、引数に渡されたボリュームラベルを持つ CD が挿入されたドライブの文字を返します。<r/>
-　たとえば、上記 Storages.addAutoPath と組み合わせて、FOO_BAR_DISC というボリュームラベルを持つ CD-ROM 内の image というフォルダに自動検索パスを追加したい場合、<r/>
+Storages.searchCD returns the drive letter of the CD drive containing a CD with the specified volume label.<r/>
+For example, combining with the above Storages.addAutoPath, to add a search path to the 'image' folder on a CD-ROM labeled FOO_BAR_DISC:<r/>
 <r/>
 <tt>[eval exp="Storages.addAutoPath(Storages.searchCD('FOO_BAR_DISC') + ':image/')"]</tt><r/>
 <r/>
-　と記述することができます。<r/>
+Since Storages.searchCD returns an empty string if no CD with the specified volume label is found, you can check if the required CD-ROM is inserted like this:<r/>
 <r/>
-　Stotages.searchCD は、指定されたボリュームラベルを持つ CD が挿入されたドライブが見つからない場合は空文字列を返すので、たとえば指定の CD-ROM がドライブに挿入されていることを確認するために、<r/>
-<r/>
-<tt>[if exp="Storages.searchCD('FOO_BAR_DISC') == ''"]CDが挿入されていません[endif]</tt><r/>
-<r/>
-　のように記述することができます。
+<tt>[if exp="Storages.searchCD('FOO_BAR_DISC') == ''"]CD is not inserted[endif]</tt><r/>
 </dd>
 
 <dt><tt><kw>System.readRegValue</kw></tt></dt>
 <dd>
-　System.readRegValue では、レジストリに書き込まれた値を読むことができます。たとえば、HKEY_LOCAL_MACHINE\SOFTWARE\Dee\kirikiri\installpath を f.installpath に読み込むには、<r/>
+System.readRegValue allows reading values stored in the registry. For example, to read HKEY_LOCAL_MACHINE\SOFTWARE\Dee\kirikiri\installpath into f.installpath:<r/>
 <r/>
 <tt>[eval exp="f.installpath = System.readRegValue('HKEY_LOCAL_MACHINE\\SOFTWARE\\Dee\\kirikiri\\installpath')"]</tt>
 <r/>
-　とします。'' で囲まれた中では \ は \\ と記述しなければならないことに注意してください。<r/>
-　文字列と数値の値のみを読むことができます。レジストリに値が存在しない場合は void になるので、<tt>===</tt> (識別演算子) を用いて<r/>
+Note that in strings enclosed by '', \ must be written as \\.<r/>
+Only string and numeric values can be read. If the registry value doesn't exist, it returns void, so you can use the === (identity operator) like:<r/>
 <r/>
-<tt>[if exp="f.installpath === void"]インストールされていません[endif]</tt><r/>
-<r/>
-　のような記述をすることができます。
+<tt>[if exp="f.installpath === void"]Not installed[endif]</tt><r/>
 </dd>
 
 <dt><tt><kw>kag.clickCount</kw></tt></dt>
 <dd>
-　画面上をマウスでクリックするたびに 1 が加算されます。この変数には値を代入してもかまいませんので、0 に設定しておけば、マウスがクリックされたことを、この変数が 0 以外の数値になっていることで知ることができます。
+This increases by 1 each time the screen is clicked with the mouse. You can write to this variable, so if you set it to 0, you can detect when the mouse has been clicked by checking if this variable has become non-zero.
 </dd>
 
-<dt><tt><kw>kag.lastMouseDownX</kw> と <kw>kag.lastMouseDownY</kw></tt></dt>
+<dt><tt><kw>kag.lastMouseDownX</kw> and <kw>kag.lastMouseDownY</kw></tt></dt>
 <dd>
-　これらは、最後にマウスがクリックされた座標を表しています。kag.lastMouseDownX は最後にクリックされた X 座標、kag.lastMouseDownY は最後にクリックされた Y 座標です。
+These represent the coordinates of the last mouse click. kag.lastMouseDownX is the X coordinate of the last click, and kag.lastMouseDownY is the Y coordinate of the last click.
 </dd>
 
 <dt><tt><kw>kag.lastWaitTime</kw></tt></dt>
 <dd>
-　wait タグを mode=until で使用したとき、実際に wait タグがまとうとした時間が設定されます。すでにまとうとしていた時間が過ぎていた場合は 0 になりますので、wait タグの直後でこの変数が 0 でないかどうかを判断すれば、処理が追いついているかどうかを判断することができます。<r/>
-　ちなみに、クリックなどで wait が中断された場合は、この変数は正確に待っていた時間を表す訳ではありません ( 中断がなかったとした場合の時間を表しています )。
+When using the wait tag with mode=until, this is set to the actual time the wait tag took to complete. If the waiting time has already passed, it becomes 0, so by checking if this variable is non-zero during a wait tag, you can determine if waiting is still in progress.<r/>
+Note that if the wait is interrupted by a click or similar action, this variable doesn't accurately represent the actual waiting time (it shows the time it would have taken without interruption).
 </dd>
 
 <dt><tt><kw>kag.skipMode</kw></tt></dt>
 <dd>
-　現在のスキップのモードを表す値が入っています。0=スキップなし, 1=クリック待ち記号まで, 2=改ページ待ち記号まで, 3=次の停止まで、となっています。<r/>
-　たとえば、声や効果音などをスキップ中には再生したくない場合は、<r/>
+This contains a value indicating the current skip mode. 0=no skip, 1=skip until click, 2=skip until page, 3=skip until stop.<r/>
+For example, if you don't want to play sound effects during skip mode:<r/>
 <r/>
-<tt>@playse cond="kag.skipMode&lt;=1" storage="hogehoeg.wav"</tt><r/>
-<r/>
-　のように記述することができます。
+<tt>@playse cond="kag.skipMode<=1" storage="hogehoeg.wav"</tt><r/>
 </dd>
 
 <dt><tt><kw>kag.autoMode</kw></tt></dt>
 <dd>
-　自動読みすすみの処理中の時に真、それ以外の時に偽になっています。<r/>
-　たとえば、声や効果音などの終了を、自動読みすすみの時のみに処理したい場合は、<r/>
+This becomes true during auto-read mode and false otherwise.<r/>
+For example, if you want to wait for sound effects to finish only during auto-read mode:<r/>
 <r/>
 <tt>@ws cond="kag.autoMode"</tt><r/>
-<r/>
-　のように記述することができます。
 </dd>
 
 <dt><tt><kw>kag.getBookMarkPageName</kw></tt></dt>
 <dd>
-　<tt>kag.getBookMarkPageName</tt> は、非フリーセーブモードにおいて、引数に指定された番号 ( 0 ～ ) で示された、栞の場所の名前を得ることが出来ます。<r/>
-　KAG のメニューからではなく、画面上で栞を示してユーザーにたどる栞を選ばせたいときに使うことが出来ます。<r/>
-　<tt>kag.restoreBookMark</tt> と組み合わせて使います。
+<tt>kag.getBookMarkPageName</tt> can get the name of the save location for the specified number (0~) in quick save mode.<r/>
+This can be used when you want to let users choose which save to load from the screen, rather than from the KAG menu.<r/>
+Use this in combination with <tt>kag.restoreBookMark</tt>.
 <r/>
 <example>
 [locate x=10 y=100][link exp="kag.restoreBookMark(0)"][emb exp="kag.getBookMarkPageName(0)"][endlink]<r/>
 [locate x=10 y=130][link exp="kag.restoreBookMark(1)"][emb exp="kag.getBookMarkPageName(1)"][endlink]<r/>
-(以下同様)<r/>
+(and so on)<r/>
 </example>
 </dd>
 
 <dt><tt><kw>mp</kw></tt></dt>
 <dd>
-　<tt>mp</tt> は、マクロ中にて、マクロに渡された属性が記録された辞書配列を表します。<r/>
+<tt>mp</tt> represents a hash array containing parameters passed to a macro.<r/>
 <example>
 @macro name=fimg<r/>
 @image *<r/>
 @eval exp="sf[mp.storage]=1"<r/>
 @endmacro<r/>
 </example>
-　上記の例では、たとえば <tt>@fimg layer=base page=fore storage="bg_03"</tt> と記述された場合、このマクロが実行されている間は <tt>mp.layer</tt> は <tt>'base'</tt>、<tt>mp.page</tt> は <tt>'fore'</tt>、<tt>'mp.storage'</tt> は <tt>'bg_03'</tt> になっています。つまり、マクロに渡された属性を <tt>mp.</tt> の後に指定することによって、その属性の値を得ることができます。<r/>
-　このマクロを <tt>@fimg layer=base page=fore storage="bg_03"</tt> として使用した場合、exp タグで <tt>sf[mp.storage]=1</tt> が実行されるため、<tt>sf['bg_03']</tt> が 1 になります。<r/>
-　このマクロは、image/img タグの代わりに使うことにより、表示した画像を自動的にシステム変数に記録するマクロとして使用することができます。
+For example, if <tt>@fimg layer=base page=fore storage="bg_03"</tt> is called, during macro execution <tt>mp.layer</tt> will be 'base', <tt>mp.page</tt> will be 'fore', and <tt>mp.storage</tt> will be 'bg_03'. In other words, you can access parameter values by specifying the parameter name after <tt>mp.</tt><r/>
+When this macro is used like <tt>@fimg layer=base page=fore storage="bg_03"</tt>, the exp tag executes <tt>sf[mp.storage]=1</tt>, setting <tt>sf['bg_03']</tt> to 1.<r/>
+This macro can be used alongside image/img tags to automatically record displayed images in system variables.
 </dd>
 
 <dt><tt><kw>System.getKeyState</kw></tt></dt>
 <dd>
-　<tt>System.getKeyState</tt> は、現在その時点で、指定されたキーが押されているかどうかを判断することができます。<r/>
+<tt>System.getKeyState</tt> can determine if a specified key is currently pressed.<r/>
 <example>
 @jump target=*shift_key_pressed cond="System.getKeyState(VK_SHIFT)"<r/>
-; シフトキーが押されていれば、*shift_key_pressed にジャンプする<r/>
+; Jump to *shift_key_pressed if the shift key is pressed<r/>
 </example>
-詳しくは吉里吉里２ SDK Help を参照してください。<r/>
+Please refer to the game engine SDK Help for details.<r/>
 <r/>
-　KAG3はゲームパッド(ジョイスティック)からの入力を受け付けますが、ゲームバッドの上に物が乗っかっている、あるいはジョイスティックの軸の調整が不十分という場合には、正常に作品の操作をできない場合があります。<r/>
-　作品開始時にゲームパッドのボタンが押されていれば、ユーザに対して警告をすることができます (通常、作品開始時にゲームパッドのボタンが押されていることはなく、押されているとなれば、ユーザの意図しない理由で押されたままになっている可能性が高いため)。<r/>
-　USB接続のゲームパッドなどでは下記の例では「押されっぱなし」の検出がうまくいかないかもしれませんので、適宜ドキュメントなどでの補足を推奨します。<r/>
+KAG3 accepts input from game pads (joysticks), but there may be cases where proper operation is impossible when something is resting on the game pad or the joystick's neutral position is off.<r/>
+You can warn users if a game pad button is pressed at the start of a scene (normally, game pad buttons shouldn't be pressed at scene start, and if they are, it's likely something is unintentionally pressing them).<r/>
+With USB-connected game pads, the example below might not detect "stuck buttons", so please supplement with documentation, etc.<r/>
 <example>
 @if exp="System.getKeyState(VK_PADANY)"<r/>
 @wait time=500<r/>
 @if exp="System.getKeyState(VK_PADANY)"<r/>
-; VK_PADANYでは、ゲームパッドのいずれかのボタンが押されている時に真を返す<r/>
-; 500ms(0.5秒間)をすぎてもなお押されているようならばメッセージを表示<r/>
-ゲームパッド(ジョイスティック)のボタンが押されたままになっています。<r/>
-ゲームパッドの上に物が乗っかっていないか、あるいはジョイスティックの<r/>
-軸の調整がされているかを確認してください。<r/>
-状況が改善しない場合は、ゲームパッド(ジョイスティック)を抜いてください。<r/>
-それでも状況が改善しなければ、ゲームを終了し、「エンジン設定」を起動し、<r/>
-「入力-パッド使用可否」の設定を「使用しない」に設定してください。<r/>
+; VK_PADANY returns true when any game pad button is pressed<r/>
+; If it's still pressed after 500ms (0.5 seconds), show a message<r/>
+A game pad (joystick) button appears to be stuck.<r/>
+Please check if something is resting on the game pad, or if the joystick<r/>
+neutral position is off.<r/>
+If the situation doesn't improve, please disconnect the game pad (joystick).<r/>
+If the problem persists, please exit the game, launch "Engine Settings",<r/>
+and set "Input-Pad Usage" to "Don't Use".<r/>
 [s]<r/>
 @endif<r/>
 @endif<r/>
@@ -378,170 +363,158 @@ System.exePath は、吉里吉里実行可能ファイルのあるフォルダです。<r/>
 
 </dd>
 
-
-
-</dl>
-
-
-
-</para>
-
-<para>
-<ptitle>リンクやボタンの exp 属性などに指定するもの</ptitle>
-<dl>
 <dt><tt><kw>System.shellExecute</kw></tt></dt>
 <dd>
-　System.shellExecute は、引数に指定されたファイルを開きます。URL を指定するとブラウザが開くので、link タグなどを使ってこの式を実行させれば、Web ページへのリンクなどを作成することが出来ます。<r/>
+System.shellExecute opens the file specified as its parameter. When specifying a URL, it opens the browser, so using this with link tags allows you to create links to web pages.<r/>
 <r/>
 <example>[link exp="System.shellExecute('http://www.yahoo.co.jp/')"]http://www.yahoo.co.jp/[endlink]</example>
 </dd>
 
-<dt><tt><kw>kag.close</kw></tt> と <tt><kw>kag.shutdown</kw></tt></dt>
+<dt><tt><kw>kag.close</kw></tt> and <tt><kw>kag.shutdown</kw></tt></dt>
 <dd>
-　kag.close は、KAG を終了させます。終了確認を行う設定にしている場合は終了確認があります。<r/>
-　kag.shutdown も KAG を終了させますが、終了確認はありません。<r/>
-　なお、終了に System.exit() を使用すると、システム変数が保存されずに終了される場合があるので<b>使用しないでください</b>。また、これらは eval タグの exp 属性では指定しないでください (代わりに close タグを使用してください)。<r/>
+kag.close terminates KAG. If exit confirmation is enabled in settings, it will show the confirmation dialog.<r/>
+kag.shutdown also terminates KAG but without showing the confirmation dialog.<r/>
+Note that using System.exit() for termination should <b>not be used</b> as it might terminate without saving system variables. Also, don't specify these in eval tag's exp attribute (use the close tag instead).<r/>
 <r/>
 <example>
-[link exp="kag.close()"]終了[endlink]<r/>
-[link exp="kag.shutdown()"]終了[endlink]<r/>
+[link exp="kag.close()"]Exit[endlink]<r/>
+[link exp="kag.shutdown()"]Exit[endlink]<r/>
 </example>
 </dd>
 
-<dt><tt><kw>kag.restoreBookMark</kw></tt> と <tt><kw>kag.storeBookMark</kw></tt></dt>
+<dt><tt><kw>kag.restoreBookMark</kw></tt> and <tt><kw>kag.storeBookMark</kw></tt></dt>
 <dd>
-　kag.restoreBookMark は、非フリーセーブモードにおいて、引数に指定された番号で示された栞をたどります。<r/>
-　同様に、kag.storeBookMark は、引数に指定された番号で示された栞を挟みます。<r/>
-　ただし、これを直接呼び出すと、[store] タグで栞の使用が禁止されていても栞の操作が出来てしまいます。<r/>
-　これらは、成功すると真を、失敗すると偽を返します。<r/>
-　例は kag.getBookMarkPageName の物を参照してください。
+kag.restoreBookMark loads a save state with the specified number in quick save mode.<r/>
+Similarly, kag.storeBookMark saves a save state with the specified number.<r/>
+However, calling these directly might allow save operations even when [store] tag save operations are prohibited.<r/>
+These return true if successful and false if they fail.<r/>
+Please refer to the kag.getBookMarkPageName section above.
 </dd>
 
-<dt><tt><kw>kag.loadBookMarkFromFileWithAsk</kw></tt> と <tt><kw>kag.saveBookMarkToFileWithAsk</kw></tt></dt>
+<dt><tt><kw>kag.loadBookMarkFromFileWithAsk</kw></tt> and <tt><kw>kag.saveBookMarkToFileWithAsk</kw></tt></dt>
 <dd>
-　kag.loadBookMarkFromFileWithAsk は、フリーセーブモードにおいて、ファイル選択ダイアログボックスを表示し、ユーザに栞データを選択させます。ユーザが OK ボタンを押すとその栞から再開します。<r/>
-　同様に、kag.saveBookMarkToFileWithAsk は、ファイル選択ダイアログボックスを表示し、栞を保存します。<r/>
-　これらは、成功すると真を、ユーザがキャンセルをするか、あるいは失敗すると偽を返します。<r/>
+kag.loadBookMarkFromFileWithAsk displays a file selection dialog box in free save mode and lets the user select a save file. When the user clicks OK, it loads that save.<r/>
+Similarly, kag.saveBookMarkToFileWithAsk displays a file selection dialog box and saves the state.<r/>
+These return true if successful and false if the user cancels or if they fail.<r/>
 <example>
-[link exp="kag.loadBookMarkFromFileWithAsk()"]栞をたどる[endlink]<r/>
-[link exp="kag.saveBookMarkToFileWithAsk()"]栞をはさむ[endlink]<r/>
+[link exp="kag.loadBookMarkFromFileWithAsk()"]Load Save[endlink]<r/>
+[link exp="kag.saveBookMarkToFileWithAsk()"]Save[endlink]<r/>
 </example>
 </dd>
 
 <dt><tt><kw>kag.callExtraConductor</kw></tt></dt>
 <dd>
-　kag.callExtraConductor は、TJS の制御によって KAG のシナリオをサブルーチンとして呼び出すために用います。このメソッドでシナリオを呼び出すときは、シナリオがクリック待ちや s タグで停止中である必要があります ( kag.inStable や KAG プラグインの onStableStateChanged で知ることができます )。<r/>
-　kag.callExtraConductor には引数が３つあります。<r/>
-　最初の引数は呼び出すシナリオファイルです。次の引数は呼び出すラベルです。<r/>
-　３番目の引数は省略可能ですが、KAG のシナリオから戻ったときに実行する関数/メソッドを指定します。必要ない場合は指定しなくてかまいません。<r/>
+kag.callExtraConductor is used to call KAG scenarios as subroutines from TJS scripts. When calling scenarios with this method, the scenario must be stopped with a click wait or s tag (this can be detected through kag.inStable or KAG plugin's onStableStateChanged).<r/>
+kag.callExtraConductor takes three parameters.<r/>
+The first parameter is the scenario file to call. The second parameter is the label to call.<r/>
+The third parameter is optional but specifies a function/method to execute when the KAG scenario returns. You can omit this if not needed.<r/>
 <r/>
 <example>[button graphic="showhist" exp="kag.callExtraConductor('rclick.ks', '*showhist')"]</example>
 <r/>
-　これで呼び出すサブルーチンの書き方は、右クリックサブルーチンの書き方に準じます。<r/>
-　右クリックサブルーチン中や、すでにこの機能を使って KAG のシナリオを呼び出している最中では、この機能は使用できません。
+The called subroutine's processing follows the right-click subroutine processing.<r/>
+This function cannot be used while already calling a KAG scenario from a right-click subroutine using this functionality.
 </dd>
 
 <dt><tt><kw>kag.se[n].play</kw></tt></dt>
 <dd>
-　効果音バッファの play メソッドは、効果音の再生を開始します。<r/>
-　以下の形式で指定します。<r/>
+The play method of the sound effect buffer starts playing a sound effect.<r/>
+Use it in the following format:<r/>
 <r/>
-　<bq>kag.se[効果音バッファ番号].play(%[storage: 再生する効果音のファイル名, loop: ループするか]);</bq>
+<bq>kag.se[sound_buffer_number].play(%[storage: sound_file_name, loop: whether_to_loop]);</bq>
 <r/>
-　これをたとえば、以下の例のように link タグの onenter 属性に指定すれば、選択肢の上にマウスカーソルが乗ったときに効果音を発音することができます。<r/>
+For example, if you specify the following in a link tag's onenter attribute, it will play a sound effect when the mouse cursor hovers over the option:<r/>
 <r/>
-<example>[link target=*foo onenter="kag.se[0].play(%[storage:'select.wav', loop: false])"]選択肢～[endlink]</example>
+<example>[link target=*foo onenter="kag.se[0].play(%[storage:'select.wav', loop: false])"]Option~[endlink]</example>
 <r/>
-　この例では、効果音バッファ 0 番で select.wav を、ループをせずに再生します。他にも TJS の制御で効果音を鳴らしたいときに便利です。
+In this example, it plays select.wav in sound buffer 0 without looping. This is useful when you want to play sound effects from TJS scripts.
 </dd>
 </dl>
 </para>
 
 <para>
-<ptitle>配列</ptitle>
-　吉里吉里２/KAG3 では配列を簡単に使うことができます。<r/>
-　配列を使う場合は、最初に <tt><kw>[ ]</kw></tt> を使って配列を宣言しないとなりません。<r/>
+<ptitle>Arrays</ptitle>
+Arrays can be easily used in game engine 2/KAG3.<r/>
+To use arrays, you must first declare them using <tt><kw>[ ]</kw></tt>.<r/>
 <r/>
 <example>[eval exp="f.hairetsu = []"]</example>
 <r/>
-　上記の例では、<tt>f.hairetsu</tt> を配列として使うことを宣言しています。もしすでに <tt>f.hairetsu</tt> が配列だったり、他の数値とか文字列であったとすると <tt>f.hairetsu</tt> の内容は消去されてしまいますので注意してください。<r/>
-　システム変数などで配列を使いたい場合は、初期状態では変数はすべて void が代入されていると見なされることを利用して、<r/>
+The above example declares f.hairetsu as an array. Note that while this declares f.hairetsu as an array, its contents are cleared, even if it previously contained numbers or other values.<r/>
+For system variables or similar where you want to use arrays, you can use the fact that variables are void by default to declare arrays only once like this:<r/>
 <r/>
 <example>[eval exp="sf.hairetsu = [] if sf.hairetsu === void"]</example>
 <r/>
-　とすれば、初回起動時だけ配列を宣言することができます。２回目以降でも配列が消去されることはありません。<r/>
+This way, the array is only declared the first time. The array won't be cleared on subsequent runs.<r/>
 <r/>
-　配列に値を代入するには <tt>[ ]</tt> を使います。<tt>[ ]</tt> 内には添え字 ( 要素番号 ) を書きます。添え字は 0 から始まります。<r/>
+To assign values to an array, use <tt>[ ]</tt>. Inside <tt>[ ]</tt>, specify the index (element number). Indices start from 0.<r/>
 <r/>
 <example>[eval exp="f.hairetsu[0] = 'zero', f.hairetsu[1] = 'one'"]</example>
 <r/>
-　上記の例では <tt>f.hairetsu[0]</tt> に 'zero' を、<tt>f.hairetsu[1]</tt> に 'one' を代入しています。<r/>
-　配列の要素数は宣言する必要はありません。必要な大きさまで自動的に拡張されます。配列の要素数を得たり設定したりするには <tt><kw>count</kw></tt> プロパティを用いて <tt>f.hairetsu.count</tt> などとします。 <r/>
+The above example assigns 'zero' to <tt>f.hairetsu[0]</tt> and 'one' to <tt>f.hairetsu[1]</tt>.<r/>
+You don't need to declare the array size. It will automatically expand as needed. To get or set the number of elements in an array, use the <tt><kw>count</kw></tt> property like <tt>f.hairetsu.count</tt>.<r/>
 <r/>
-　表示も同様に行えます。<r/>
+Let's display the values:<r/>
 <r/>
 <example>0 : [emb exp="f.hairetsu[0]"]    1 : [emb exp="f.hairetsu[1]"]</example>
 <r/>
-　２次元配列を用いるのはすこし難しいですが、例だけ挙げておきます。<r/>
+Using two-dimensional arrays is a bit more complex, but possible:<r/>
 <bq>
 @iscript<r/>
-// １次元目の要素数が 5 の２次元配列を作成する<r/>
-f.twodim = [] if f.twodim === void; // twodim に１次元目の配列を作成<r/>
-for(var i = 0; i &lt; 5; i++) f.twodim[i] = [] if f.twodim[i] === void;<r/>
-// この状態で f.twodim[0] ～ f.twodim[4] がそれぞれ配列なので<r/>
-// f.twodim[0][3] や f.twodim[4][2] などと指定できる<r/>
+// Create a two-dimensional array with 5 elements in the first dimension<r/>
+f.twodim = [] if f.twodim === void; // Create first dimension array in twodim<r/>
+for(var i = 0; i < 5; i++) f.twodim[i] = [] if f.twodim[i] === void;<r/>
+// Now f.twodim[0] through f.twodim[4] are arrays, so<r/>
+// you can specify like f.twodim[0][3] or f.twodim[4][2]<r/>
 @endscript<r/>
 <r/>
-// あるいは、単純にたとえば１次元目の要素数が5の配列を作成するならば<r/>
+// Or, more simply, create an array with 5 elements in the first dimension like this:<r/>
 f.twodim = [ [], [], [], [], [] ];<r/>
-// ( 配列を [] で作成するときにその中に初期要素をカンマで区切って指定できるが、<r/>
-//   そのときに初期要素として配列を入れ子に指定する )<r/>
+// (When creating an array with [], you can specify initial elements separated by commas,<r/>
+//  and in this case specify arrays as child elements)<r/>
 </bq>
 </para>
 
 <para>
-<ptitle>辞書配列</ptitle>
-　吉里吉里２/KAG3 では辞書配列も使うことができます。<r/>
-　辞書配列 ( 連想配列とも呼びます ) とは、名前と、それに対応する値の組を覚えることのできる配列です。<r/>
-　辞書配列を使う場合は、配列と同じように、最初に <tt><kw>%[ ]</kw></tt> を使って配列を宣言しないとなりません。<r/>
+<ptitle>Associative Arrays</ptitle>
+Associative arrays (also called hash arrays) can be used in game engine 2/KAG3.<r/>
+An associative array is an array where you can create pairs of names and corresponding values.<r/>
+To use an associative array, you must first declare it using <tt><kw>%[ ]</kw></tt>.<r/>
 <r/>
 <example>[eval exp="f.dict = %[]"]</example>
 <r/>
-　上記の例では、f.dict を辞書配列として使うことを宣言しています。もしすでに f.hairetsu が辞書配列だったりしたばあいの注意は配列と同じです。<r/>
+The above example declares f.dict as an associative array. The same cautions about clearing contents apply as with regular arrays.<r/>
 <r/>
-　辞書配列に値を代入するにも <tt>[ ]</tt> を使います ( <tt>%[ ]</tt> ではありません )。<tt>[ ]</tt> 内には「名前」となるものを書きます。<r/>
+To assign values to an associative array, use <tt>[ ]</tt> (not <tt>%[ ]</tt>). Inside <tt>[ ]</tt>, specify the "name" to be used as the key.<r/>
 <r/>
 <example>[eval exp="f.dict['zero'] = 0, f.dict['one'] = 1"]</example>
 <r/>
-　上記の例では <tt>f.dict['zero']</tt> に <tt>0</tt> を、<tt>f.dict['one']</tt> に <tt>1</tt> を代入しています。普通の配列と違うのは文字列を <tt>[ ]</tt> 内に指定することです。<r/>
+The above example assigns <tt>0</tt> to <tt>f.dict['zero']</tt> and <tt>1</tt> to <tt>f.dict['one']</tt>. The difference from regular arrays is what you specify inside <tt>[ ]</tt>.<r/>
 <r/>
-　表示も同様に行えます。<r/>
+Let's display the values:<r/>
 <r/>
 <example>zero : [emb exp="f.dict['zero']"]    one : [emb exp="f.dict['one']"]</example>
 <r/>
-　ちなみに <tt>[ ]</tt> ではなく <tt>.</tt> を使うこともできます。<tt>f.dict['zero']</tt> は <tt>f.dict.zero</tt> 、<tt>f.dict['one']</tt> は <tt>f.dict.one</tt> と記述することができます ( ただし . の次には「予約語」や「変数名として使えない名前」が来ることはできません )。<r/>
+Note that you can also use <tt>.</tt> instead of <tt>[ ]</tt>. You can write <tt>f.dict.zero</tt> instead of <tt>f.dict['zero']</tt>, and <tt>f.dict.one</tt> instead of <tt>f.dict['one']</tt> (however, you can't use names that can't be used as "identifiers" after the dot).<r/>
 <r/>
-　実は KAG の <tt>f</tt> や <tt>sf</tt> といったもの自体も辞書配列で、<tt>f.dict</tt> としたばあいは、辞書配列の中の <tt>'dict'</tt> という名前のついた値にアクセスしていたことになります ( もちろん、<tt>f['dict']</tt> でもアクセスできます )。<r/>
+Actually, KAG's <tt>f</tt> and <tt>sf</tt> themselves are associative arrays, so when you write <tt>f.dict</tt>, you're accessing the value with the name 'dict' in the associative array (though you can also access it as <tt>f['dict']</tt>).<r/>
 </para>
 
-
 <para>
-<ptitle>日付/時刻を得る</ptitle>
-　現在の日付や時刻を得るには以下のようにします。<r/>
+<ptitle>Getting Date/Time</ptitle>
+To get the current date and time, do the following:<r/>
 <bq>
 [iscript]<r/>
 {<r/>
-	// ↑  endscript の中を {  } で囲むのは この中で宣言された変数を<r/>
-	// ローカル変数にするため ( そうしないとグローバル変数になる )<r/>
-	var d = new Date(); // Date クラスのオブジェクトを作成<r/>
-	// Date クラスのオブジェクトは、作成時に引数に何も指定しなければ<r/>
-	// 作成時点の現在時刻を保持している<r/>
-	f.year = d.getYear();  // f.year に 年<r/>
-	f.month = d.getMonth() + 1; // f.month に 月<r/>
-	f.date = d.getDate(); // f.date に 日<r/>
-	f.hours = d.getHours(); // f.hours に 時<r/>
-	f.minutes = d.getMinutes(); // f.minutes に 分<r/>
-	f.seconds = d.getSeconds(); // f.seconds に 秒<r/>
+    // Wrapping in { } within iscript/endscript makes variables declared inside<r/>
+    // local variables (otherwise they become global variables)<r/>
+    var d = new Date(); // Create Date class object<r/>
+    // The Date class object, when created without parameters,<r/>
+    // holds the current time at creation<r/>
+    f.year = d.getYear();  // f.year = year<r/>
+    f.month = d.getMonth() + 1; // f.month = month<r/>
+    f.date = d.getDate(); // f.date = day<r/>
+    f.hours = d.getHours(); // f.hours = hours<r/>
+    f.minutes = d.getMinutes(); // f.minutes = minutes<r/>
+    f.seconds = d.getSeconds(); // f.seconds = seconds<r/>
 }<r/>
 [endscript]<r/>
 </bq>
@@ -549,34 +522,33 @@ f.twodim = [ [], [], [], [], [] ];<r/>
 
 <para>
 <ptitle>process</ptitle>
-　<tt>kag.process</tt> は、シナリオを指定した位置から実行します。<r/>
-　最初の引数は読み込むシナリオファイル名です。空文字列を指定すると現在のシナリオファイルが使用されます。<r/>
-　２番目の引数は、実行を開始するラベルです。空文字列を指定するとシナリオファイルの先頭から実行します。<r/>
+<tt>kag.process</tt> executes a scenario from a specified position.<r/>
+The first parameter is the scenario file to load. If an empty string is specified, it uses the current scenario file.<r/>
+The second parameter is the label where execution should begin. If an empty string is specified, execution starts from the beginning of the scenario file.<r/>
 <r/>
 <example>
 kag.process('', '*label2')<r/>
 kag.process('scenario4.ks', '*label5')<r/>
 </example>
 <r/>
-　たとえシナリオが実行中であろうとも、強制的にそのラベルに飛ぶので注意してください。<r/>
+Be careful as this will automatically return to that label if the scenario tries to return.<r/>
 </para>
-
 
 <para>
 <ptitle>leftClickHook, rightClickHook, keyDownHook</ptitle>
-　KAG は、左クリックされたとき、右クリックされたとき、キーが押されたときのそれぞれの場合に、登録した関数を呼び出す機能があり、フックと呼んでいます。<r/>
-　フックは、複数の関数を登録できるように配列になっています。それぞれ <tt>kag.leftClickHook</tt>、<tt>kag.rightClickHook</tt>、<tt>kag.keyDownHook</tt> でアクセスできるようになっています。<r/>
-　これらに登録した関数で true が返されると、KAG はもともとその機能に割り当てられていた機能を実行しません。たとえば、R キーが押されたとき、keyDownHook に登録された関数が true を返すと、元々の機能である「メッセージ履歴を表示する」の機能は実行されなくなります。<r/>
+KAG has a feature called hooks that calls registered functions when left-clicking, right-clicking, or when keys are pressed.<r/>
+Hooks are arrays that can register multiple functions. They can be accessed as <tt>kag.leftClickHook</tt>, <tt>kag.rightClickHook</tt>, and <tt>kag.keyDownHook</tt>.<r/>
+If a registered function returns true, KAG will not execute the functionality it normally would for that action. For example, if a function registered to keyDownHook returns true when the R key is pressed, the normal "show message history" function won't execute.<r/>
 <r/>
-　leftClickHook と rightClickHook には、呼び出される関数に引数はありません。<r/>
-　leftClickHook は、Enter キーや Space キー等でも発生します。また、マウスで選択肢などをクリックしたときには発生しません。<r/>
+leftClickHook and rightClickHook functions receive no parameters.<r/>
+leftClickHook is also triggered by the Enter key and Space key. However, it's not triggered when clicking on choices and similar elements.<r/>
 <r/>
 <example>
 @iscript<r/>
 function myLeftClickHook()<r/>
 {<r/>
-	kag.process('', '*label');<r/>
-	return true;<r/>
+    kag.process('', '*label');<r/>
+    return true;<r/>
 }<r/>
 @endscript<r/>
 @eval exp="kag.leftClickHook.add(myLeftClickHook)"<r/>
@@ -584,25 +556,25 @@ function myLeftClickHook()<r/>
 <r/>
 *label<r/>
 @eval exp="kag.leftClickHook.remove(myLeftClickHook)"<r/>
-やあー。<r/>
+Yaa~.<r/>
 @s<r/>
 </example>
 <r/>
-　上記の例では、クリックされると *label が実行されます。<r/>
-　強制的に実行が *label に移るので注意してください。トランジションや自動移動を実行中等の場合は stoptrans や stopmove タグで実行を停止したほうが安全です。<r/>
+The above example will execute *label when clicked.<r/>
+Be careful as it automatically jumps to *label. When using transitions or automatic movement, it's safer to stop execution with stoptrans or stopmove tags.<r/>
 <r/>
-　keyDownHook は、呼び出される関数には２つ引数が渡されて、一つ目は押されたキーの仮想キーコード、二つ目はそのキーが押されていたときに同時に押されていたシフト系のキーの状態です。詳しくは吉里吉里２ SDK Help を参照してください。<r/>
+keyDownHook functions receive two parameters: the first is the virtual key code of the pressed key, and the second is the state of shift-type keys that were pressed simultaneously. Please refer to the game engine SDK Help for details.<r/>
 <r/>
 <example>
 @iscript<r/>
 function myKeyDownHook(key, shift)<r/>
 {<r/>
-	if(key == #'R')<r/>
-	{<r/>
-		// R のキーが押されたら<r/>
-		kag.process('', '*label');<r/>
-		return true;<r/>
-	}<r/>
+    if(key == #'R')<r/>
+    {<r/>
+        // When R key is pressed<r/>
+        kag.process('', '*label');<r/>
+        return true;<r/>
+    }<r/>
 }<r/>
 @endscript<r/>
 @eval exp="kag.keyDownHook.add(myKeyDownHook)"<r/>
@@ -610,18 +582,18 @@ function myKeyDownHook(key, shift)<r/>
 <r/>
 *label<r/>
 @eval exp="kag.keyDownHook.remove(myKeyDownHook)"<r/>
-やあー。<r/>
+Yaa~.<r/>
 @s<r/>
 </example>
 </para>
 
 <para>
 <ptitle>touchImages</ptitle>
-　<tt>System.touchImages</tt> は、画像をキャッシュに読み込みます。<r/>
-　詳しくは 吉里吉里２ドキュメントの System.touchImages をご覧ください。このメソッドは、たとえばなにかのウェイトで時間があいたときを利用して、画像を先読みしておく用途に使えます。<r/>
-　KAG で使う場合は、前景、背景画像 ( ただし key 属性を指定しないものに限る ) に対して有効です。image や img タグの storage 属性に指定するものと同じ物を storages 引数に配列にして指定してください。<r/>
-　第２引数は -2*1024*1024 あたりを指定しておくと良いようです。<r/>
-　第３引数には、待つ時間 - 200ms あたりを指定しておくと良いようです。<r/>
+<tt>System.touchImages</tt> loads images into cache.<r/>
+For details, please refer to the System.touchImages section in the game engine documentation. This method can be used during waiting periods to preload images.<r/>
+When used in KAG, it works for foreground and background images (those without key attribute specified). For images specified in image or img tags' storage attribute, specify them as an array in the storages parameter.<r/>
+It's recommended to specify -2*1024*1024 for the second parameter.<r/>
+For the third parameter, it's recommended to specify around 200ms as the wait time.<r/>
 <r/>
 <example>
 @resetwait<r/>
@@ -629,50 +601,49 @@ function myKeyDownHook(key, shift)<r/>
 @wait mode=until time=1000<r/>
 </example>
 <r/>
-　ただし、このメソッドは、画像がキャッシュに入るということは保証しないという、不確定的なものです。ですから、絶対に画像を先に読んでおかなければいけない用途には使うべきではありません。そのような用途には後述の assignImages の項で説明する方法を使う方が確実です。<r/>
+However, this method is non-deterministic in that it doesn't guarantee images will be in cache. Therefore, it shouldn't be used in situations where images absolutely must be preloaded. For such cases, use the assignImages method described later for a more reliable approach.<r/>
 </para>
 
 <para>
 <ptitle>assignImages</ptitle>
-　<tt>assignImages</tt> は、レイヤの画像を他のレイヤにコピーします。<r/>
-　たとえば、<r/>
+<tt>assignImages</tt> copies images from one layer to another.<r/>
+For example:<r/>
 <r/>
 <tt>@eval exp="kag.fore.base.assignImages(kag.fore.layers[0])"</tt><r/>
 <r/>
-　とすれば、表前景レイヤ 0 に読み込まれている画像を表背景レイヤにコピーすることができます。<r/>
-　assignImages は実際には画像のデータをコピーはせず、「コピー元とコピー先の画像が同じになった」という印を付けるだけなので高速です。デモシーンなどで、シーンの途中で画像を読み込むときのタイムロスが問題になるような場合に、あらかじめ画像を非表示の前景レイヤなどに読み込んでおいてから、必要なときに背景レイヤなどにコピーする用途に使えます。<r/>
+This copies the image loaded in foreground layer 0 to the foreground base layer.<r/>
+assignImages doesn't actually copy the image data, it just creates a reference indicating "these images are the same," so it's fast. In scene transitions where loading images during the transition might cause stuttering, you can use this by preloading images into foreground layers and copying them to background layers when needed.<r/>
 </para>
 
-
 <para>
-<ptitle>hact タグの応用</ptitle>
-　hact タグはメッセージ履歴をクリックしたときに任意の TJS 式を実行できるようにするもので、音声履歴 ( 声つきのゲームなどでメッセージ履歴をクリックしたときにそのメッセージに対応する音声を再生できるようにするもの ) を実装することができます。<r/>
-　以下は、それを実現するための例で、音声を再生するためのマクロ pv と、音声を停止するためのマクロ sv を定義するものです。<r/>
+<ptitle>Using the hact Tag</ptitle>
+The hact tag allows executing arbitrary TJS code when message history is clicked, enabling voice playback functionality (like playing corresponding voice files when clicking messages in adventure games).<r/>
+Below is an example implementing this, with a macro pv for playing voices and a macro sv for stopping voices:<r/>
 <example>
 @iscript<r/>
 function stopAllVoices()<r/>
 {<r/>
-	// 2 ～ 6 のすべての効果音を停止する<r/>
-	for(var i = 2; i &lt;= 6; i++) kag.se[i].stop();<r/>
+    // Stop all sound effects in buffers 2 through 6<r/>
+    for(var i = 2; i <= 6; i++) kag.se[i].stop();<r/>
 }<r/>
 function playVoice(buf, storage)<r/>
 {<r/>
-	// 効果音バッファ buf にて storage を再生する<r/>
-	// KAG がスキップ処理中の場合は処理を行わない<r/>
-	if(!kag.skipMode)<r/>
-	{<r/>
-		stopAllVoices();<r/>
-		kag.se[buf].play(%[ storage : storage ]);<r/>
-	}<r/>
+    // Play storage in sound buffer buf<r/>
+    // Don't do anything if KAG is in skip mode<r/>
+    if(!kag.skipMode)<r/>
+    {<r/>
+        stopAllVoices();<r/>
+        kag.se[buf].play(%[ storage : storage ]);<r/>
+    }<r/>
 }<r/>
 function createHistoryActionExp(buf, storage)<r/>
 {<r/>
-	// メッセージ履歴をクリックしたときに実行する TJS 式を生成する<r/>
-	return "stopAllVoices(), kag.se[" + buf  +"].play(%[ storage : '" + storage + "' ])";<r/>
+    // Generate TJS code to execute when message history is clicked<r/>
+    return "stopAllVoices(), kag.se[" + buf  +"].play(%[ storage : '" + storage + "' ])";<r/>
 }<r/>
 @endscript<r/>
 @macro name=pv<r/>
-@hact exp="&amp;createHistoryActionExp(mp.b, mp.s)"<r/>
+@hact exp="&createHistoryActionExp(mp.b, mp.s)"<r/>
 @eval exp="playVoice(mp.b, mp.s)"<r/>
 @endmacro<r/>
 @macro name=waitvoices<r/>
@@ -688,98 +659,92 @@ function createHistoryActionExp(buf, storage)<r/>
 @eval exp="stopAllVoices()"<r/>
 @endmacro<r/>
 </example>
+
+The createHistoryActionExp function generates TJS code to be passed to the hact tag's exp attribute. This code will be executed when clicked.<r/>
 <r/>
-　createHistoryActionExp 関数では、hact タグの exp 属性に渡すための TJS 式を生成しています。ここで生成した TJS 式が実行されることになります。<r/>
-<r/>
-　このマクロを使った例は以下のようになります。<r/>
+Here's how to use these macros:<r/>
 <r/>
 <example>
-[pv b=2 s=hoge.ogg]ほげ[l][sv][r]<r/>
-[pv b=3 s=hogera.ogg]ほげら[l][sv][r]<r/>
-[pv b=4 s=hogemoge.ogg]ほげもげ[p][sv]<r/>
+[pv b=2 s=hoge.ogg]Hoge[l][sv][r]<r/>
+[pv b=3 s=hogera.ogg]Hogera[l][sv][r]<r/>
+[pv b=4 s=hogemoge.ogg]Hogemoge[p][sv]<r/>
 </example>
 </para>
 
-
-
 <para>
-<ptitle>初期化時に実行されるスクリプト</ptitle>
-　KAG はシステムのカスタマイズのために、初期化のいくつかの段階において 任意の TJS スクリプトを実行する機能があります。現バージョンでは以下の方法が用意されています。<r/>
+<ptitle>Scripts Executed During Initialization</ptitle>
+KAG provides functionality to execute arbitrary TJS scripts at various stages during system initialization for customization purposes. The following methods are available in this version:<r/>
 <r/>
 <dl>
 <dt><kw>Override.tjs</kw></dt>
 <dd>
-　このファイルは MainWindow.tjs が読み込まれた後に、もし存在すれば実行されます。初期状態ではこのファイルは存在しないので、新しく作成してください。
+This file is executed after MainWindow.tjs is loaded, if it exists. This file doesn't exist by default, so create it if needed.
 </dd>
 
 <dt><kw>AfterInit.tjs</kw></dt>
 <dd>
-　すべての初期化が終わり、 first.ks が実行される直前に実行されます。このファイルも初期状態では存在しないので、新しく作成してください。
+This is executed right before first.ks runs, after all initializations are complete. This file doesn't exist by default, so create it if needed.
 </dd>
 
-<dt>「<kw>追加の設定</kw>」</dt>
+<dt>"<kw>Additional Settings</kw>"</dt>
 <dd>
-　Config.tjs 内には、いくつか「◆ ウィンドウや動作の追加の設定」など、「追加の設定」を記述できるところがあります。そこに記述した内容は Config.tjs の実行される各段階で実行されます。
+In Config.tjs, there are sections marked as "Additional Settings" for window and behavior settings. Content written in these sections is executed at various stages during Config.tjs execution.
 </dd>
 </dl>
 </para>
 
 <para>
-<ptitle>メニューのカスタマイズ</ptitle>
-　メニュー項目に、たとえば、単純な on/off だけの設定項目を追加するには、AfterInit.tjs に以下のような内容を書きます。<r/>
+<ptitle>Customizing Menus</ptitle>
+To add menu items, such as a simple on/off setting option, add content like this to AfterInit.tjs:<r/>
 <r/>
 <example>
 kag.menu.insert(kag.optionsMenu =<r/>
-	new KAGMenuItem(this, "効果(&amp;G)", 0, void, false), 2);<r/>
+    new KAGMenuItem(this, "Options(&G)", 0, void, false), 2);<r/>
 kag.optionsMenu.stopRecur = true;<r/>
 <r/>
 kag.optionsMenu.add(<r/>
-	kag.doTransMenuItem = new KAGMenuItem(<r/>
-		this,<r/>
-		"画面切り替えを行う(&amp;T)",<r/>
-		0,<r/>
-		function(sender) { sf.dotrans = sender.checked = !sf.dotrans; },<r/>
-		false));<r/>
+    kag.doTransMenuItem = new KAGMenuItem(<r/>
+        this,<r/>
+        "Execute Screen Transitions(&T)",<r/>
+        0,<r/>
+        function(sender) { sf.dotrans = sender.checked = !sf.dotrans; },<r/>
+        false));<r/>
 <r/>
 if(sf.dotrans === void) sf.dotrans = true;<r/>
 kag.doTransMenuItem.checked = sf.dotrans;<r/>
 <r/>
 kag.optionsMenu.add(<r/>
-	kag.playSEItem = new KAGMenuItem(<r/>
-		this,<r/>
-		"効果音を再生する(&amp;S)",<r/>
-		0,<r/>
-		function(sender) { sf.playse = sender.checked = !sf.playse; },<r/>
-		false));<r/>
+    kag.playSEItem = new KAGMenuItem(<r/>
+        this,<r/>
+        "Play Sound Effects(&S)",<r/>
+        0,<r/>
+        function(sender) { sf.playse = sender.checked = !sf.playse; },<r/>
+        false));<r/>
 <r/>
 if(sf.playse === void) sf.playse = true;<r/>
 kag.playSEItem.checked = sf.playse;<r/>
 </example>
+
+<tt>kag.menu.insert(kag.optionsMenu = new KAGMenuItem(this, "Options(&G)", 0, void, false), 2);</tt> inserts an "Options" menu into KAG's menu bar. kag.optionMenu becomes the object for this "Options" menu. The second parameter of the insert method specifies where to insert the menu item.<r/>
+The next line sets this object's stopRecur to true, which prevents unnecessary menu item searching when kag.internalSetMenuAccessibleAll is called.<r/>
 <r/>
-　<tt>kag.menu.insert(kag.optionsMenu = new KAGMenuItem(this, "効果(&amp;G)", 0, void, false), 2);</tt> では、KAG のメニューバーに「効果」メニューを挿入しています。kag.optionMenu がその「効果」メニューのオブジェクトになります。insert メソッドの第２引数は、メニュー項目を挿入する位置です。<r/>
-　次の行ではそのオブジェクトの stopRecur を true に設定していますが、これは kag.internalSetMenuAccessibleAll で不必要なメニューアイテムの検索を行わないようにするためです。<r/>
+Then child menu items are created and added to kag.optionMenu using the add method.<r/>
 <r/>
-　その kag.optioneMenu に、add メソッドで子のメニュー項目を作成しています。<r/>
+The fourth parameter of KAGMenuItem specifies the function to execute when the menu item is clicked.<r/>
 <r/>
-　KAGMenuItem の第４引数は、メニューアイテムがクリックされたときに実行する式を指定します。<r/>
+<tt>if(sf.dotrans === void) sf.dotrans = true;</tt> initializes sf.dotrans with a default value if it's void (has no value set). <tt>kag.doTransMenuItem.checked = sf.dotrans;</tt> sets the initial checked state of the menu item. Since it's recorded in system variables, the setting persists even after the program is closed.<r/>
 <r/>
-　<tt>if(sf.dotrans === void) sf.dotrans = true;</tt> では、sf.dotrans が void ( つまり、何も値が無い状態 ) の時に、初期値を入れています。<tt>kag.doTransMenuItem.checked = sf.dotrans;</tt> では、メニューアイテムのチェックの初期状態を設定しています。システム変数に記録しているため、プログラムを終了しても次回に設定が引き継がれます。<r/>
-<r/>
-　あとは sf.dotrans や sf.playse に現在のメニューの状態が記録されているので、<r/>
+With sf.dotrans and sf.playse recording the current menu state, you can use them like:<r/>
 <r/>
 <tt>@playse storage="kon.wav" cond="sf.playse"</tt>
 <r/>
-　のようにして使用することができます。<r/>
-<r/>
-　応用でいろいろできると思います。<r/>
+I think this should be fairly practical to use.<r/>
 </para>
 
-
 <para>
-<ptitle>KAG用プラグインを書く</ptitle>
-　<kw>KAGPlugin クラス</kw> のサブクラスを作り、KAG に登録することで KAG の機能を拡張するプラグインを作ることができます。<r/>
-　サンプルが KAG の配布ファイルとともに配布されていると思うので参照してみてください。<r/>
+<ptitle>Creating KAG Plugins</ptitle>
+You can extend KAG's functionality by creating plugins by making subclasses of the <kw>KAGPlugin class</kw> and registering them with KAG.<r/>
+I believe samples are distributed with KAG's distribution files, so please refer to those.<r/>
 </para>
 
 </doc>
-

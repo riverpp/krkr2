@@ -1,71 +1,68 @@
-<?xml version="1.0" encoding="Shift_JIS" ?>
+<?xml version="1.0" encoding="ISO-8859-1" ?>
 <doc>
-<title>操作方法</title>
+<title>Controls</title>
 
 <para>
-<ptitle>操作方法</ptitle>
-　KAG の操作方法を以下で説明します。<r/>
-<note>　これは一般的に書いた物です。ゲームなどによっては使わない機能もあるでしょうから、これをそのままコピー＆ペーストしてゲームなどの説明書などに書くのはどうかと思います(汗)</note><r/>
+<ptitle>Controls</ptitle>
+KAG's controls are explained below.<r/>
+<note>These are general default controls. For games and other applications, some functions may not be used, so it's recommended not to simply copy and paste this into game manuals, etc. (^^)</note><r/>
 </para>
 
 <para>
-<ptitle>基本的な操作</ptitle>
+<ptitle>Basic Controls</ptitle>
 <dl>
-<dt>「左クリック」または「ホイールを手前に回転」または「リターンキー」または「スペースキー」</dt>
-<dd>読みすすみ または 選択肢の決定、ボタンを押す、チェックボックスをチェックするなどの動作</dd>
+<dt>"Left Click" or "Wheel Forward" or "Enter Key" or "Space Key"</dt>
+<dd>Advance text, or select choices, press buttons, check checkboxes, etc.</dd>
 
-<dt>「右クリック」または「ESC キー」</dt>
-<dd>メッセージ履歴の表示 または 右クリックサブルーチンの呼び出し</dd>
+<dt>"Right Click" or "ESC Key"</dt>
+<dd>Display message history or call right-click subroutine</dd>
 
-<dt>「↑」「↓」 または 「←」「→」 または 「TAB」「SHIFT+TAB」 </dt>
-<dd>選択肢、ボタン、単一行エディット、チェックボックス間の移動</dd>
+<dt>"Left" "Right" or "Up" "Down" or "TAB" "SHIFT+TAB"</dt>
+<dd>Move between choices, buttons, single-line edits, checkboxes</dd>
 
-<dt>「ホイールを奥に回転」または「R キー」または「SHIFT＋↑」</dt>
-<dd>メッセージ履歴の表示</dd>
+<dt>"Wheel Backward" or "R Key" or "SHIFT+Up"</dt>
+<dd>Display message history</dd>
 
-<dt>「F キー」</dt>
-<dd>次の選択肢/未読まで進む</dd>
+<dt>"F Key"</dt>
+<dd>Skip until next choice/unread text</dd>
 
-<dt>「A キー」</dt>
-<dd>自動的に読み進む</dd>
+<dt>"A Key"</dt>
+<dd>Auto-read mode</dd>
 
-<dt>「B キー」</dt>
-<dd>前に戻る</dd>
+<dt>"B Key"</dt>
+<dd>Return to previous</dd>
 
-<dt>「S キー」</dt>
-<dd>(フリーセーブモードにおいて) 栞を挟む</dd>
+<dt>"S Key"</dt>
+<dd>(In free save mode) Save</dd>
 
-<dt>「L キー」</dt>
-<dd>(フリーセーブモードにおいて) 栞をたどる</dd>
+<dt>"L Key"</dt>
+<dd>(In free save mode) Load</dd>
 </dl>
 </para>
 
 <para>
-<ptitle>メッセージ履歴表示中の操作</ptitle>
+<ptitle>Message History Display Controls</ptitle>
 <dl>
-<dt>「リターンキー」または「スペースキー」または「ESC キー」</dt>
-<dd>メッセージ履歴を閉じる</dd>
+<dt>"Enter Key" or "Space Key" or "ESC Key"</dt>
+<dd>Close message history</dd>
 
-<dt>「ホイール回転」または「↑」「↓」 または 「←」「→」 </dt>
-<dd>スクロール</dd>
+<dt>"Wheel Rotation" or "Up" "Down" or "Left" "Right"</dt>
+<dd>Scroll</dd>
 </dl>
 </para>
-
 
 <para>
-<ptitle>「はい」「いいえ」をたずねるダイアログ</ptitle>
+<ptitle>"Yes" "No" Confirmation Dialog</ptitle>
 <dl>
-<dt>「クリック」</dt>
-<dd>「はい」または「いいえ」を選択</dd>
+<dt>"Click"</dt>
+<dd>Select "Yes" or "No"</dd>
 
-<dt>「←」「→」 </dt>
-<dd>ボタンの選択</dd>
+<dt>"Left" "Right"</dt>
+<dd>Button selection</dd>
 
-<dt>「リターンキー」または「スペースキー」 </dt>
-<dd>選択したボタンを押す</dd>
+<dt>"Enter Key" or "Space Key"</dt>
+<dd>Press selected button</dd>
 </dl>
 </para>
-
 
 </doc>
-

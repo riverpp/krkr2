@@ -1,179 +1,176 @@
-<?xml version="1.0" encoding="Shift_JIS" ?>
+<?xml version="1.0" encoding="iso-8859-1" ?>
 <doc>
-<title>クリッカブルマップを使おう</title>
+<title>Using Clickable Maps</title>
 
 <para>
-<ptitle>クリッカブルマップとは</ptitle>
-　クリッカブルマップは、直訳すれば「クリック」できる「地図」で、一つの画像の中にいくつかの「領域」を定義して、それらをマウスなどでクリックして選択できるようにする物です。<r/>
+<ptitle>What is a Clickable Map</ptitle>
+    A clickable map is a "map" that can be "clicked", where specific "areas" are defined within an image, allowing users to select these areas using a mouse or similar input device.<r/>
 <r/>
-　吉里吉里/KAGでは、本体の画像の他に「<kw>領域画像</kw>」と「<kw>領域アクション定義ファイル</kw>」という２つのファイルを使ってこれを実現します。<r/>
-
+    In Kirikiri/KAG, this is implemented using two files in addition to the main image: an <kw>area image</kw> and an <kw>area action definition file</kw>.<r/>
 </para>
 
 <para>
-<ptitle>領域画像とは</ptitle>
-　領域画像は、本体の画像と同じサイズの 256 色の画像です。フルカラーの画像ではいけません。JPEG はこのような用途には向かないので、 PNG か BMP などの、256 色を使用できる画像形式を使います。<r/>
+<ptitle>About Area Images</ptitle>
+    An area image is a 256-color image of the same size as the main image. It cannot be a full-color image. JPEG is not suitable for this purpose, so use image formats that support 256 colors like PNG or BMP.<r/>
 <r/>
-　領域画像とは、本体の画像の各領域に対応して、各領域を任意の<kw>パレットインデックス</kw>で塗りつぶした物です。たとえば、<r/>
+    An area image is created by filling each area corresponding to the main image with arbitrary <kw>palette indices</kw>. For example:<r/>
 <descimg>
-<dititle>本体の画像(左)と領域画像(右)</dititle>
+<dititle>Main Image (Left) and Area Image (Right)</dititle>
 <img src="map1.png"/><img src="map1_p.png"/>
 </descimg>
-　のようなものです。左が本体の画像で、この例では関東地方の地図です。右が、各都県に対応して各領域を塗りつぶした「領域画像」です。<r/>
-　領域画像は、各領域を任意の ( それぞれ異なる ) パレットインデックスで塗りつぶした物です。上の例で各領域に書いてある数字はそのパレットインデックスです ( 説明のために入れてあるので本来は必要ありません )。パレットインデックス 0 ( 図では海 ) で塗りつぶされた領域は領域としては使われない部分です。<r/>
+    The left is the main image, which in this example is a map of the Kanto region. The right is the "area image" where each area is filled to correspond to each prefecture.<r/>
+    The area image is filled with different (unique) palette indices for each area. The numbers written in each area in the example are these palette indices (they're just there for clarity and aren't actually necessary). Areas filled with palette index 0 (ocean in the map) are not used as clickable areas.<r/>
 <r/>
-　グラフィック編集ソフトなどには 256 色の画像で「パレットインデックス」を扱える物がありますが、そのようなソフトを用いて編集する必要があります ( パレット番号とか、カラーインデックス、インデックスカラー、色番号など名称は異なる場合があります )。このとき、重要なのはパレットインデックス ( 色番号 ) であって、色ではありません。吉里吉里は領域画像を見るとき、色ではなくてそのパレットインデックスのみを見ます。色は、編集時に他の領域と見分けが付きやすいように、適当にばらけた色をつけておいてかまいません。<r/>
+    You'll need graphics editing software that can work with 256-color images and show "palette indices" (these might also be called color indices, index colors, or color numbers in different software). What's important here is the palette index (color number), not the actual color. When Kirikiri reads the area image, it only looks at the palette indices, not the colors. The colors can be any colors that make it easy to distinguish between areas during editing.<r/>
 <r/>
-　領域画像のファイル名は、通常、本体の画像のファイル名 ( 拡張子を除く ) に _p をつけたファイル名です。たとえば、本体の画像の名前が map.png であれば、領域画像のファイル名は ( PNGで保存する場合 ) map_p.png にします。<r/>
+    The area image filename is typically the main image filename (minus extension) with _p added. For example, if the main image is named map.png, the area image (if saved as PNG) would be map_p.png.<r/>
 </para>
 
 <para>
-<ptitle>領域アクション定義ファイルとは</ptitle>
-　領域アクション定義ファイルとは、クリッカブルマップの各領域の振る舞いを定義したファイルです。<r/>
-　拡張子は .ma で、通常は本体の画像ファイルと同じファイル名にします。たとえば、本体の画像の名前が map.png であれば、領域アクション定義ファイルのファイル名は map.ma にします。<r/>
+<ptitle>About Area Action Definition Files</ptitle>
+    An area action definition file defines what happens when each area of the clickable map is clicked.<r/>
+    It has the extension .ma and typically uses the same filename as the main image file. For example, if the main image is named map.png, the area action definition file would be map.ma.<r/>
 <r/>
-　領域アクション定義ファイルはテキストファイルですのでテキストエディタで編集します。<r/>
+    The area action definition file is a text file that can be edited with a text editor.<r/>
 <r/>
-　領域アクション定義ファイルは、一行ごとに、「領域番号 ： アクション」を領域の数だけ書いた物です ( コロンは半角 )。<r/>
-　たとえば、上記の地図の例だと、<r/>
+    Each line in the area action definition file contains "area number : action" (using half-width colon).<r/>
+    For example, for the map above:<r/>
 <bq>
-11: hint="埼玉"; storage="maptest2.ks"; target="*m11";<r/>
-8: hint="群馬"; storage="maptest2.ks"; target="*m8";<r/>
-7: hint="栃木"; storage="maptest2.ks"; target="*m7";<r/>
-9: hint="茨城"; storage="maptest2.ks"; target="*m9";<r/>
-10: hint="千葉"; storage="maptest2.ks"; target="*m10";<r/>
-12: hint="東京"; storage="maptest2.ks"; target="*m12";<r/>
-2: hint="神奈川"; storage="maptest2.ks"; target="*m2";<r/>
-3: hint="山梨"; storage="maptest2.ks"; target="*m3";<r/>
-1: hint="静岡"; storage="maptest2.ks"; target="*m1";<r/>
-4: hint="長野"; storage="maptest2.ks"; target="*m4";<r/>
-5: hint="新潟"; storage="maptest2.ks"; target="*m5";<r/>
-6: hint="福島"; storage="maptest2.ks"; target="*m6";<r/>
+11: hint="Ibaraki"; storage="maptest2.ks"; target="*m11";<r/>
+8: hint="Gunma"; storage="maptest2.ks"; target="*m8";<r/>
+7: hint="Tochigi"; storage="maptest2.ks"; target="*m7";<r/>
+9: hint="Saitama"; storage="maptest2.ks"; target="*m9";<r/>
+10: hint="Chiba"; storage="maptest2.ks"; target="*m10";<r/>
+12: hint="Tokyo"; storage="maptest2.ks"; target="*m12";<r/>
+2: hint="Kanagawa"; storage="maptest2.ks"; target="*m2";<r/>
+3: hint="Yamanashi"; storage="maptest2.ks"; target="*m3";<r/>
+1: hint="Nagano"; storage="maptest2.ks"; target="*m1";<r/>
+4: hint="Shizuoka"; storage="maptest2.ks"; target="*m4";<r/>
+5: hint="Niigata"; storage="maptest2.ks"; target="*m5";<r/>
+6: hint="Fukushima"; storage="maptest2.ks"; target="*m6";<r/>
 </bq>
-　のような記述になります。領域番号と、上の例の領域画像のパレットインデックスは一致しています。<r/>
-　「<kw>アクション</kw>」 ( コロンより後の部分 ) は KAG の文法からは離れ、TJS の文法で書きますが、難しい物ではありません。<r/>
-　「名前=値;」の形式で必要なだけ書くというものです。セミコロンを忘れないようにしてください。<r/>
+    The area numbers correspond to the palette indices in the area image shown above.<r/>
+    The <kw>action</kw> (the part after the colon) follows KAG syntax rather than TJS syntax, but it's not complex.<r/>
+    It's just a series of "name=value;" pairs. Don't forget the semicolons.<r/>
 <r/>
-　使用できる名前には以下の物があります。<r/>
+    The following names can be used:<r/>
 <dl>
 <dt>storage, target, onenter, onleave, hint, exp, countpage </dt>
 <dd>
-	　これらはすべて link タグと同様の機能を持っていますが、すべて、属性の値を " " ( ダブルクオーテーション ) で囲んで指定してください ( 上記の例のように )。" " で囲まないとエラーになったり、正常に動作しなかったりします。
+    These all have the same functionality as in the link tag, but all values must be enclosed in " " (double quotes) when specified (as in the example above). Not using " " will cause errors or incorrect behavior.
 </dd>
 <dt>cursor</dt>
 <dd>
-	　領域の上にマウスカーソルがある場合のマウスカーソル形状を指定します。cursor タグでの指定に似ていますが、 cr で始まるマウスカーソル定数を用いる場合は、&amp; をつけずにそのまま書きます ( たとえば  cursor = crSizeAll; )。マウスカーソルのファイルを指定する場合は " " ( ダブルクオーテーション ) で囲んで書きます ( たとえば  cursor = "wagtail.ani"; )。
+    Specifies the mouse cursor shape when the cursor is over the area. Follows the same rules as the cursor tag, but when using mouse cursor constants starting with cr, write them directly with & (for example cursor = crSizeAll;). When specifying a mouse cursor filename, enclose it in " " (double quotes) (for example cursor = "wagtail.ani";).
 </dd>
 </dl>
 <r/>
-　領域アクション定義ファイルでは、領域番号 0 は特別な指定をするために使用されます。現バージョンでは autodisable が使用可能です。たとえば、
+    Area number 0 is used for special instructions in the area action definition file. In this version, autodisable is available. For example:
 <bq>
 0 : autodisable=false;
 </bq>
-　とすると、クリッカブルマップをクリックしても、クリッカブルマップが無効な ( クリッカブルマップとして操作できない ) 状態になりません。通常はこの指定を行わなくて OK です。<r/>
-　この指定を行わなかったり、領域アクション定義ファイルに領域番号 0 の指定がなかったりすると、クリッカブルマップをクリックしたとき、再び <kw>image</kw> タグか <kw>mapaction</kw> タグで領域アクション定義ファイルが読み込まれるまで、クリッカブルマップは無効な ( クリッカブルマップとして操作できない ) 状態になります。<r/>
+    This makes the clickable map remain active (can still function as a clickable map) even after being clicked. Usually, you don't need this instruction.<r/>
+    If this instruction isn't given and there's no area number 0 specification in the area action definition file, the clickable map becomes inactive (cannot function as a clickable map) when clicked, until the area action definition file is read again with the <kw>image</kw> tag or <kw>mapaction</kw> tag.<r/>
 <r/>
 <note>
-　アクションが何も定義されなければ、その領域は無視されます。たとえば、条件によって領域を使用可能にしたり不可能にしたりしたい場合は、TJS の if 文を使って、<r/>
-11: if(f.flag == 1) { hint="埼玉"; storage="maptest2.ks"; target="*m11"; }<r/>
-　のように記述することができます。この場合は、f.flag が 1 の場合のみに、「hint="埼玉"; storage="maptest2.ks"; target="*m11";」というアクションを定義する、という意味になります。
+    If no action is defined, that area becomes inactive. For example, if you want to make areas available or unavailable based on conditions, you can use TJS if statements like:<r/>
+11: if(f.flag == 1) { hint="Ibaraki"; storage="maptest2.ks"; target="*m11"; }<r/>
+    In this case, the action "hint="Ibaraki"; storage="maptest2.ks"; target="*m11";" will only be defined when f.flag is 1.
 </note>
 </para>
 
-
 <para>
-<ptitle>クリッカブルマップを使ってみる</ptitle>
-　クリッカブルマップを使ってみます。<r/>
-　上記の例を、本体の画像を map1.png、領域画像を map1_p.png、領域アクション定義ファイルを map1.ma とします。<r/>
-　image タグは、読み込もうとした本体ファイル名をもとにして、ファイル名に _p がついたファイルと、拡張子が ma のファイルを探して、それぞれ領域画像と領域アクション定義ファイルとして読み込みます。<r/>
-　ですので、通常は、クリッカブルマップを使用可能にするためには image タグのみを使います。<r/>
+<ptitle>Let's Try Using a Clickable Map</ptitle>
+    Let's try using a clickable map.<r/>
+    Using the example above, we have map1.png as the main image, map1_p.png as the area image, and map1.ma as the area action definition file.<r/>
+    The image tag searches for a file with _p added to the base filename and a file with the .ma extension, loading them as the area image and area action definition file respectively when it loads the main file.<r/>
+    Therefore, normally you only need to use the image tag to make a clickable map usable.<r/>
 <note>
-	　個別に領域画像や領域アクション定義ファイルを読み込みたい場合のために、それぞれ <kw>mapimage</kw> タグと mapaction タグがあります。
+    The <kw>mapimage</kw> tag and mapaction tag are also available if you need to load the area image and area action definition file separately.
 </note>
-　たとえば、maptest.ks に以下の内容を書いたとします。<r/>
+    For example, let's write the following content in maptest.ks:<r/>
 <bq>
 *start<r/>
 @image layer=0 page=fore visible=true storage=map1<r/>
 @position left=400 width=220<r/>
 @wt<r/>
-クリッカブルマップのテスト。<r/>
+Clickable map test.<r/>
 @s<r/>
 </bq>
-　これだけで、クリッカブルマップが使用可能な状態で s タグで停止します。<r/>
+    This will make the clickable map usable and stop at the s tag.<r/>
 <r/>
 <descimg>
-<dititle>実行してみた画面</dititle>
+<dititle>How it looks when running</dititle>
 <img src="clickable.png"/>
 </descimg>
 <r/>
-　クリッカブルマップがクリックされたときにジャンプするシナリオも記述しなければなりません。たとえば、maptest2.ks に以下のような内容を書きます。<r/>
+    You need to write the scenario that will be jumped to when the clickable map is clicked. For example, write the following content in maptest2.ks:<r/>
 <bq>
 *m11<r/>
 @cm<r/>
-そこは埼玉です。[l]<r/>
+This is Ibaraki.[l]<r/>
 @jump storage="maptest.ks" target="*start"<r/>
 <r/>
 *m8<r/>
 @cm<r/>
-そこは群馬です。[l]<r/>
+This is Gunma.[l]<r/>
 @jump storage="maptest.ks" target="*start"<r/>
 <r/>
 *m7<r/>
 @cm<r/>
-そこは栃木です。[l]<r/>
+This is Tochigi.[l]<r/>
 @jump storage="maptest.ks" target="*start"<r/>
 <r/>
 *m9<r/>
 @cm<r/>
-そこは茨城です。[l]<r/>
+This is Saitama.[l]<r/>
 @jump storage="maptest.ks" target="*start"<r/>
 <r/>
 *m10<r/>
 @cm<r/>
-そこは千葉です。[l]<r/>
+This is Chiba.[l]<r/>
 @jump storage="maptest.ks" target="*start"<r/>
 <r/>
 *m12<r/>
 @cm<r/>
-そこは東京です。[l]<r/>
+This is Tokyo.[l]<r/>
 @jump storage="maptest.ks" target="*start"<r/>
 <r/>
 *m2<r/>
 @cm<r/>
-そこは神奈川です。[l]<r/>
+This is Kanagawa.[l]<r/>
 @jump storage="maptest.ks" target="*start"<r/>
 <r/>
 *m3<r/>
 @cm<r/>
-そこは山梨です。[l]<r/>
+This is Yamanashi.[l]<r/>
 @jump storage="maptest.ks" target="*start"<r/>
 <r/>
 *m1<r/>
 @cm<r/>
-そこは静岡です。[l]<r/>
+This is Nagano.[l]<r/>
 @jump storage="maptest.ks" target="*start"<r/>
 <r/>
 *m4<r/>
 @cm<r/>
-そこは長野です。[l]<r/>
+This is Shizuoka.[l]<r/>
 @jump storage="maptest.ks" target="*start"<r/>
 <r/>
 *m5<r/>
 @cm<r/>
-そこは新潟です。[l]<r/>
+This is Niigata.[l]<r/>
 @jump storage="maptest.ks" target="*start"<r/>
 <r/>
 *m6<r/>
 @cm<r/>
-そこは福島です。[l]<r/>
+This is Fukushima.[l]<r/>
 @jump storage="maptest.ks" target="*start"<r/>
 </bq>
 <r/>
 <note>
-　(非表示、表裏に限らず) KAG 内にクリッカブルマップを使用した画像があると、キーボードのカーソルキーでマウスの移動をエミュレーションするモードに切り替わります。そのため edit タグのようなキーボードを用いるほかの機能が正常に使用できなくなります。<r/>
-　使い終わったら mapdisable タグで無効化するか、あるいはそのレイヤに別の画像を読み込んだり freeimage タグを使用したりしてクリッカブルマップを破棄すれば、通常のキーボードの操作モードに戻ります。
+    When an image with a clickable map is active in KAG (whether visible or not), it switches to a mode that emulates mouse movement with keyboard cursor keys. This means you cannot use other keyboard-dependent features like the edit tag during this time.<r/>
+    The normal keyboard mode returns when you either disable the map with the mapdisable tag, or destroy the clickable map by using the freeimage tag or loading a different image on that layer.
 </note>
 </para>
 
 </doc>
-

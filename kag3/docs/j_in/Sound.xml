@@ -1,25 +1,25 @@
-<?xml version="1.0" encoding="Shift_JIS" ?>
+<?xml version="1.0" encoding="ISO-8859-1" ?>
 <doc>
-<title>効果音を使おう</title>
+<title>Using Sound Effects</title>
 
 <para>
-<ptitle>効果音を鳴らすには</ptitle>
-　効果音は Wave (PCM) 系である必要があります。つまり WAV か、あるいはプラグインで再生可能になる形式です。<r/>
+<ptitle>Playing Sound Effects</ptitle>
+Sound effects must be in Wave (PCM) format. Either WAV files or formats that can be played through plugins can be used.<r/>
 <r/>
-　効果音再生は特に難しくなく、基本的には playse と stopse と ws の3つのタグを使います ( そのほか、効果音のフェードなどの機能を持ったタグなどがあります )。<r/>
-　たとえば、se1.wav を鳴らしたい場合は、以下のように記述します。<r/>
+For sound effect playback, there are basically three main tags: playse, stopse, and ws (there are also other tags and functions for features like sound effect fading).<r/>
+For example, to play se1.wav, write it like this:<r/>
 <r/>
 
 <bq>
 [wait time=200]<r/>
-*start|スタート<r/>
+*start|Start<r/>
 [cm]<r/>
-効果音を鳴らします。[l]<r/>
+Playing sound effect.[l]<r/>
 <b>[playse storage=se1.wav][ws]</b><r/>
 </bq>
-　playse タグで効果音を再生させるのですが、playse タグは効果音の再生の終了を待たないので、ws タグで 効果音の再生の終了を待ちます。<r/>
-　playse タグで <tt>loop=true</tt> とするとループ再生をする事ができます。この場合は ws タグで待つことはできません。<r/>
-　また、stopse タグは、効果音の再生を終わらせます。<r/>
+While the playse tag starts playing the sound effect, it doesn't wait for playback to finish, so the ws tag is used to wait for the sound effect to finish playing.<r/>
+Setting <tt>loop=true</tt> in the playse tag enables loop playback. In this case, you cannot wait with the ws tag.<r/>
+Also, the stopse tag stops sound effect playback.<r/>
 </para>
 
 </doc>

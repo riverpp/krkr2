@@ -1,102 +1,97 @@
-<?xml version="1.0" encoding="Shift_JIS" ?>
+<?xml version="1.0" encoding="ISO-8859-1" ?>
 <doc>
-<title>KAG 3 未満からの移植と KAG 3 での新機能</title>
+<title>Migration from Old KAG to KAG 3 and New Features in KAG 3</title>
 <para>
-<ptitle>KAG 3 未満からの移植について</ptitle>
-　KAG 3 はそれまでの KAG を新しく書き直したもので、シナリオレベルでの互換性はありますが、細かい差異もあります。<r/>
-　もっとも大き変更は、シナリオファイル中の改行を無視するようになったことですが、これは Config.tjs の <tt>global.ignoreCR</tt> を <tt>false</tt> に指定することで旧 KAG の動作と同じにすることができます。<r/>
-　また、quake タグの time 属性は、KAG 3 では ms 単位になりました。KAG 3 未満の、文字数単位にしたい場合は Config.tjs の <tt>defaultQuakeTimeInChUnit</tt> を <tt>true</tt> に設定してください。<r/>
+<ptitle>About Migration to KAG 3</ptitle>
+Since KAG 3 is a new implementation of KAG, while maintaining scenario-level compatibility, there are some differences.<r/>
+One major change is that line breaks in scenario files are now ignored, but you can restore the old KAG behavior by setting <tt>global.ignoreCR</tt> to <tt>false</tt> in Config.tjs.<r/>
+Also, the time parameter in the quake tag is now in milliseconds in KAG 3. If you want to use character units like in previous versions, set <tt>defaultQuakeTimeInChUnit</tt> to <tt>true</tt> in Config.tjs.<r/>
 <r/>
-　KAG 3 未満に比べて、文字が大きめに出てきます。小さめのフォントを指定してみてください。<r/>
+Text appears slightly larger compared to previous KAG versions. Try specifying a smaller font size.<r/>
 <r/>
-　セーブデータの保存場所は、デフォルトで実行可能ファイルのあるフォルダ以下の savedata フォルダになっていますのでご注意ください。<r/>
+Please note that by default, save data is now stored in the savedata folder under the executable file's directory.<r/>
 <r/>
-　タグもいくつかの相違点があります。<r/>
+There are some differences in tag behavior:<r/>
 <ul>
-  <li>emb タグに zenkaku 属性がない</li>
-  <li>playvideo の usesound 属性廃止</li>
-  <li>clearsysvar はシステム変数をクリアするだけ</li>
+  <li>emb tag no longer has zenkaku parameter</li>
+  <li>playvideo and usesound are deprecated</li>
+  <li>clearsysvar only clears system variables</li>
 </ul>
 <r/>
-　他にも動作が違うタグがあるかもしれませんが、おそらく KAG 3 のバグかと思います。変に思ったら作者までご一報ください。
+There might be other tags that behave differently, but these are likely bugs in KAG 3. Please report if you find anything strange.
 <r/>
-　プラグインの扱いの違いについては <link href="Prepare"/> の「プラグインについて」をご覧ください。<r/>
+For plugin compatibility differences, please see "About Plugins" in <link href="Prepare"/>.<r/>
 </para>
 
 <para>
-<ptitle>KAG 3 の新機能</ptitle>
+<ptitle>New Features in KAG 3</ptitle>
 <dl>
-<dt>KAG のシナリオ解析部を吉里吉里２本体に内蔵</dt>
+<dt>KAG Scenario Parser Built into Kirikiri 2 Core</dt>
 <dd>
-　吉里吉里２本体には KAG のシナリオを解析するための機能が組み込まれまし
-た。KAG 2.x では TJS スクリプトで処理していましたが、これを本体に内蔵す
-ることによってシナリオの解析速度が飛躍的に高速化されました。
+The KAG scenario parsing functionality is now built into the Kirikiri 2 core.
+While in KAG 2.x this was written in TJS script, incorporating it into the core
+has significantly improved scenario parsing speed.
 </dd>
 
-<dt>ほとんどのタグに cond 属性が使える</dt>
+<dt>Most Tags Can Use cond Parameter</dt>
 
 <dd>
-　cond 属性はほとんどすべてのタグに使用でき、cond="式" で指定した式が真
-の場合だけ、そのタグを実行するようになります。たとえば、<r/>
+The cond parameter can be used with almost all tags, and when specified as cond="expression",
+the tag will only execute when the condition is true. For example,<r/>
 <bq>
 [jump cond="f.flag1==0" target=*loop]<r/>
 </bq>
-と記述すると、f.flag1 が 0 の時だけ *loop というラベルにジャンプする、と
-いう意味になります。
+means jump to the label *loop only when f.flag1 is 0.
 </dd>
 
-<dt>アニメーション情報ファイルが asq から asd になった</dt>
+<dt>Animation Files Changed from asq to asd</dt>
 <dd>
-　より汎用性の高い形式である asd 形式になりました。配布ファイル中の
-asq2asd は asq ファイルを asd ファイルに変換するスクリプトです。asd ファ
-イルの記述については AnimationLayer.tjs 内をご覧ください。<r/>
-　また、アニメーションセグメントと呼ばれる方法を使って、一つの画像に対し
-て複数のアニメーションを同時に実行できます。
+Changed to asd format, which is a more versatile text format. The distribution includes
+asq2asd script to convert asq files to asd files. For asd file format details,
+please refer to AnimationLayer.tjs.<r/>
+Also, using what's called animation segments, you can now execute multiple
+animations simultaneously on the same image.
 </dd>
 
-<dt>メッセージ履歴が縦書き表示できるようになった</dt>
+<dt>Message Layer Supports Vertical Text Display</dt>
 
 <dd>
-　横書きに加えて縦書き表示ができるようになりました。Config.tjs で設定し
-ます。
+Now supports vertical text display depending on the content. Configure in Config.tjs.
 </dd>
 
-<dt>セーブデータの暗号化が可能に</dt>
+<dt>Save Data Compression Available</dt>
 
 <dd>
-　セーブデータに簡単な暗号化をかけることができるようになりました。
-Config.tjs で設定します。
+Simple compression can now be applied to save data. Configure in Config.tjs.
 </dd>
 
-<dt>UNICODE ファイルへの対応</dt>
+<dt>UNICODE File Support</dt>
 
 <dd>
-　吉里吉里２が出力するテキストファイルは基本的に UNICODE ( UTF-16 ) です。<r/>
-　セーブデータなどは UNICODE で出力されます。UNICODE を扱うことのできる
-テキストエディタを用意しておくと便利かと思います。<r/>
-　また、吉里吉里２へ読み込ませるファイル ( KAG シナリオなど ) として UNICODE 形式の
-テキストファイルを読み込ませることが可能になりました。
+Text files output by Kirikiri 2 are basically UNICODE (UTF-16).<r/>
+Save data and other files are output in UNICODE. It's recommended to have a text
+editor that can handle UNICODE.<r/>
+Files read into Kirikiri 2 (like KAG scenarios) can now also be UNICODE format
+text files.
 </dd>
 
-<dt>ムービー形式として MPEG に正式対応</dt>
+<dt>Movie Playback Now Supports MPEG</dt>
 
 <dd>
-　MPEG を再生できるようになりました。アーカイブ内に MPEG ファイルを納め
-ても再生できます。<r/>
-　ただし、ムービーを再生するには、吉里吉里２本体に付属している
-krmovie.dll を、吉里吉里２本体と同じフォルダにおいておく必要があります。<r/>
-　また、ムービーを再生するために DirectX8 以降が OS にインストールされて
-いる必要があります(DirectX9以降を推奨します)。
+MPEG playback is now supported. MPEG files can be played even when stored in archives.<r/>
+However, to play movies, krmovie.dll must be in the same folder as the Kirikiri 2
+executable.<r/>
+Also, DirectX 8 or later must be installed on the OS to play movies (DirectX 9 or later
+recommended).
 </dd>
 
-<dt>レンダリング済みフォントへの対応</dt>
+<dt>Pre-rendered Font Support</dt>
 
 <dd>
-　レンダリング済みフォントを使用することによって、OS や環境によるフォント
-の違いや、字詰めの問題を回避できます。また、作成者側の環境でのフォントデ
-ータを用いるため、プレーヤの環境にないフォントや外字を使用することができ
-ます。<r/>
-　レンダリング済みフォントを作成するには krkrfont.exe を使います。
+Using pre-rendered fonts can eliminate font differences between OS versions and
+resolve issues with thin characters. Also allows using fonts that aren't installed
+on the player's system by using the creator's font data.<r/>
+Use krkrfont.exe to create pre-rendered fonts.
 </dd>
 </dl>
 </para>

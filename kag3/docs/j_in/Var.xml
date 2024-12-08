@@ -1,189 +1,188 @@
-<?xml version="1.0" encoding="Shift_JIS" ?>
+<?xml version="1.0" encoding="ISO-8859-1" ?>
 <doc>
-<title>変数を使おう</title>
+<title>Using Variables</title>
 
 <para>
-<ptitle>変数とは</ptitle>
+<ptitle>What are Variables</ptitle>
 <r/>
-　KAG における変数とは、<r/>
+Variables in KAG are:<r/>
 <r/>
-・なにかを記憶させておく物<r/>
+? Places to store any kind of information<r/>
 <r/>
-　にすぎません。<r/>
+That's what they are.<r/>
 <r/>
-　ただし、KAG は、<kw>TJS2</kw> というスクリプト言語をベースにしているシステムであり、KAG における変数とは TJS2 の変数そのものですのでかなり強力な機能を発揮します。<r/>
+However, KAG is a system based on a scripting language called <kw>TJS2</kw>, and variables in KAG are TJS2 variables themselves, so they have quite powerful capabilities.<r/>
 <r/>
-　ここはチュートリアルですので、基本的な使い方のみを述べますが、さらに KAG 内部のメソッドやプロパティにアクセスするとか、吉里吉里の機能を直接使うとなると、ほぼ<b>泥沼</b>状態なので、はまりやすい性格の方はご注意を(笑)。<r/>
+Since this is a tutorial, I'll only explain basic usage, but when accessing methods and properties of KAG itself, or directly using TyranoScript functions, it becomes quite <b>dangerous</b>, so beginners should be careful (laugh).<r/>
 </para>
 
 <para>
-<ptitle>変数の種類</ptitle>
-　KAG の変数の種類には 3 つあります。栞のセーブとロードとともにセーブ・ロードされる普通の「<kw>ゲーム変数</kw>」と、栞のセーブ・ロードとは関係なしに、常に値を保持できる「<kw>システム変数</kw>」、一時的に値をおいておくための「<kw>一時変数</kw>」があります。「システム変数」は、吉里吉里/KAG を終了させて、また同じゲームを起動すれば値を保持しています。「一時変数」は吉里吉里を終了させると内容は失われてしまいますし、栞にも値は保存されません。<r/>
+<ptitle>Types of Variables</ptitle>
+There are 3 types of variables in KAG. "<kw>Game variables</kw>" that are saved and loaded together with save data, "<kw>System variables</kw>" that retain values independently of save/load operations, and "<kw>Temporary variables</kw>" for temporarily storing values. "System variables" retain their values even after closing and restarting TyranoScript/KAG. "Temporary variables" are cleared when TyranoScript closes, and their values are not saved to saves.<r/>
 <r/>
-　ゲーム変数には <kw>f</kw> という名前が、システム変数には <kw>sf</kw> という名前が、一時変数には <kw>tf</kw> という名前が与えられてます。<r/>
+Game variables have the prefix <kw>f</kw>, system variables have <kw>sf</kw>, and temporary variables have <kw>tf</kw>.<r/>
 <r/>
-　また、KAG ( というか TJS2 ) の変数には、文字列でも数値でも入れることができます ( 文字列や数値などの、変数の中に入れるものの種類を「<kw>型</kw>」といいます )。変数には(ほぼ)自由な名前を付けることができ、変数の数に制限はありませんし、文字列の長さに制限はありません。数値は実数も扱うことができます。<r/>
-　KAG 3.x からは「配列」と「辞書配列」も扱うことができるようになりました ( ここでは説明しません )。<r/>
+Also, KAG (or rather TJS2) variables can store both strings and numbers (the type of data stored in a variable is called its "<kw>type</kw>"). Variables can have (almost) any name, there's no limit to the number of variables, and no limit to string length. Values can be changed at any time.<r/>
+From KAG 3.x onward, you can also use "arrays" and "dictionaries" (not covered here).<r/>
 <note>
-　TJS2 の整数型は 64bit、実数型は double ( 倍精度 ) の精度を持っています。<r/>
-　文字列はゼロ終結 UNICODE 文字列を扱い、長さ制限はありません。<r/>
+TJS2's integer type is 64bit, and floating-point type is double precision.<r/>
+Strings are internally UNICODE, with no length limitation.<r/>
 </note>
 </para>
 
 <para>
-<ptitle>変数として使用可能な名前</ptitle>
-　吉里吉里 / KAG では、変数はほぼ自由に名前を付けることができます。しかし、自由といっても吉里吉里 / KAG が使用可能な変数の名前にはルールがあります。<r/>
+<ptitle>Valid Variable Names</ptitle>
+In TyranoScript/KAG, you can name variables almost freely. However, even with this freedom, there are rules for variable names that TyranoScript/KAG can use.<r/>
 <r/>
 <dl>
-<dt>変数名には半角英数と全角文字、_ (アンダーバー) を使うことができる</dt>
+<dt>Variable names can use half-width alphanumeric characters, full-width characters, and _ (underscore)</dt>
 <dd>
-　<b><tt>abc&amp;def</tt></b> や、<b><tt>a-z</tt></b> のような変数名は使用できません。<r/>
-　<b><tt>final_count</tt></b> のようにアンダーバーを含んだり、<b><tt>主人公の名前</tt></b> のように全角文字を使用することができます(全角の記号はすべて使用可能です)。
+Variable names like <b><tt>abc&amp;def</tt></b> or <b><tt>a-z</tt></b> cannot be used.<r/>
+You can use underscores like <b><tt>final_count</tt></b> or full-width characters like <b><tt>Player Name</tt></b> (all full-width characters are usable).
 </dd>
-<dt>ただし 変数の名頭に半角の数字が来ることはできない</dt>
+<dt>Variable names cannot start with half-width numbers</dt>
 <dd>
-　<b><tt>2friends</tt></b> や <b><tt>3com</tt></b> のような変数名は使用できません ( 全角の数字が先頭に来るのであれば OK です)。
+Variable names like <b><tt>2friends</tt></b> or <b><tt>3com</tt></b> cannot be used (full-width numbers at the start are OK).
 </dd>
 </dl>
 <r/>
-　これらの変数名の前に、ゲーム変数であれば <b><tt>f.</tt></b> を、システム変数であれば <b><tt>sf.</tt></b> を、一時変数であれば <b><tt>tf.</tt></b> を付けます。
+Before these variable names, add <b><tt>f.</tt></b> for game variables, <b><tt>sf.</tt></b> for system variables, or <b><tt>tf.</tt></b> for temporary variables.
 <r/>
-　たとえば、以下のような変数名が考えられます。<r/>
+For example, consider these variable names:<r/>
 <r/>
-<tt> <b>f.flag1  sf.username  sf.playcount  tf.i  f.enokazu  f.変数その１ </b>...</tt><r/>
+<tt><b>f.flag1  sf.username  sf.playcount  tf.i  f.enokazu  f.variable1</b>...</tt><r/>
 <r/>
-　また、初めて使う変数はすべて数値としては 0 で、文字列としては '' ( 空文字列 ) という、すこし特殊な状態にあります。一般的には、変数は最初に値をいれてから使ってください。<r/>
+Also, all newly created variables are initialized as 0 for numbers and '' (empty string) for strings. Generally, it's best to assign values to variables before using them.<r/>
 <r/>
 <note>
-　<b>f</b> や <b>sf</b> や <b>tf</b> の他に <b>kag</b> というのを見かけるかも知れませんが、<b>kag</b> は KAG のシステム内部に直接アクセスするときに使われる物です。<r/>
+You might notice <b>f</b>, <b>sf</b>, <b>tf</b>, and <b>kag</b>. <b>kag</b> is used for directly accessing KAG's system functions.<r/>
 </note>
 </para>
 
 <para>
-<ptitle>変数への代入</ptitle>
-　そうしたら、変数に値を代入するには、通常 <kw>eval</kw> タグを使います。たとえば、<tt>f.flag1</tt> に 1000 を代入したい場合・・・<r/>
+<ptitle>Assigning to Variables</ptitle>
+To assign values to variables, normally use the <kw>eval</kw> tag. For example, to assign 1000 to <tt>f.flag1</tt>...<r/>
 <bq>
 [eval exp="<b>f.flag1 <kw>=</kw> 1000</b>"]<r/>
 </bq>
-　とします。つまり、変数名の後に = を書き、その後に代入したい数値を指定します。<r/>
+Place the variable name, followed by =, then specify the value to assign.<r/>
 <r/>
-　文字列を代入したい場合は、<r/>
+For assigning strings:<r/>
 <bq>
-[eval exp="<b>f.変数その１ = '文字列'</b>"]<r/>
+[eval exp="<b>f.variable1 = 'string'</b>"]<r/>
 </bq>
-　とします。つまり、 = の後に '' でくくった文字列を指定します ( シングルクォーテーションとダブルクォーテーションに注意してください )。<r/>
-　文字列用の変数や、数値用の変数というように、変数に入れるものの型によって名前が変わると言うことはありません。入れたものの型になります。<r/>
+After =, specify the string enclosed in '' (pay attention to single and double quotes).<r/>
+There's no need to declare variables as string variables or number variables. The type is determined by the assigned value.<r/>
 <r/>
-　ほかの変数に内容をコピーする場合は、<r/>
+To copy contents from another variable:<r/>
 <bq>
 [eval exp="<b>f.flag1 = f.flag2</b>"]<r/>
 </bq>
 <r/>
-のようにします。<r/>
+This is how it's done.<r/>
 </para>
 
 <para>
-<ptitle>変数の演算</ptitle>
+<ptitle>Variable Calculations</ptitle>
 <r/>
-　計算をしたい場合は、<r/>
+To perform calculations:<r/>
 <bq>
 [eval exp="<b>f.flag1 = f.flag1 + 1</b>"]<r/>
 </bq>
-　等とします。この例では、f.flag1 に 1 を足した物を f.flag1 に代入しています ( つまり f.flag1 に 1 を足している )。<r/>
-　exp 属性には TJS2 における「<kw>式</kw>」を書きます。<r/>
-　式には、<kw>*</kw>(乗算) <kw>/</kw>(除算) <kw>+</kw>(加算) <kw>-</kw>(減算) のような普通の<kw>演算子</kw>は普通に使えます ( 数学の式のように優先順位もあります )。(  )  カッコも普通に使えます。<r/>
-　たとえば、<r/>
+In this example, 1 is added to f.flag1 and stored back in f.flag1 (incrementing f.flag1 by 1).<r/>
+The exp attribute accepts TJS2 "<kw>expressions</kw>".<r/>
+You can use <kw>operators</kw> like <kw>*</kw>(multiplication) <kw>/</kw>(division) <kw>+</kw>(addition) <kw>-</kw>(subtraction) (with operator precedence like in mathematics). Parentheses (  ) can also be used.<r/>
+For example:<r/>
 <bq>
 [eval exp="<b>f.flag1 = f.flag1 + f.flag2 * f.flag3</b>"]<r/>
 </bq>
-　とすると、f.flag2 と f.flag3 をかけたものに f.flag1 が加算されたものが f.flag1 に入ります。<r/>
+This multiplies f.flag2 and f.flag3, adds the result to f.flag1, and stores it back in f.flag1.<r/>
 <r/>
-　除算を行うときは / (スラッシュ) を用います。<r/>
+For division, use / (slash).<r/>
 <bq>
 [eval exp="<b>f.flag1 = f.flag2 / f.flag3</b>"]<r/>
 </bq>
-　この場合は f.flag2 を f.flag3 で割った物が f.flag1 に入ります。<r/>
-　しかし、割り切れなかった場合は f.flag1 が実数になってしまうので、あまった分を切り捨てて整数の結果を得たい場合は、整数除算演算子 \ を用いて、<r/>
+In this case, f.flag2 is divided by f.flag3 and stored in f.flag1.<r/>
+However, if you want integer division without decimals, f.flag1 would become a decimal number. For integer division results, use the integer division operator \ like this:<r/>
 <bq>
 [eval exp="<b>f.flag1 = f.flag2 \ f.flag3</b>"]<r/>
 </bq>
-　と記述します。<r/>
 <r/>
 <r/>
-　あと、文字列同士のつなぎ合わせにも + 演算子を使います。<r/>
+Also, the + operator is used to concatenate strings:<r/>
 <r/>
 <bq>
 [eval exp="f.flag2 = 'hoge'"]<r/>
 [eval exp="f.flag3 = 'une'"]<r/>
 [eval exp="<b>f.flag1= f.flag2 + f.flag3</b>"]<r/>
 </bq>
-　上記の例では、 f.flag1 には 'hogeune' という文字列が入ります。<r/>
+In the above example, f.flag1 will contain the string 'hogeune'.<r/>
 <r/>
 <note>
-　TJS2 の文法は JavaScript (ECMAScript) を参考にして作られたため、これによく似ています ( 完全に同じではありません )。<r/>
-　通常の算術演算の振る舞いはほぼ同じです。文字列の扱いや文字列と数値の混合演算もほぼ同じです。<r/>
+TJS2's syntax was created with reference to JavaScript (ECMAScript), so they're quite similar (though not identical).<r/>
+Normal arithmetic operations behave similarly. String concatenation and number addition also work similarly.<r/>
 </note>
 </para>
 
 <para>
-<ptitle>文字列と数値</ptitle>
-　KAG の変数は、文字列用の変数、数値用の変数というように変数が分かれることも、名前が変わることもありません。<r/>
-　文字列を入れればその変数は文字列が、数値をいれればその変数は数値の入った変数になります。<r/>
-　厄介なのはこれらをまぜて使うときです。+ 演算子にはいろいろな意味とその使い方があります(^^;<r/>
+<ptitle>Strings and Numbers</ptitle>
+KAG variables don't need to be declared as string variables or number variables, nor do they need to change names.<r/>
+If you assign a string, that variable becomes a string variable; if you assign a number, it becomes a number variable.<r/>
+This becomes important when you use them. The + operator has different meanings and uses(^^;<r/>
 <r/>
-　文字列同士のつなぎ合わせには + 演算子、数値の加算にも + 演算子を使いますが、文字列と数値を足そうとしたときは、どちらか一方が文字列ならば、片方の数値は文字列に変換されてつなぎ合わさるというルールがあります。<r/>
+While the + operator is used for both string concatenation and number addition, when adding strings and numbers together, one of them must be converted to match the other's type for concatenation to work.<r/>
 <r/>
-　たとえば、f.flag2 に 'hoge' という文字列、f.flag3 に 10 という数値が入っていた場合、<r/>
+For example, if f.flag2 contains the string 'hoge' and f.flag3 contains the number 10:<r/>
 <bq>
-[eval exp="<b>f.flag1 = f.flag2 + f.flag2</b>"]<r/>
+[eval exp="<b>f.flag1 = f.flag2 + f.flag3</b>"]<r/>
 </bq>
-　では、f.flag1 には 'hoge10' という文字列が入ります。
+f.flag1 will contain the string 'hoge10'.
 <r/>
 <r/>
-　また、どうしても文字列を数値に変換したい場合があると思います。たとえば [input] タグで入力したものを数値として扱いたいときなどですが、この場合にも + 演算子を使います。+ 演算子は、数値にしたい変数の前につけて使います。たとえば、f.flag1 に '20' という文字列が入っていたとして、<r/>
+Sometimes you might want to convert a string to a number. For instance, when processing numeric input from an [input] tag, you can use the unary + operator. The + operator is used before the variable you want to convert to a number. For example, if f.flag1 contains the string '20':<r/>
 <r/>
 <bq>
 [eval exp="<b>f.flag1 = +f.flag1</b>"]<r/>
 </bq>
 <r/>
-　と書けば、f.flag1 の内容は数値に変換され、再び f.flag1 に入ります。f.flag1 は数値の 20 になります。<r/>
+This converts f.flag1's content to a number and stores it back in f.flag1. f.flag1 becomes the number 20.<r/>
 <r/>
 <note>
-　+ 演算子が続く場合は注意しなければなりません。f.flag3 を数値にして f.flag2 に加算するなどという式を書く場合、<tt>f.flag2++f.flag3</tt> という書き方ではエラーになります ( ++ という別の演算子があるため )。スペースを空けて <tt>f.flag2+ +f.flag3</tt> と書いてください。<r/>
+Be careful when using the + operator. For operations like converting f.flag3 to a number and adding it to f.flag2, writing <tt>f.flag2++f.flag3</tt> will cause an error (because ++ is a different operator). Please write it with spaces like <tt>f.flag2+ +f.flag3</tt>.<r/>
 </note>
 <note>
-　単項の + 演算子 ( 上記例の <tt>f.flag1 = +f.flag1</tt> のような場合の + ) は、文字列がもし小数表記を含む場合 ( 0.3 とか ) は、結果が実数になります。整数のみを得たい場合は ( 小数点以下を切り捨ててしまいたい場合は )、int + と書けば OK です。たとえば上記例でいけば、<tt>f.flag1 = int +f.flag1</tt> となります。<r/>
+The unary + operator (like in <tt>f.flag1 = +f.flag1</tt>) might give unexpected results with strings containing decimal points (like 0.3). To get integers only (truncating decimal places), you can use int +. For example: <tt>f.flag1 = int +f.flag1</tt>.<r/>
 </note>
 </para>
 
 <para>
-<ptitle>変数の削除・そのほか</ptitle>
-　変数を削除するには <kw>delete</kw> を用います。<b>delete 変数名</b> でその変数を削除することができます。<r/>
-　たとえば、<tt>f.flag1</tt> を削除したい場合は、<r/>
+<ptitle>Deleting Variables and Other Features</ptitle>
+To delete a variable, use <kw>delete</kw>. <b>delete variablename</b> will delete that variable.<r/>
+For example, to delete <tt>f.flag1</tt>:<r/>
 <bq>
 [eval exp="<b>delete f.flag1</b>"]<r/>
 </bq>
-　とします。<r/>
 <r/>
-　また、<kw>clearvar</kw> タグは、ゲーム変数をすべて削除します。<r/>
 <r/>
-　そのほか、TJS2 で使用可能な演算子や math オブジェクトによる三角関数等の計算 ( そんなの必要かはわかりませんが ) などをすべて使えます。詳しくは吉里吉里 SDK の TJS2 ヘルプを参照してください。<r/>
+Also, the <kw>clearvar</kw> tag deletes all game variables.<r/>
 <r/>
-　<kw>,</kw> (カンマ)を使って複数の式を一つの eval タグ内に書くことができます。<r/>
-たとえば、<r/>
+Additionally, all operators available in TJS2 and the math object's trigonometric functions (though you might not need them) can be used. For details, please refer to the TyranoScript SDK's TJS2 help.<r/>
+<r/>
+You can write multiple statements in one eval tag using <kw>,</kw> (comma).<r/>
+For example:<r/>
 <bq>
 [eval exp="f.first=true"]<r/>
 [eval exp="f.flag0=0"]<r/>
 [eval exp="f.flag1=0"]<r/>
 </bq>
-　というような式は、以下のように簡潔に書くことができます。<r/>
+Can be written more concisely as:<r/>
 <bq>
 [eval exp="f.first=true<b>,</b> f.flag0=0<b>,</b> f.flag1=0"]<r/>
 </bq>
+
+Also, using the <kw>iscript</kw> tag, you can write multiple eval statements more concisely.<r/>
 <r/>
-　また、<kw>iscript</kw> タグを用いると、連続した eval タグを簡潔に書くことができます。<r/>
-<r/>
-　たとえば、上の式は、<r/>
+For example, the above can be written as:<r/>
 <r/>
 <bq>
 [iscript]<r/>
@@ -193,70 +192,69 @@ f.flag1=0<b>;</b><r/>
 [endscript]<r/>
 </bq>
 <r/>
-　と書くことができます。各式のあとに ; ( セミコロン ) を忘れないでください。<r/>
-　このように , (カンマ) や iscript を使うと、使わない場合に比べて非常に高速になります。<r/>
+Don't forget the ; (semicolon) after each statement.<r/>
+Using commas or iscript like this makes things much more efficient than writing them separately.<r/>
 </para>
 
 <para>
-<ptitle>変数の内容を表示する</ptitle>
-　変数の内容をシナリオ中に表示したい場合は、<kw>emb</kw> タグを使います。<r/>
-　たとえば、以下のようになります。<r/>
+<ptitle>Displaying Variable Contents</ptitle>
+To display variable contents in the scenario, use the <kw>emb</kw> tag.<r/>
+For example:<r/>
 <bq>
 [wait time=200]<r/>
 *start<r/>
 [cm]<r/>
-[eval exp="f.数値=200"][eval exp="f.mojiretu='文字列'"]<r/>
-f.数値 の内容 : [emb exp="f.数値"][l][r]<r/>
-f.mojiretu の内容 : [emb exp="f.mojiretu"][l][r]<r/>
+[eval exp="f.number=200"][eval exp="f.text='string'"]<r/>
+f.number contents: [emb exp="f.number"][l][r]<r/>
+f.text contents: [emb exp="f.text"][l][r]<r/>
 </bq>
 <r/>
-　実行すると、<r/>
+When run, it will display:<r/>
 <r/>
-f.数値 の内容 : 200<r/>
-f.mojiretu の内容 : 文字列<r/>
+f.number contents: 200<r/>
+f.text contents: string<r/>
 <r/>
-　と表示されるはずです。<r/>
+This is how it's displayed.<r/>
 </para>
 
 <para>
-<ptitle>エンティティ</ptitle>
-　エンティティというのは、変数の内容で、他のタグの属性の値を置き換える機能です。<r/>
-　属性の値に、 <kw>&amp;</kw> に続けて変数名を書きます。<r/>
+<ptitle>Entities</ptitle>
+Entities are a feature that replaces tag parameter values with variable contents.<r/>
+Add <kw>&amp;</kw> before the variable name in the parameter value.<r/>
 <bq>
 [wait time=200]<r/>
 *start<r/>
 [cm]<r/>
 [eval exp="f.fontsize=60"]<r/>
-[font size="&amp;f.fontsize"]サイズ 60 の文字[resetfont]<r/>
+[font size="&amp;f.fontsize"]Size 60 text[resetfont]<r/>
 </bq>
 <r/>
-　この場合は、f.fontsize に代入された 60 という数値で、font タグの size 属性の値を置き換えています。<r/>
+In this case, the value 60 assigned to f.fontsize replaces the font tag's size parameter value.<r/>
 <r/>
-　実際はエンティティは、&amp; の後に書かれた属性の値の内容を、TJS2 式として実行して、その結果で属性の値を置き換える機能です。従って、&amp; の後には TJS2 式を書くことが出来ます。<r/>
+Actually, entities work by executing the text after &amp; as TJS2 code and replacing the parameter value with the result. Therefore, you can write any TJS2 expression after &amp;.<r/>
 </para>
 
-
 <para>
-<ptitle>条件の判断</ptitle>
-　変数がある値と同じであるかを判断するためには以下の演算子を使うことができます。<r/>
+<ptitle>Conditional Checks</ptitle>
+To check if a variable equals a value, you can use these operators:<r/>
 <bq>
-a<kw>==</kw>b    a が b と等しいときに真(true)<r/>
-a<kw>!=</kw>b    a が b と等しくない場合に真(true)<r/>
-a<kw>&lt;</kw>b     a が b より少ない場合に真(true)<r/>
-a<kw>&gt;</kw>b     a が b より大きい場合に真(true)<r/>
+a<kw>==</kw>b    true when a equals b<r/>
+a<kw>!=</kw>b    true when a does not equal b<r/>
+a<kw>&lt;</kw>b     true when a is less than b<r/>
+a<kw>&gt;</kw>b     true when a is greater than b<r/>
 </bq>
 <r/>
-　このほか >= や &lt;= (同じかより大きい、同じかより小さい) も使うことができます。<r/>
-　このような条件判断は主に if タグで使います。<r/>
+You can also use >= and &lt;= (greater than or equal to, less than or equal to).<r/>
+These conditional checks are typically used with the if tag.<r/>
 <r/>
-　<kw>if</kw> タグは、exp で指定した式が 真(true) を示した場合にのみ endif タグまでにある文章やタグを実行します。<r/>
+The <kw>if</kw> tag only executes the text and tags between it and the endif tag when the exp expression evaluates to true.<r/>
 <r/>
 <bq>
-[if exp="f.flag1<b>==</b>2"]f.flag1 は 2 です[endif]<r/>
-[if exp="f.flag1<b>!=</b>2"]f.flag1 は 2 ではありません[endif]<r/>
+[if exp="f.flag1<b>==</b>2"]f.flag1 is 2[endif]<r/>
+[if exp="f.flag1<b>!=</b>2"]f.flag1 is not 2[endif]<r/>
 </bq>
 <r/>
-　変数は使い方次第で非常に強力な機能となります。<r/>
+Variables become a very powerful feature when used properly.<r/>
 </para>
 
 </doc>

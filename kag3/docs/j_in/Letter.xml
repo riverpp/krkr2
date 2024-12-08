@@ -1,165 +1,165 @@
-<?xml version="1.0" encoding="Shift_JIS" ?>
+<?xml version="1.0" encoding="ISO-8859-1" ?>
 <doc>
 
-<title>文字を表示しよう</title>
+<title>Let's Display Text</title>
 
 <para>
-<ptitle>どんなスタイルにするか</ptitle>
-　おおよそこの世の中の文字ベースのアドベンチャーゲームは、メッセージ枠を表示してそこに文字を表示するタイプと、画面全面に文字を表示するタイプ(ヴィジｏアルノベルタイプ)に分かれると思いますが、文字の表示場所が違うだけで大差ないと思われるので、KAG はどちらの方式でもできるようになっています。<r/>
+<ptitle>Which Style to Use</ptitle>
+Text-based adventure games in this era can be divided into two types: those that display messages in a message box while showing text, and those that display text across the entire screen (Visual Novel type). Since the main difference is just the display location, KAG is designed to handle both styles.<r/>
 <descimg>
-<dititle>二つの方式</dititle>
+<dititle>Horizontal Text</dititle>
 <img src="UsingVN.jpg"/><img src="UsingFrame.jpg"/>
 </descimg>
-　また縦書きもできます。<r/>
+Vertical writing is also possible.<r/>
 <descimg>
-<dititle>縦書き表示</dititle>
+<dititle>Vertical Display</dititle>
 <img src="Vertical.jpg"/>
 </descimg>
-　デフォルトでは横書きのいわゆるヴィジュアルノベルタイプの表示を行うようになっています。詳しくは Config.tjs を参照してください。このチュートリアルではこのデフォルトのヴィジュアルノベルタイプの表示を前提に話を進めます。<r/>
+By default, it's set to display in the more common Visual Novel type with horizontal text. For details, please refer to Config.tjs. In this tutorial, we'll proceed with this default Visual Novel type display.<r/>
 </para>
 
 <para>
-<ptitle>とにかくなにかを表示する</ptitle>
-　では、試しに何かを表示してみましょう。scenario フォルダの中には、<kw>first.ks</kw> というファイルがあると思います。このファイルが一番最初に読み込まれるシナリオファイルです。<r/>
-　標準の状態では、以下のような内容が書き込まれています。<r/>
+<ptitle>Let's Try Displaying Something</ptitle>
+Now, let's try displaying some text. In the scenario folder, you should find a file called <kw>first.ks</kw>. This is the scenario file that's read first by default.<r/>
+In the standard state, it contains the following content:<r/>
 <bq>
 [wait time=200]<r/>
-*start|スタート<r/>
+*start|Start<r/>
 [cm]<r/>
-こんにちは。<r/>
+Hello.<r/>
 </bq>
-　いきなりごちゃごちゃ書いてあって困るかと思いますが、「こんにちは。」と書いてある行のみ注目してください。この「こんにちは。」の代わりに、なにか表示したい文字をエディタで書き込んでみてください。たとえば、「こんばんわ。」でもかまわないです。<r/>
-　そうしたら、吉里吉里を起動し、[フォルダ/アーカイブ選択]のダイアログボックスが開いたら、あなたの作ったプロジェクトフォルダを指定して [OK] ボタンを押します。<b>指定するのはプロジェクトフォルダです。first.ks ではありません。</b><r/>
+There might be other lines above and below, but please focus on the line that says "Hello." Try replacing this "Hello" with something else in your editor. For example, you could write "Good evening."<r/>
+After that, launch the program, when the [Folder/Archive Selection] dialog box opens, specify your work project folder and click the [OK] button. <b>Specify the project folder, not first.ks.</b><r/>
 <r/>
 <descimg>
-<dititle>「こんばんわ。」</dititle>
+<dititle>"Good evening."</dititle>
 <img src="kon-banwa.png"/>
 </descimg>
-　すると、真っ黒な画面に「こんばんわ。」と表示されましたね。背景を指定するのは後<comlink href="DispBase"/>で説明します。<r/>
-　とにかく、この「こんにちは。」の代わりに表示したい文字を書き込めば、このように表示させることができるのです。<r/>
+Then, "Good evening" should be displayed on a black screen. We'll discuss setting backgrounds later in <comlink href="DispBase"/>.<r/>
+Anyway, by replacing what comes after "Hello," you can display whatever text you want like this.<r/>
 </para>
 
 <para>
-<ptitle>クリック待ちと改行を使ってみよう</ptitle>
-　今度は、行末でクリック待ちをしてみましょう。クリック待ちをするには、[<kw>l</kw>] をクリック待ちをさせたい部分に書き込みます。( [l] は半角です; l は小文字の L )<r/>
-　それと、改行を行わせるために [<kw>r</kw>] をそのあとに書きます。<r/>
+<ptitle>Let's Try Using Click Wait and Line Breaks</ptitle>
+Next, let's try adding click waits between lines. To create a click wait, write [<kw>l</kw>] where you want the click wait to occur. (Use half-width; l is lowercase L)<r/>
+Then, to create a line break, write [<kw>r</kw>] afterward.<r/>
 <r/>
 <bq>
 [wait time=200]<r/>
-*start|スタート<r/>
+*start|Start<r/>
 [cm]<r/>
-こんにちは。[l][r]<r/>
-ごきげんよろしゅう。[l][r]<r/>
+Hello.[l][r]<r/>
+How are you?[l][r]<r/>
 </bq>
-　吉里吉里はいったん終了させて、また起動し、プロジェクトフォルダを実行してみてください。<r/>
+Close the editor after saving, launch again, and try running your project folder.<r/>
 <r/>
 <descimg>
-<dititle>クリック待ち</dititle>
+<dititle>Click Wait</dititle>
 <img src="gokigen.png"/>
 </descimg>
 <r/>
-　「こんにちは。」の後でクリック待ちとなり、クリックをすれば改行されて、「ごきげんよろしゅう。」と表示されたはずです。<r/>
+There should be a click wait after "Hello," and when clicked, it should advance to the next line displaying "How are you?"<r/>
 </para>
 
 <para>
-<ptitle>改ページ待ちを使ってみよう</ptitle>
-　文字を全部消去して、また左上から文字を表示し始めたいときは、新しい行に [<kw>cm</kw>] と書き込みます。( [cm] は半角です )<r/>
-　しかしその前にクリック待ちを行わないと、勝手に画面が消去されてしまいます。[cm] の前には普通は [<kw>p</kw>] と書き込みます。以下の例を見てください。<r/>
+<ptitle>Let's Try Using Page Breaks</ptitle>
+When you want to clear everything and start displaying from the top again, write [<kw>cm</kw>] on a new line. (use half-width)<r/>
+If you don't put a click wait before this, the screen will clear too quickly. Before [cm], write [<kw>p</kw>] for a page break. See the example below:<r/>
 <bq>
 [wait time=200]<r/>
-*start|スタート<r/>
+*start|Start<r/>
 [cm]<r/>
-こんにちは。[l][r]<r/>
-ごきげんよろしゅう。[l][r]<r/>
-改ページしますよ。[p]<r/>
+Hello.[l][r]<r/>
+How are you?[l][r]<r/>
+End of page.[p]<r/>
 [cm]<r/>
-改ページしました。<r/>
+New page started.<r/>
 </bq>
-　さて、これを実行してみてください。[p] の位置で改ページを示す記号が現れてクリック待ちとなり、クリックすると文字が全部消去されて、再び左上から「改ページしました。」と表示されたと思います。<r/>
+Now, try running this. At the [p] position, a page break indicator will appear with a click wait, and when clicked, all text will clear and "New page started." will be displayed from the top.<r/>
 <r/>
 <note>
-　メッセージを消去するタグは er ct cm の３つがあります。それぞれ微妙に動作が違うのでセーブとロードの説明のところ<comlink href="SaveLoad"/>で説明します。特別なことをやらないのであれば cm に統一してしまってもよいかも知れません。<r/>
+There are three tags that clear messages: er, ct, and cm. Each has different effects which will be explained in <comlink href="SaveLoad"/> regarding save and load functionality. If you're not concerned about specifics, using cm for everything should be fine.<r/>
 </note>
 <r/>
 <note>
-　KAG 3 未満のチュートリアルでは、ここで ct を使っていました。cm は ct 同様、すべてのメッセージレイヤをクリアしますが、ct のように、操作対象のメッセージレイヤを表画面の messaeg0 に戻したりしません。ct よりも使い勝手がよいかと思います。<r/>
-　しかし、後述のセーブ可能なラベルの直後は、cm か ct タグを書かなければならないということは注意しなければなりません。
+In tutorials before KAG 3, we used ct. cm and ct are similar, both clearing all messages. ct doesn't reset the message layer display target to message0 like ct does. Using ct might be better.<r/>
+However, please note that for save-enabled labels, you must include either cm or ct tags.
 </note>
 <r/>
-　KAG では、文字はすべて「<kw>メッセージレイヤ</kw>」と呼ばれるレイヤに描画されます。KAG では標準ではもう一つメッセージレイヤがあって、二つを使えば二人で対話しているようなシーンも表現可能です。<kw>current</kw> タグなどを参照してください。<r/>
+In KAG, text is all drawn in what's called the "<kw>message layer</kw>". KAG has multiple message layers by default, making it possible to show dialogue scenes with multiple characters. Please refer to the <kw>current</kw> tag for more details.<r/>
 </para>
 
 <para>
-<ptitle>タグってなんだ</ptitle>
-　で、いままで角かっこ [ ] で囲まれた半角のヤツはなんなんだということになりますが、<r/>
-　[ ] で囲まれているものは<b>タグ</b>、と呼ばれるもので、いろいろと KAG を制御するためのものです。<r/>
-　たとえば、一番最初の行に、<tt>[wait time=200]</tt> という部分がありますが、これは <tt>wait</tt> という<b><kw>タグ名</kw></b>に、 <tt>time=200</tt> という<b><kw>属性</kw></b>を伴った「タグ」です。属性は、 <tt>time</tt> というのが<b>属性名</b>で、 <tt>200</tt> というのが<b>属性の値</b>という呼び方をします。<r/>
-　このような感じで、まず [ の次に「タグ名」、スペースを空けて 「属性名=属性の値」を書き込みます。「属性名=属性の値」は複数続くことがあります。最後に ] がきて、タグが終わります。<r/>
-　これからいろいろなタグが出てきますが、最初は見よう見まねで書いていても、そのうち感覚がつかめてくると思います。<r/>
-　タグはいろいろと重要です。KAG に対する文字表示以外の指示はすべてこのタグで行います。いろいろなタグがありますから、<link href="Tags"/>を参照してみてください。<r/>
+<ptitle>What Are Tags?</ptitle>
+So, what are these half-width characters enclosed in [ ] that we've been using?<r/>
+Things enclosed in [ ] are called <b>tags</b>, and they're used to control various aspects of KAG.<r/>
+For example, in the first line, we had <tt>[wait time=200]</tt>, where <tt>wait</tt> is the <b><kw>tag name</kw></b>, with <tt>time=200</tt> as a <b><kw>parameter</kw></b>. Here, <tt>time</tt> is the <b>parameter name</b>, and <tt>200</tt> is the <b>parameter value</b>.<r/>
+Following this format, write the "tag name" after [, then "parameter=value" after a space if needed. Parameters can be multiple. End with ] to close the tag.<r/>
+We'll encounter many more tags, but it's best to remember them gradually as we use them.<r/>
+Tags are very important. All instructions to KAG besides text display are done through these tags. There are many different tags, please refer to <link href="Tags"/>.<r/>
 <r/>
-　<kw>マクロ</kw><comlink href="Macro"/>を使って、既存のタグを組み合わせて新しいタグを定義することができます。これを使うとお決まりのタグをひとつのタグにできるので便利です。ゲームシステムにあわせ、あらかじめタグのセットをマクロで定義しておくと便利でしょう。<r/>
+Using <kw>macros</kw><comlink href="Macro"/>, you can combine multiple tags to create new tags. This is useful as it allows you to combine several tags into one. It's helpful to define sets of tags as macros in advance according to your game system.<r/>
 <r/>
 <note>
-　KAG 3 未満では、行末に \ (円記号) を書かない限り、行末で改行されていました。KAG 3 以降では、[r] を書かない限り改行されません。KAG 3 未満の改行の扱いと同じにしたい場合は、Config.tjs の global.ignoreCR を false に指定してください。<r/>
+In versions before KAG 3, lines would break automatically with \ (backslash) at line ends. From KAG 3 onward, lines won't break without [r]. If you want the same line break behavior as before KAG 3, set global.ignoreCR to false in Config.tjs.<r/>
 </note>
 <r/>
 </para>
 
 <para>
-<ptitle>コマンド行</ptitle>
-　先頭に @ (半角＠) を書いた行は、「コマンド行」として認識されます。<r/>
-　@ の次にはタグの [ と ] で囲まれた部分、つまり、タグ名とその後に(もしあれば)属性を書きます。一つの行には一つのコマンドのみを書くことができます。<r/>
-　書き方が違うだけで、実質タグと同様の動作をします。<r/>
+<ptitle>Command Lines</ptitle>
+Lines beginning with @ (half-width) are recognized as "command lines".<r/>
+After @, write either tags enclosed in [ ], or tag names and their parameters directly. Only one command can be written per line.<r/>
+Though the format is different, it functions the same as tags.<r/>
 <r/>
-　たとえば、次の２行は同じ意味になります。<r/>
+For example, these two lines mean the same thing:<r/>
 <r/>
 <bq>
 [wc time=20]<r/>
 @wc time=20<r/>
 </bq>
 <r/>
-　また、「改ページ待ちを使ってみよう」の例は、以下のように書き換えることができます。<r/>
+Also, the example from "Let's Try Using Page Breaks" could be written like this:<r/>
 <r/>
 <bq>
 @wait time=200<r/>
-*start|スタート<r/>
+*start|Start<r/>
 @cm<r/>
-こんにちは。[l][r]<r/>
-ごきげんよろしゅう。[l][r]<r/>
-改ページしますよ。[p]<r/>
+Hello.[l][r]<r/>
+How are you?[l][r]<r/>
+End of page.[p]<r/>
 @cm<r/>
-改ページしました。<r/>
+New page started.<r/>
 </bq>
 </para>
 
 <para>
-<ptitle>シナリオ中の特殊記号・特殊行</ptitle>
-　シナリオは普通のテキストファイルで、自由に何を書いてもいいのですが、以下の記号は特殊な用途に使われるので、使いたいときは注意が必要です。<r/>
+<ptitle>Special Characters and Line Breaks in Scenarios</ptitle>
+While scenarios are regular text files where you can write freely, the following characters have special meanings and need attention when used:<r/>
 <r/>
 <dl>
-<dt>　　<kw>[</kw>　　( 半角開き角カッコ )</dt>
+<dt>  <kw>[</kw>  (half-width square bracket)</dt>
 <dd>
-	　タグの始まりを示す記号です(^^;;<r/>
-	　もしどうしても半角の角カッコの始まりを、タグの始まりとしてではなく使いたい場合は、<tt><b>[[</b></tt> と、これを二つ続けて書いてください ( 角カッコの閉じカッコは普通に書けば OK です )。
+    This marks the start of a tag (^^;;<r/>
+    If you want to use a half-width square bracket not as a tag start, write <tt><b>[[</b></tt> (writing two brackets is OK - brackets themselves can be written separately).
 </dd>
 
-<dt>　　<kw>;</kw>　　( 半角セミコロン )</dt>
+<dt>  <kw>;</kw>  (half-width semicolon)</dt>
 <dd>
-	　このセミコロンが<b>行頭に書かれた行は</b>、何を書いても無視されます。つまりコメントをここに記述することができます。
+    Lines beginning with this semicolon <b>at the start of a line</b> are ignored. You can use this to write comments.
 </dd>
 
-<dt>　　<kw>*</kw>　　( 半角アステリスク )</dt>
+<dt>  <kw>*</kw>  (half-width asterisk)</dt>
 <dd>
-	　<b>行頭に書かれた場合のみ</b>、ラベルを定義します。リンクするときにターゲットとなるほか、セーブ・ロード時の目印にもなります (別の場所でお話しします)。
+    <b>Only when written at the start of a line</b>, defines a label. These become targets for jumps and also serve as bookmarks for save/load (discussed elsewhere).
 </dd>
-<dt>　　<kw>@</kw>　　( 半角アトマーク )</dt>
+<dt>  <kw>@</kw>  (half-width at mark)</dt>
 <dd>
-	　<b>行頭に書かれた場合のみ</b>、コマンド行であることを示します。
+    <b>Only when written at the start of a line</b>, indicates a command line.
 </dd>
-<dt>　　<kw>タブ</kw></dt>
+<dt>  <kw>tab</kw></dt>
 <dd>
-	　行頭のタブはあたかも無かったかのように(無視されて)扱われます。これを用いて、シナリオファイルをインデント付け (シナリオが見やすいように字下げをする) を行う事ができます。無視されるのはタブだけで、空白は無視されませんので注意が必要です。
+    Tabs in lines are processed like spaces (ignored). You can use this to indent scenario files (making scenarios easier to read). Note that only tabs are processed this way; spaces are not ignored, so be careful.
 </dd>
 </dl>
 </para>

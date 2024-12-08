@@ -1,65 +1,64 @@
-<?xml version="1.0" encoding="Shift_JIS" ?>
+<?xml version="1.0" encoding="iso-8859-1" ?>
 <doc>
-<title>デバッグをしよう</title>
+<title>Debugging</title>
 
 <para>
-<ptitle>デバッグ支援機能</ptitle>
-　吉里吉里本体が提供するもの、KAG が提供するものなどを含めて、いくつかのデバッグ支援機能があります。<r/>
+<ptitle>Debug Support Functions</ptitle>
+    Both the Kirikiri engine and KAG provide various debugging support functions.<r/>
 </para>
 
 <para>
-<ptitle>デバッグメニュー</ptitle>
-　Config.tjs の <tt>debugMenu.visible</tt> を true にすると、「デバッグ」メニューが表示されるようになります。このメニューの項目を説明します。<r/>
+<ptitle>Debug Menu</ptitle>
+    Setting <tt>debugMenu.visible</tt> to true in Config.tjs will make the "Debug" menu visible. This menu contains the following items:<r/>
 <dl>
-<dt><kw>シナリオの再読込み</kw></dt>
+<dt><kw>Reload Scenario</kw></dt>
 <dd>
-　現在のシナリオファイルを再読込します。直前に通過した「セーブ可能なラベル」から再び実行が始まります。致命的なバグが発生したあとなどは正常に再読込ができない場合もあります。
+    Reloads the current scenario file. Execution will resume from the last "saveable label" that was passed. Note that in cases of critical bugs, reloading may not work properly.
 </dd>
-<dt><kw>コントローラ</kw></dt>
+<dt><kw>Control</kw></dt>
 <dd>
-　吉里吉里本体の「コントローラ」を表示します。Shift+F1 でも表示できます。このコントローラに並んでいるボタンのうち、一番右側の赤い●に×の付いたマークを押すと吉里吉里を終了することができます ( 致命的なバグの後はまれに終了できない場合があります ) 。
+    Displays Kirikiri's "Control" panel. Can also be displayed with Shift+F1. Among the buttons available in this control panel, clicking the X mark in the red circle at the top right will terminate Kirikiri (though it may not terminate properly in cases of critical bugs).
 </dd>
-<dt>コンソール</dt>
+<dt>Console</dt>
 <dd>
-　コンソール ( 後述 ) を表示します。
+    Displays the console (terminal).
 </dd>
 </dl>
 </para>
 
 <para>
-<ptitle>コンソール</ptitle>
-　コンソールは、吉里吉里や KAG の出力するメッセージが次々と表示される場所です。Shift+F4 などで表示できます。なにかトラブルが起こった場合、このコンソールに問題の解決につながる情報が表示される場合があります。<r/>
+<ptitle>Console</ptitle>
+    The console is where messages output by Kirikiri and KAG are listed and displayed. It can be shown with Shift+F4. If something isn't working properly, error messages may appear in this console.<r/>
 <r/>
-　また、コンソールの下部には入力欄があり、任意の TJS 式をその場で実行し、結果を確認することができます。<r/>
+    The console also has an input line where you can execute arbitrary TJS expressions and check their results.<r/>
 <r/>
-　たとえば、<tt>f.flag</tt> という変数の内容を確認したい場合、コンソールに<r/>
+    For example, if you want to check the contents of a variable like <tt>f.flag</tt>, enter in the console:<r/>
 <bq>
 f.flag<r/>
 </bq>
-　と入力して enter キーを押すと、コンソールに<r/>
+    Press enter and the console will display something like:<r/>
 <bq>
-15:25:04 コンソール : f.flag = (int)1<r/>
+15:25:04 Console: f.flag = (int)1<r/>
 </bq>
-　などと表示されます ( これは例 )。このように変数の内容をその場で確認することができます。<r/>
+    This way you can check variable contents on the fly.<r/>
 <note>
-　値の前に表示される (int) は、この値が整数であることを示しています。同様に、(real) は実数、(string) は文字列を表します。(void) は変数が未定義か、void そのものが代入されていることを示します。<r/>
+    The (int) shown before the value indicates that the value is an integer. Similarly, (real) indicates a real number, (string) indicates a string. (void) indicates that the variable is undefined or contains a void type.<r/>
 </note>
 <r/>
-　また、<tt>f.flag</tt> に 0 を代入したければ、<r/>
+    Also, if you want to set <tt>f.flag</tt> to 0, enter:<r/>
 <bq>
 f.flag=0<r/>
 </bq>
-　と入力して enter キーを押せば、その時点で f.flag に 0 を代入することができます。<r/>
+    Press enter and at that point f.flag will be set to 0.<r/>
 <note>
-　コンソールは、吉里吉里１では Debug Message Stream ( DMS ) と呼ばれていたものです。
+    The console was called Debug Message Stream (DMS) in Kirikiri1.
 </note>
 </para>
 
 <para>
-<ptitle>そのほかのデバッグ手段</ptitle>
-　<kw>trace</kw> タグは、変数の内容をコンソールに出力するタグです。<r/>
-　プログラムの応答がなくなった場合、<tt>Ctrl + Alt + F12</tt> を２秒間以上押し続ける事で吉里吉里本体を強制的に終了できる場合があります。<r/>
+<ptitle>Other Debug Tools</ptitle>
+    The <kw>trace</kw> tag is used to output variable contents to the console.<r/>
+    If the program becomes unresponsive, holding down <tt>Ctrl + Alt + F12</tt> for more than 2 seconds may force Kirikiri to terminate.<r/>
 </para>
 
 </doc>
-

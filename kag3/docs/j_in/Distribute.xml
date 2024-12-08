@@ -1,116 +1,116 @@
-<?xml version="1.0" encoding="Shift_JIS" ?>
+<?xml version="1.0" encoding="iso-8859-1" ?>
 <doc>
 
-<title>配布しよう</title>
+<title>Distribution</title>
 
 <para>
-<ptitle>プロジェクトフォルダの自動実行</ptitle>
-　吉里吉里は起動時には、プロジェクトフォルダを選択する画面がでます。これを出さずにプロジェクトフォルダを吉里吉里の起動と同時に実行するには以下の方法があります。<r/>
+<ptitle>Running Project Folders</ptitle>
+    When Kirikiri starts, it shows a screen to select a project folder. Here are methods to make a project folder run automatically when starting Kirikiri:<r/>
 <r/>
 <dl>
-<dt>プロジェクトフォルダを data に改名する</dt>
+<dt>Name Project Folder "data"</dt>
 <dd>
-　プロジェクトフォルダの名前を "<kw>data</kw>" にして、吉里吉里実行可能ファイル ( krkr.eXe ) と同じフォルダにおくと、吉里吉里起動時に自動的にそのプロジェクトフォルダを実行するようになります。
+    If you name the project folder "<kw>data</kw>" and place it in the same folder as the Kirikiri executable (krkr.eXe), that project folder will automatically run when Kirikiri starts.
 </dd>
-<dt>Releaser で data.xp3 というファイルを作る</dt>
+<dt>Create data.xp3 file with Releaser</dt>
 <dd>
-　後述の Releaser で <kw>data.xp3</kw> という名前で xp3 アーカイブファイルを作り、吉里吉里実行可能ファイルと同じフォルダにおくと、吉里吉里起動時に自動的にそのアーカイブを実行するようになります。
+    If you create an xp3 archive file named <kw>data.xp3</kw> using Releaser and place it in the same folder as the Kirikiri executable, that archive will automatically run when Kirikiri starts.
 </dd>
-<dt>Releaser で実行可能ファイルを作成する</dt>
+<dt>Create Executable with Releaser</dt>
 <dd>
-　Releaser で実行可能ファイルを直接作成することができます。<r/>
-　しかしこの場合は後述のパッチを配布するときに少々面倒だったり、一部のウィルス対策ソフトウェアとの相性が悪いので、単一の実行可能ファイルを作成することがそれほど強い要求でなければ、上記の data.xp3 を作成する方法をお勧めします。
+    You can directly create an executable using Releaser.<r/>
+    However, this can be inconvenient when distributing later patches, and there may be compatibility issues with some antivirus software, so unless there's a compelling reason to create a single executable, the above data.xp3 method is recommended.
 </dd>
 </dl>
 <r/>
-　Releaser の使い方は 吉里吉里 SDK ヘルプを参照してください。<r/>
+    For instructions on using Releaser, please refer to the Kirikiri SDK help.<r/>
 </para>
 
 <para>
-<ptitle>配布ファイル</ptitle>
-　実際に配布先でゲームを動作させる場合に含めなくてはならないファイルやフォルダがいくつかあります。<r/>
+<ptitle>Distribution Files</ptitle>
+    There are files and folders that must be included when distributing a game for actual play.<r/>
 <r/>
 <dl>
-<dt>吉里吉里実行可能ファイル</dt>
+<dt>Kirikiri Executable</dt>
 <dd>
-　Relesaer で実行可能ファイルを出力しなかった場合、実行可能ファイルを共に配布する必要があります。実行可能ファイル ( krkr.eXe ) は名前を変更してもかまいません。また、吉里吉里設定 ( krkrconf.exe ) でアイコンを変更することもできます。
+    If you didn't output an executable with Releaser, you need to distribute the executable file separately. You can rename the executable file (krkr.eXe). You can also change its icon using the Kirikiri Configuration tool (krkrconf.exe).
 </dd>
-<dt>拡張子が cf のファイル</dt>
+<dt>Files with .cf Extension</dt>
 <dd>
-　吉里吉里設定 (krkrconf.exe) で設定を行うと、吉里吉里実行可能ファイルと同じ名前で、拡張子が .cf になったファイルが出力されます。ここには -datapath オプションなどの重要なオプションが記述されていますから、これをともに配布する必要があります。<r/>
-　特にこのファイルが無いならば配布する必要はありません。<r/>
+    When you configure settings using Kirikiri Configuration (krkrconf.exe), it outputs a file with the same name as the Kirikiri executable but with a .cf extension. This contains important options like -datapath, so it needs to be distributed with the executable.<r/>
+    If this file doesn't exist, you don't need to distribute it.<r/>
 </dd>
 <dt><kw>krmovie.dll</kw></dt>
 <dd>
-　ゲーム内で MPEG によるムービーを再生する場合は共に配布しなければなりません。このファイルは吉里吉里の実行可能ファイル ( Releaser で出力した実行可能ファイルも含む ) と同じフォルダに設置しなければなりません。
+    This must be distributed if your game plays MPEG movies. This file must be placed in the same folder as the Kirikiri executable (including executables output by Releaser).
 </dd>
 <dt><kw>krflash.dll</kw></dt>
 <dd>
-　ゲーム内で Flash コンテンツを再生する場合は共に配布しなければなりません。このファイルは吉里吉里の実行可能ファイル ( Releaser で出力した実行可能ファイルも含む ) と同じフォルダに設置しなければなりません。
+    This must be distributed if your game plays Flash content. This file must be placed in the same folder as the Kirikiri executable (including executables output by Releaser).
 </dd>
-<dt>そのほかのプラグイン</dt>
+<dt>Other Plugins</dt>
 <dd>
-　吉里吉里の実行可能ファイルと同じフォルダか、吉里吉里実行可能ファイルのフォルダにある plugin フォルダに設置しなければなりません。<r/>
-　プロジェクトフォルダ内にプラグインを配置することも出来ますが、<b>推奨されません</b>。出来れば吉里吉里の実行可能ファイルと同じフォルダか、吉里吉里実行可能ファイルのフォルダにある plugin フォルダにおいて配布した方が良いです ( プロジェクトフォルダ内にプラグインを配置し、アーカイブ内に含めると CD-ROM 上から直接実行する際などにエラーになります )。
+    These must be placed in the plugin folder in the same folder as the Kirikiri executable, or in the Kirikiri executable's folder.<r/>
+    While it's possible to place plugins in the project folder, this is <b>not recommended</b>. It's better to distribute them in the plugin folder in the same folder as the Kirikiri executable (placing plugins in the project folder can cause errors when running directly from CD-ROM with the plugins included in the archive).
 </dd>
-<dt><kw>セーブデータフォルダ</kw></dt>
+<dt><kw>Save Data Folder</kw></dt>
 <dd>
-　吉里吉里実行可能ファイルと同じフォルダにセーブデータを作成する場合をのぞき、セーブデータを格納するフォルダも共に配布しなければなりません。とくに lzh などで圧縮する場合、空のフォルダは展開されない場合があるので、そのようなアーカイブ形式で配布する場合は、セーブデータのフォルダにダミーのファイルを入れておくとよいでしょう。
+    If save data is created in the same folder as the Kirikiri executable, you must distribute the folder where save data will be stored. However, when compressing with lzh etc., this folder might not expand properly, so when distributing in such archive formats, it's good to include a dummy file in the save data folder.
 </dd>
 </dl>
 <r/>
-そのほか、吉里吉里 SDK ヘルプ「ファイル/フォルダ覧」も参考にしてください。<r/>
+For more information, please refer to the "Files/Folders" section in the Kirikiri SDK help.<r/>
 </para>
 
 <para>
-<ptitle>エンドユーザ向け設定ツールの配布</ptitle>
-　エンドユーザが吉里吉里の設定を簡単に行えるようにするために、エンドユーザ向け設定ツール <kw>エンジン設定.exe</kw> をゲームと共に、あるいはゲームと別に配布することができます。<r/>
-　これらの使い方については吉里吉里 SDK ヘルプを参照してください。<r/>
+<ptitle>Distributing End-User Configuration Tool</ptitle>
+    To allow end users to easily configure Kirikiri settings, you can distribute the end-user configuration tool <kw>Engine Settings.exe</kw> either with your game or separately.<r/>
+    For usage instructions, please refer to the Kirikiri SDK help.<r/>
 <r/>
-　配布容量に問題がないなら、このツールはゲームなどとともに配布することを強くお勧めします。<r/>
+    If there are no distribution restrictions, it's recommended to distribute this tool along with your game.<r/>
 </para>
 
 <para>
-<ptitle>ファイル破損チェックツールの配布</ptitle>
-　インストール時やインストール後に破損したファイルを検出するためのツールである「ファイル破損チェックツール」 ファイル破損チェックツール.exe をゲームと共に、あるいはゲームと別に配布することができます。<r/>
-　これらの使い方については吉里吉里 SDK ヘルプを参照してください。<r/>
+<ptitle>Distributing File Destruction Check Tool</ptitle>
+    You can distribute the "File Destruction Check Tool" (FileDestructionCheckTool.exe), which is used to detect destroyed files during installation or uninstallation, either with your game or separately.<r/>
+    For usage instructions, please refer to the Kirikiri SDK help.<r/>
 <r/>
 </para>
 
 <para>
-<ptitle>パッチ配布</ptitle>
-　ゲームを配布した後、修正を行う必要が生じた場合、修正のあったファイルのみを「パッチ ( つぎはぎ ) 」という形で配布することができます。<r/>
+<ptitle>Patch Distribution</ptitle>
+    After distributing a game, if fixes are needed, you can distribute only the fixed files as a "patch (update)".<r/>
 <r/>
 <dl>
-<dt>吉里吉里実行コアのパッチ</dt>
+<dt>Patching Kirikiri Runtime Core</dt>
 <dd>
-　吉里吉里実行コアに修正の必要が生じた場合です。<r/>
-　Releaser で実行可能ファイルではなく、xp3 形式アーカイブを出力した場合は、新しい吉里吉里実行可能ファイルを古い実行可能ファイルの上に上書きするだけです。<r/>
-　Releaser で実行可能ファイルを出力した場合はやっかいです。以下のことを行う必要があります。<r/>
+    For when the Kirikiri runtime core needs fixes.<r/>
+    If you output an xp3 format archive rather than an executable with Releaser, you just need to overwrite the old executable with the new Kirikiri executable.<r/>
+    If you output an executable with Releaser, it's more complex. You'll need to:<r/>
 <ol>
-<li>それまでの実行可能ファイルを data.xp3 に名前を変える</li>
-<li>新しい実行可能ファイル ( 改名されていてもかまいません ) をそのファイルと同じフォルダにコピーする</li>
-<li>その新しい実行可能ファイルを実行するようにする</li>
+<li>Rename the existing executable to data.xp3</li>
+<li>Copy the new executable (which may have a different name) to the same folder</li>
+<li>Make it so the new executable runs</li>
 </ol>
 </dd>
-<dt>プロジェクトフォルダ内のパッチ</dt>
+<dt>Project Folder Patches</dt>
 <dd>
-　KAG は、吉里吉里実行可能ファイルと同じフォルダに patch.xp3 というファイルがあった場合、このファイルの中身を優先的に見に行くという機能があります。<r/>
-　この patch.xp3 を作成するには、修正のあったファイルや、追加されたファイルのみを一つのフォルダにまとめ、Releaser でそのフォルダを指定して patch.xp3 ファイルを作成します。<r/>
-　また、patch2.xp3 や patch3.xp3, patch4.xp3 ・・・のように、patch2.xp3 以降のファイルがある場合は、それらも読み込まれます。これらのファイルや、元々配布されていた ( パッチではないもとの ) ファイルの中に同名のファイルがある場合は、数字の大きいパッチファイルの中のファイルが優先されて使用されます。patch2.xp3, patch3.xp3, patch4.xp3 ・・・のならびに欠番があった場合はそこでパッチ用アーカイブを探すのをやめてしまいますので注意してください。
+    KAG has a feature where if a file named patch.xp3 exists in the same folder as the Kirikiri executable, its contents are processed with priority.<r/>
+    To create this patch.xp3, gather only the fixed files and added files in a folder, then use Releaser to specify that folder and create the patch.xp3 file.<r/>
+    Also, if files like patch2.xp3, patch3.xp3, patch4.xp3... exist, these will be read as well. If these files contain the same files as those being distributed (non-patch files), the files in the later patch files take precedence. Please note that when patch2.xp3, patch3.xp3, patch4.xp3... exist in sequence, it will search through the patch archives in that order.
 </dd>
 </dl>
 </para>
 
 <para>
-<ptitle>トラブルシューティング</ptitle>
-　エンドユーザ向け設定ツールを配布した場合は、ユーザ自身である程度のトラブルシューティングを行うことができます。<r/>
-　また、吉里吉里設定でコンソールのログを出力するようにしておくと、トラブル時の非常に有用な解析資料となります。コンソールのログは、栞の保存先ディレクトリに krkr.console.log として存在します。<r/>
+<ptitle>Troubleshooting</ptitle>
+    When distributing the end-user configuration tool, users can perform some level of troubleshooting themselves.<r/>
+    Also, if you set Kirikiri Configuration to output console logs, this can provide useful information when problems occur. Console logs are stored as krkr.console.log in the temporary save directory.<r/>
 </para>
 
 <para>
-<ptitle>著作権等</ptitle>
-　SDK 付属の <kw>license.txt</kw> は必ずお読みください。<r/>
+<ptitle>Copyright</ptitle>
+    Please make sure to read <kw>license.txt</kw> included with the SDK.<r/>
 </para>
 
 </doc>

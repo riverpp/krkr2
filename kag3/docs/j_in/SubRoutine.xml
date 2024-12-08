@@ -1,73 +1,72 @@
-<?xml version="1.0" encoding="Shift_JIS" ?>
+<?xml version="1.0" encoding="ISO-8859-1" ?>
 
 <doc>
-<title>サブルーチンを使おう</title>
-
+<title>Using Subroutines</title>
 
 <para>
-<ptitle>サブルーチンとは</ptitle>
-　サブルーチンとは、いくつかの処理のをまとめた物で、ほかの箇所から「呼び出して」つかう物です。サブルーチンの処理が終わると、呼び出した所へ制御が戻ります。<r/>
+<ptitle>What are Subroutines</ptitle>
+A subroutine is a collection of operations that can be "called" from other parts of the code. When the subroutine's operations finish, it returns to where it was called from.<r/>
 <r/>
-　マクロ <comlink href="Macro"/> と機能は似ていますが、サブルーチンの方がより本格的な処理を行うのに対し、マクロは簡単な処理を行う用途です。<r/>
+While similar in function to macros <comlink href="Macro"/>, subroutines are used for more fundamental operations whereas macros are tools for simple operations.<r/>
 </para>
 
 <para>
-<ptitle>サブルーチンの基本的な使い方</ptitle>
-　サブルーチンはラベルによって区別されますので、ラベルを定義します。サブルーチンから呼び出し元に戻るところに <kw>return</kw> タグ、サブルーチンを呼び出すには <kw>call</kw> タグを用います。<r/>
-　下の例を見てください。<r/>
+<ptitle>Basic Usage of Subroutines</ptitle>
+Subroutines are identified by labels, so we define a label. Use the <kw>return</kw> tag to return from a subroutine call, and the <kw>call</kw> tag to call a subroutine.<r/>
+Here's an example:<r/>
 <bq>
 [wait time=200]<r/>
-*start|スタート<r/>
+*start|Start<r/>
 [cm]<r/>
-サブルーチンを呼び出します。[l][r]<r/>
+Calling subroutine.[l][r]<r/>
 <b>[call target=*subroutine]</b><r/>
-サブルーチンを呼び出しました。<r/>
+Subroutine has been called.<r/>
 [s]<r/>
 <r/>
 <b>*subroutine</b><r/>
-これはサブルーチンです。[l][r]<r/>
-クリックをすると呼び出し元に戻ります。[l][r]<r/>
+This is a subroutine.[l][r]<r/>
+Click to return to where it was called.[l][r]<r/>
 <b>[return]</b><r/>
 </bq>
 <r/>
-　さて、この例を実行させると、「サブルーチンを呼び出します。」のメッセージのあとに「これはサブルーチンです。」と表示され、「クリックをすると呼び出し元に戻ります。」でクリックすると、「サブルーチンを呼び出しました。」と表示されるはずです。<r/>
-　つまり、call タグで指定したラベルにジャンプをするのですが、このときに呼び出した位置が自動的に記録され、return タグでは、この記録された呼び出し元に自動的に戻ります ( この自動的に記録されるものを「<kw>コールスタック</kw>」と呼んでいます )。<r/>
-　この例では、<tt>*subroutine</tt> から <tt>[return]</tt> までが「サブルーチン」です。<r/>
+When this example runs, after the "Calling subroutine" message, it displays "This is a subroutine", and when clicked at "Click to return to where it was called", it displays "Subroutine has been called".<r/>
+While the call tag jumps to the specified label, it automatically records the calling position, and the return tag automatically returns to that recorded calling position (this automatically recorded information is called the "<kw>call stack</kw>").<r/>
+In this example, from <tt>*subroutine</tt> to <tt>[return]</tt> is the "subroutine".<r/>
 <r/>
-　サブルーチンの中からほかのサブルーチンを呼び出すこともできます。呼び出しの深さ ( return せずにいくつまで call できるか ) に制限はありません。<r/>
+You can call other subroutines from within a subroutine. There's no limit to call depth (how many calls before a return).<r/>
 <r/>
-　ちなみに「選択肢を使ってみよう」の所ではラベルの次には [cm] を書くと書きましたが、セーブの箇所となるような ( | 付きの ) ラベルの次でなければ [cm] を書かなくても OK です。<r/>
+While we mentioned adding [cm] after labels in "Let's Try Selection", [cm] isn't necessary after labels that aren't save points (labels without |).<r/>
 <r/>
 <r/>
-　コールスタックには、シナリオファイル名、シナリオ中の直前のラベルとそれから call タグのある行までの行数、call タグのある行の内容、その行内での位置の情報しか記録されません。シナリオのデバッグ中などで、戻り先のシナリオファイル中の構成が変わるととんでもない位置に戻ってしまう場合があるので注意してください。<r/>
-　基本的には、サブルーチンのラベルやサブルーチン中には、セーブ箇所となるラベル ( | 付きのラベル ) を使わない/作らないが吉です。<r/>
+The call stack records the scenario filename, the label name before the scenario, the lines up to the call tag line, the contents of the call tag line, and position information in that line. Please be careful as during scenario debugging etc., you may return to incorrect positions if you change the structure of the returning scenario file.<r/>
+Basically, for subroutine labels and within subroutines, you can use/not use labels that become save points (labels with |).<r/>
 </para>
 
 <para>
-<ptitle>サブルーチンに関する注意</ptitle>
-　call で自分自身を呼びだしてしまったりすると無限ループにはまります。<r/>
-　call と return の対応がとれていないと、どんどんコールスタックが増えていったり、あるいは return タグのところで呼び出し元に戻れなくなってエラーになる事がありますので、注意してください。<r/>
+<ptitle>Notes About Subroutines</ptitle>
+Using call to call itself will result in an infinite loop.<r/>
+If call and return don't match properly, you may get errors where you can't return to the calling position at the return tag, no matter how much call stack remains, so please be careful.<r/>
 <r/>
-　それと、次の例のように<r/>
+Also, like in this example:<r/>
 <r/>
 <bq>
 *subroutine<r/>
-・・・<r/>
+...<r/>
 [if exp="f.flag1"]<b>[jump target=*otherplaces1]</b>[endif]<r/>
 [if exp="f.flag2"]<b>[jump target=*otherplaces2]</b>[endif]<r/>
-・・・<r/>
+...<r/>
 [return]<r/>
 <r/>
 *otherplaces1<r/>
-・・・<r/>
+...<r/>
 [return]<r/>
 <r/>
 *otherplaces2<r/>
-;この先には return タグがない・・・<r/>
+;No return tag in this section...<r/>
 </bq>
 <r/>
-　サブルーチン中で他の場所にジャンプする場合は注意してください。otherplaces1 にジャンプする場合は、ジャンプ先に return があるので call ～ return のバランスを崩すことはありません。しかし、otherplaces2 にジャンプする場合、ジャンプした先に return が現れないので、そのサブルーチンからは「戻ってない」ことになります。つまり、call ～ return のバランスを崩してしまいます。<r/>
+Be careful when jumping to other locations from within a subroutine. When jumping to otherplaces1, since there's a return after the jump, the call-return balance isn't broken. However, when jumping to otherplaces2, since there's no return after the jump, this subroutine effectively "doesn't return". This breaks the call-return balance.<r/>
 <r/>
-　もし、呼び出し元に戻るのではなく、任意の場所に戻りたい場合は、return タグの storage や target 属性を利用して、任意の場所に戻ることができます。<r/>
+If you want to return to an arbitrary location rather than the calling position, you can use the storage and target parameters of the return tag to return to any location.<r/>
 </para>
 </doc>

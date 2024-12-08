@@ -1,19 +1,19 @@
-<?xml version="1.0" encoding="Shift_JIS" ?>
+<?xml version="1.0" encoding="ISO-8859-1" ?>
 
 <doc>
-<title>右クリックサブルーチンについて</title>
+<title>About Right-Click Subroutines</title>
 
 <para>
-<ptitle>右クリックサブルーチンとは</ptitle>
-　マウスの右クリックで呼び出される KAG のサブルーチンです。<r/>
-　右クリックによってセーブ/ロードの画面を表示させたりするのに用います。<r/>
+<ptitle>What are Right-Click Subroutines</ptitle>
+These are KAG subroutines that are called when the right mouse button is clicked.<r/>
+They are typically used to display save/load screens through right-clicking.<r/>
 </para>
 
 <para>
-<ptitle>とりあえず例</ptitle>
-　右クリックサブルーチンを作るには rclick タグを用います。このタグによって、右クリックをされたときに指定のサブルーチンを呼び出すか、あるいは、指定のラベルにジャンプするかを指定できます。<r/>
+<ptitle>Basic Usage</ptitle>
+To create a right-click subroutine, use the rclick tag. With this tag, you can specify which subroutine to call or which label to jump to when a right-click occurs.<r/>
 <r/>
-　たとえば、rlick.ks に以下の内容を書いたとします。<r/>
+For example, you might have the following content in rclick.ks:<r/>
 <example>
 *rclick<r/>
 @rclick jump=true storage="rclick.ks" target="*exit" enabled=true<r/>
@@ -21,7 +21,7 @@
 @layopt layer=message0 page=fore visible=false<r/>
 @layopt layer=message1 page=fore visible=true<r/>
 @er<r/>
-ここは右クリックルーチン内です。<r/>
+This is the right-click routine.<r/>
 [s]<r/>
 <r/>
 *exit<r/>
@@ -31,46 +31,46 @@
 @rclick call=true storage="rclick.ks" target="*rclick" enabled=true<r/>
 @return<r/>
 </example>
-　これで、たとえば、first.ks には以下の行を記述します。
+Then, in first.ks, you would write the following line:
 <bq>
 @rclick call=true storage="rclick.ks" target="*rclick" enabled=true<r/>
 </bq>
 <r/>
-　すると、右クリックで rclick.ks の *rclick が呼ばれるようになります。<r/>
-　上記の例の rclick.ks では、まず右クリックがされたら *exit にジャンプするように設定しています。これにより、右クリックサブルーチン内で右クリックを行えば元に戻ることができます。<r/>
-　メッセージレイヤ0 を非表示にしています。これにより、メッセージレイヤ0 になにか選択肢が表示されていても選択肢を選択できなくすることができます。<r/>
-　メッセージレイヤ1 を表示状態にし、そこに「ここは右クリックルーチン内です。」と表示し、そこで停止します。<r/>
+This will make right-clicks call the *rclick label in rclick.ks.<r/>
+In the above example from rclick.ks, it's first set to jump to *exit when right-clicked. This allows returning to the previous state when right-clicking in the right-click subroutine.<r/>
+Message layer 0 is made invisible. This prevents any selections that might be displayed on message layer 0 from being selectable.<r/>
+Message layer 1 is made visible and displays "This is the right-click routine" before pausing.<r/>
 </para>
 
 <para>
-<ptitle>難しい例</ptitle>
-　右クリックサブルーチンとしては複雑な例を挙げますが、メッセージ履歴を見たり、セーブ・ロードができたりするものです。
+<ptitle>Example</ptitle>
+While this is a complex example of a right-click subroutine, it includes message history and save/load functionality.
 <example>
 *sub1<r/>
 @tempsave<r/>
-; ↑一時的に状態を保存<r/>
+; Temporarily save the state<r/>
 @history output=false<r/>
-; ↑メッセージ履歴への出力を無効に<r/>
+; Disable output to message history<r/>
 @mapdisable layer=0 page=fore<r/>
-; ↑クリッカブルマップをもし使っている場合はこのようにして無効化する<r/>
+; Disable clickable maps if using them<r/>
 @backlay<r/>
 @layopt layer=message1 page=back visible=true<r/>
-; ↑このサブルーチン内ではメッセージレイヤ1を使う<r/>
+; Use message layer 1 in this subroutine<r/>
 @layopt layer=message0 page=back visible=false<r/>
 @current layer=message1 page=back<r/>
 @position left=0 top=0 width=640 height=480<r/>
 @eval exp="f.r_first=true"<r/>
-; ↑このルーチンに入ったときにだけトランジションを行うように<r/>
+; Execute transition when first entering this routine<r/>
 ;<r/>
 *menu<r/>
 @er<r/>
 @nowait<r/>
-[link target=*hide]メッセージを消す[endlink][r]<r/>
-[link target=*history]メッセージ履歴を見る[endlink][r]<r/>
-[link target=*load]栞をたどる[endlink][r]<r/>
-[link target=*save]栞をはさむ[endlink][r]<r/>
-[link target=*gotostart]最初に戻る[endlink][r]<r/>
-[link target=*ret]戻る[endlink][r]<r/>
+[link target=*hide]Hide Message[endlink][r]<r/>
+[link target=*history]Message History[endlink][r]<r/>
+[link target=*load]Load Game[endlink][r]<r/>
+[link target=*save]Save Game[endlink][r]<r/>
+[link target=*gotostart]Return to Start[endlink][r]<r/>
+[link target=*ret]Return[endlink][r]<r/>
 @endnowait<r/>
 @current layer=message1 page=fore<r/>
 @if exp="f.r_first"<r/>
@@ -81,25 +81,25 @@
 @s<r/>
 <r/>
 *ret<r/>
-; サブルーチンから戻る<r/>
+; Return from subroutine<r/>
 @tempload bgm=false se=false backlay=true<r/>
 @trans time=500 rule=trans1 vague=128<r/>
 @wt<r/>
 @return<r/>
 <r/>
 *hide<r/>
-; メッセージを消す<r/>
+; Hide message<r/>
 @hidemessage<r/>
 @jump target=*menu<r/>
 <r/>
 *history<r/>
-; メッセージ履歴を見る<r/>
+; Show message history<r/>
 @showhistory<r/>
 @jump target=*menu<r/>
 <r/>
 *load<r/>
-; 栞をたどる<r/>
-; emb exp= .... については <link href="TJSTips"/> を参照<r/>
+; Load game<r/>
+; For emb exp= ... see <link href="TJSTips"/><r/>
 @er<r/>
 @nowait<r/>
 [link target=*lt0][emb exp="kag.getBookMarkPageName(0)"][endlink][r]<r/>
@@ -107,7 +107,7 @@
 [link target=*lt2][emb exp="kag.getBookMarkPageName(2)"][endlink][r]<r/>
 [link target=*lt3][emb exp="kag.getBookMarkPageName(3)"][endlink][r]<r/>
 [link target=*lt4][emb exp="kag.getBookMarkPageName(4)"][endlink][r]<r/>
-[link target=*menu]戻る[endlink][r]<r/>
+[link target=*menu]Return[endlink][r]<r/>
 @endnowait<r/>
 @s<r/>
 <r/>
@@ -128,8 +128,8 @@
 @jump target=*menu<r/>
 <r/>
 *save<r/>
-; 栞をはさむ<r/>
-; emb exp= .... については <link href="TJSTips"/> を参照<r/>
+; Save game<r/>
+; For emb exp= ... see <link href="TJSTips"/><r/>
 @er<r/>
 @nowait<r/>
 [link target=*st0][emb exp="kag.getBookMarkPageName(0)"][endlink][r]<r/>
@@ -137,7 +137,7 @@
 [link target=*st2][emb exp="kag.getBookMarkPageName(2)"][endlink][r]<r/>
 [link target=*st3][emb exp="kag.getBookMarkPageName(3)"][endlink][r]<r/>
 [link target=*st4][emb exp="kag.getBookMarkPageName(4)"][endlink][r]<r/>
-[link target=*menu]戻る[endlink][r]<r/>
+[link target=*menu]Return[endlink][r]<r/>
 @endnowait<r/>
 @s<r/>
 <r/>
@@ -159,11 +159,11 @@
 <r/>
 <r/>
 *gotostart<r/>
-; 「最初に戻る」<r/>
+; "Return to Start"<r/>
 @gotostart ask=true<r/>
 @jump target=*menu<r/>
 </example>
 <r/>
-　このほか、栞データにサムネイル画像を保存する場合は若干の注意がありますので locksnapshot と unlocksnapshot タグを参照してください。<r/>
+Additionally, when saving thumbnail images with save data, please refer to the locksnapshot and unlocksnapshot tags for necessary precautions.<r/>
 </para>
 </doc>

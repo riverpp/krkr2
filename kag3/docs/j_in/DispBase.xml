@@ -1,67 +1,67 @@
-<?xml version="1.0" encoding="Shift_JIS" ?>
+<?xml version="1.0" encoding="iso-8859-1" ?>
 <doc>
 
-<title>背景を表示しよう</title>
+<title>Displaying Backgrounds</title>
 
 <para>
-<ptitle>背景を表示しよう</ptitle>
-　<kw>背景</kw>というのは、要するに文字と前景の後ろに表示されるヤツです。KAG では、(デフォルトでは) 640×480 のサイズの画像を背景として読み込みます。<r/>
+<ptitle>Displaying Backgrounds</ptitle>
+    A <kw>background</kw> is a layer displayed behind the text and foreground elements. In KAG, (by default) it loads 640x480 sized images as backgrounds.<r/>
 <r/>
-　ためしに、なにか表示させたい 640×480 の画像を bgimage フォルダにおいてみてください。この画像を bg0.jpg であるとします。KAG の LZH ファイルにはこの画像は入っていないので、適当にどこかから持ってきてくださいね(^^)<r/>
-　そして、<link href="Letter"/> で使用したシナリオを、以下のように変えてみます。<r/>
+    First, try putting any 640x480 image in the bgimage folder. Let's say this image is called bg0.jpg. This image isn't included in KAG's LZH file, so please obtain one from somewhere (^^)<r/>
+    Now, let's modify the scenario we used in <link href="Letter"/> as follows:<r/>
 <bq>
 <b>[image storage="bg0" page=fore layer=base]</b><r/>
 [wait time=200]<r/>
-*start|スタート<r/>
+*start|Start<r/>
 [cm]<r/>
-こんにちは。<r/>
+Hello.<r/>
 </bq>
-　ここで <kw>image</kw> というタグを使用して、bg0.jpg を表ページの背景レイヤに読み込んでいます。<r/>
-　image タグの storage 属性で指定したファイルを読み込むのですが、拡張子は省略できます。勝手に KAG が探してきます(^^)<r/>
+    Here we're using the <kw>image</kw> tag to load bg0.jpg into the background layer of the fore page.<r/>
+    While the image tag loads the file specified in the storage parameter, you can omit the extension. KAG will search for it (^^)<r/>
 <r/>
-　とりあえず実行してみてください。<r/>
+    Try running this for now.<r/>
 <descimg>
-<dititle>背景を表示した</dititle>
+<dititle>Background Displayed</dititle>
 <img src="BG_Displayed.jpg"/>
 </descimg>
-　で、「表ページ」「背景レイヤ」ってなに？ってことになるのですが・・・<r/>
+    Now, you might be wondering what "fore page" and "background layer" mean...<r/>
 <r/>
 <note>
-　Config.tjs の scWidth および scHeight で、画面サイズに 640x480 以外の画面サイズを指定した場合は、もちろんその画像サイズに合った背景画像を指定してください。<r/>
+    If you specify a screen size other than 640x480 using scWidth and scHeight in Config.tjs, please use background images that match those dimensions.<r/>
 </note>
 </para>
 
 <para>
-<ptitle>KAG のレイヤ構成</ptitle>
-　KAG というか吉里吉里は、画面はすべて「レイヤ」と呼ばれるものを重ね合わせて構成されます ( Photoshop 等のレイヤーと似ています; レイヤーをレイヤと書くのは作者のクセ )。<r/>
+<ptitle>KAG's Layer Structure</ptitle>
+    In KAG, all screen elements are displayed by overlaying what we call "layers" (similar to layers in Photoshop; calling them layers instead of planes is just the author's habit).<r/>
 <r/>
 <r/>
-　たとえば、以下のような表示になっていたとすると・・・<r/>
+    For example, when the display looks like this...<r/>
 <r/>
 <descimg>
-<dititle>表示例</dititle>
+<dititle>Display</dititle>
 <img src="Layers.jpg"/>
 </descimg>
 <r/>
-　レイヤ構成は以下のようになっています。<r/>
+    The layer structure looks like this:<r/>
 <r/>
 <descimg>
-<dititle>レイヤ構成</dititle>
+<dititle>Layer Structure</dititle>
 <img src="LayersDesc.jpg"/>
 </descimg>
 <r/>
-　KAG では、<kw>背景レイヤ</kw> base がまず一枚あって、一番奥(下)に表示されます。それより手前(上)に３枚の<kw>前景レイヤ</kw> 0 1 2 があります。さらにその手前(上)に２枚の<kw>メッセージレイヤ</kw>があります。すべての前景レイヤと、メッセージレイヤ 1 は初期状態では非表示です ( 非表示のレイヤは layopt タグで visible=true とすることで表示することができます。前景レイヤの場合は image タグでも表示することができます )。<r/>
-　これと同じレイヤ構成が KAG では２組あって、それぞれ<kw>表ページ</kw> fore 、<kw>裏ページ</kw> back と呼ばれています。表ページは画面に表示されますが、裏ページは画面に表示することはできません。裏ページは、主にトランジション(画面切り替え)用に、画像を一時的においておくために使います。<r/>
+    In KAG, the <kw>background layer</kw> base is placed at the very bottom. In front of it are three <kw>foreground layers</kw> 0, 1, and 2. Further in front are two <kw>message layers</kw>. All foreground layers and message layer 1 are invisible in their initial state (they can be made visible using the layopt tag with visible=true. For foreground layers, they can also be made visible with the image tag).<r/>
+    KAG maintains two sets of this layer structure, called the <kw>fore page</kw> fore and <kw>back page</kw> back. The fore page is displayed on screen, but the back page cannot be displayed. The back page is used temporarily for transitions (screen changes).<r/>
 <r/>
-　image タグの page 属性及び layer 属性で指定していたのは、それぞれ、表ページが裏ページか ( fore / back )、背景レイヤか前景レイヤか ( base / 0 / 1 / 2 )かを指定したわけです。<r/>
+    The page and layer parameters we specified in the image tag indicate the fore/back page and the base/0/1/2 layer respectively.<r/>
 <r/>
 <note>
-　前景レイヤ 3 枚、メッセージレイヤ 2 枚という数は、Config.tjs のデフォルトの設定です。<r/>
-　メッセージレイヤや前景レイヤの初期の枚数は Config.tjs の numCharacterLayers および numMessageLayers で指定できるほか、laycount タグで実行中に変更することもできます。<r/>
+    Having 3 foreground layers and 2 message layers is the default configuration in Config.tjs.<r/>
+    While the number of message layers and foreground layers can be specified with numCharacterLayers and numMessageLayers in Config.tjs, they can also be changed at runtime using the laycount tag.<r/>
 </note>
 <note>
-　「背景」「前景」「表」「裏」はそれぞれ混乱の元となりやすいですが、page 属性に指定する fore は「表画面」を表すもので、「前景レイヤ」を表すものではありません。<r/>
-　表ページか裏ページかは page 属性でそれぞれ fore, back で指定し、前景レイヤの場合は layer 属性に 0 1 2 ・・・を指定し、背景レイヤの場合は base を指定します。<r/>
+    While "background", "foreground", "fore", and "back" might be easy to confuse, fore in the page parameter means "display screen", not "foreground layer".<r/>
+    The fore/back pages are specified with fore/back in the page parameter, foreground layers are specified with 0, 1, 2... in the layer parameter, and the background layer is specified with base.<r/>
 </note>
 </para>
 </doc>

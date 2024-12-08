@@ -1,54 +1,54 @@
-<?xml version="1.0" encoding="Shift_JIS" ?>
+<?xml version="1.0" encoding="ISO-8859-1" ?>
 <doc>
-<title>陥りやすいミス</title>
+<title>Common Mistakes</title>
 
 <para>
-<ptitle>陥りやすいミス</ptitle>
-　ありがちなミスや不都合を生みやすいポイントを紹介します。<r/>
+<ptitle>Common Mistakes</ptitle>
+Here are some points where mistakes and errors commonly occur.<r/>
 <r/>
 <dl>
-<dt>スキップしても大丈夫ですか?</dt>
+<dt>Is skipping working properly?</dt>
 <dd>
-　KAGはクリックや「次の選択肢まで進む」、スペースキーやEnterキーの長押しでスキップモードにはいります。このとき、たとえば時間制限選択肢でスキップの動作が禁止されていないとすぐにタイムオーバーになってしまいます ( これを避けるには時間制限選択肢が来たら @cancelskip して @clickskip enabled=false し、時間制限選択肢が終わったら @clickskip enabled=true する )。また、スタッフロールやデモシーンでもスキップとのかねあいを考慮する必要があります。<r/>
-　「自動的に読み進む」も、単純にクリック待ちを行うつもりで p タグなどを使った場合に問題になる場合があります。「自動的に読み進む」を強制的に解除するには cancelautomode タグを使います。<r/>
+KAG enters skip mode through clicking "Proceed until next choice" or holding Space/Enter keys. At this time, if skip functionality isn't disabled during time-limited choices, it may cause timeouts (to handle this, use @cancelskip or @clickskip enabled=false before the time-limited choice, and @clickskip enabled=true after it ends). Also, consider the interaction between skipping and staff roll or movie scenes.<r/>
+"Auto-read" might not work as expected when using simple click waits or p tags. To forcibly cancel auto-read mode, use the cancelautomode tag.<r/>
 <r/>
-　また、trans タグに対応している wt タグがないなと、<b>「何か時間をかけて処理を行うタグ」と「それに対応する『待つ』タグ」がない場合は問題が発生する</b>ことがあります。マクロなどを使ってこれらを常に組みにしてつかうならば問題ありませんが、複数の「何か時間をかけて処理を行うタグ」を組み合わせてオーバーラップさせて使うような場合は特に注意が必要です。
+Also, without the wt tag corresponding to the trans tag, <b>problems may occur if there's no "tag that performs processing during transition" and corresponding "wait tag"</b>. While there's usually no problem if properly structured in macros, special attention is needed when combining "tags that perform processing during transition" in ways that might overlap.
 </dd>
-<dt>栞をたどっても大丈夫ですか?</dt>
+<dt>Is loading working properly?</dt>
 <dd>
-　KAGのセーブとロード関連にはクセがあり、栞をたどるときにメッセージレイヤに記述された内容までは復元できず、つねにすべてのメッセージレイヤがクリアされた状態から実行が開始されます。また、トランジションやBGMや効果音のフェードなどもすべて停止した状態で開始します。これらはすべて「セーブ可能なラベル」から開始されますので、<b>セーブ可能なラベルの直後で cm や ct タグのような、メッセージレイヤをクリアするためのタグがあるか (あるいはセーブ可能なラベルの位置ですべてのメッセージレイヤがクリアされた状態から開始しても問題ないか )</b>、また、<b>セーブ可能なラベルがトランジション中であったり、フェードアウト中であったりしないかどうか</b>などをよくチェックしてください。
+KAG's save and load system has quirks - when loading, while message layer content can be restored, execution resumes after all message layers are cleared. Also, it starts with transitions, BGM, and sound effects all stopped. Everything restarts from "saveable labels", so <b>make sure there are tags that clear message layers like cm or ct within saveable labels (or ensure all message layers are cleared when starting from saveable label positions)</b>, and <b>check whether transitions are complete and fade-outs are finished at saveable labels</b>.
 </dd>
-<dt>状態は復元できていますか?</dt>
+<dt>Are states being preserved?</dt>
 <dd>
-　たとえばCGモードを作って、CGモード中ではメッセージレイヤなどの状態をCGモード用に変更したら、当然CGモードを抜けるときにはその状態を元に戻さないとなりません。
+For example, when entering CG mode and modifying message layer states for CG mode, these states must be restored when exiting CG mode.
 </dd>
-<dt>メッセージ履歴はOKですか?</dt>
+<dt>Is message history OK?</dt>
 <dd>
-　メッセージ履歴にどのような物が表示されているかは一応確認しておくと良いと思います。
+It's good practice to verify what text is being displayed in the message history.
 </dd>
-<dt>ウェイトがマシンスペックによって変わるような作りになってませんか?</dt>
+<dt>Are waits behaving differently depending on machine specs?</dt>
 <dd>
-　wait は、mode 属性を指定しないと、単に time 属性で指定された時間を待ちます。ですから、１秒ごとに何かを表示しようとして<r/>
+wait, without specifying mode, simply waits for the time specified by the time parameter. However, if you try to display something every second like:<r/>
 <bq>
 @wait time=1000<r/>
-@何かの表示など<r/>
+@display something<r/>
 @wait time=1000<r/>
-@何かの表示など<r/>
+@display something<r/>
 @wait time=1000<r/>
-@何かの表示など<r/>
+@display something<r/>
 </bq>
-　と指定しても<b>正確に１秒ごとにはなりません</b>。wait 自体は確かに1秒を待ちますが、「何かの表示など」で消費される時間を考慮していないためです。<r/>
-　従って、これを正確に１秒ごとにしたい場合は、resetwait タグと wait mode=until を使って、<r/>
+Even if specified this way, <b>it won't exactly be every second</b>. While wait itself waits for 1 second, it doesn't account for the time taken by "display something".<r/>
+Therefore, to make this exactly one second intervals, use the resetwait tag with wait mode=until like:<r/>
 <bq>
 @resetwait<r/>
 @wait mode=until time=1000<r/>
-@何かの表示など<r/>
+@display something<r/>
 @wait mode=until time=2000<r/>
-@何かの表示など<r/>
+@display something<r/>
 @wait mode=until time=3000<r/>
-@何かの表示など<r/>
+@display something<r/>
 </bq>
-　とします。resetwait で指定した時間原点からの時間を wait mode=until で待つという感じになります。
+This waits for specified times from the point set by resetwait using wait mode=until.
 </dd>
 </dl>
 </para>
