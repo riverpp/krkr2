@@ -1,0 +1,183 @@
+---------------------------------------------------------------------------
+                      Kirikiri and KAG License Terms
+---------------------------------------------------------------------------
+                                                            2005/7/21 W.Dee
+
+  Please read the following license carefully before using this software.
+  If you do not agree with the following license, you cannot use this software.
+
+  Please note that Kirikiri1 and Kirikiri2 have different licenses.
+This license applies to Kirikiri2 (including KAG 3).
+
+
+? Dual License
+
+  This software is provided under a dual license: the Kirikiri License below and
+the GNU General Public License (GNU GPL). Users can choose either this license or
+GNU GPL, and use this software according to the chosen license.
+
+  Regarding GNU GPL, please refer to www.gnu.org or the attached
+
+  gpl-2e-plain.txt (English)
+  gpl-2j-plain.txt (Japanese)
+
+  Some Kirikiri-related tools are provided under different licenses (please read
+their respective documentation).
+
+
+
+---------------------------------------------------------------------------
+
+The following describes the Kirikiri License terms.
+For matters not specified here, applicable copyright laws shall apply.
+
+
+? Copyright
+
+  The copyright of this software belongs to W.Dee.
+
+
+? Usage
+
+  This software can be used free of charge. Users are not required to pay any
+fees to the author of this software.
+  This applies regardless of the usage purpose (commercial, free, shareware, etc.).
+
+  "Users" here includes both end-users who use products created with this software
+and users who utilize this software's source code.
+
+
+? License Termination
+
+  If a user violates this license, the user's right to use this software will be
+immediately terminated without notice. In case of license termination, the user
+must immediately delete all parts related to this software from both this software
+and the user's products created using this software.
+
+
+? Warranty and Responsibility
+
+  This software comes with no warranty. The author of this software is not
+responsible for any damages caused by any person or organization.
+  Additionally, the author assumes no responsibility for version updates, bug
+fixes, or any other maintenance of this software.
+
+
+? Copyright Display and Usage Notification
+
+  When using this software, there is no obligation to notify secondary users that
+this software was used. Also, there is no obligation to notify the author of this
+software that it is being used.
+
+  The copyright notice included in the software and Kirikiri's version resource
+(containing version numbers) may be modified for redistribution.
+  Also, you may modify to prevent the display of copyright information that appears
+when Kirikiri is launched with the '-about' option.
+
+  As an exception, if documentation distributed to secondary users includes notes
+about using Kirikiri and that version details can be viewed by launching Kirikiri
+with the '-about' option, you may distribute it with the version resource removed.
+
+
+? Secondary Distribution
+
+  This software cannot be redistributed without accepting this license agreement.
+Also, you cannot impose arbitrary conditions on the distribution of this software
+itself (except for necessary media costs).
+
+  However, the following exceptions apply:
+
+   ?Kirikiri2 execution core (krkr.eXe)
+   ?Kirikiri plugins included in the Kirikiri SDK distribution
+   ?KAG system (files under kag3\template)
+   ?KAG plugins included in the Kirikiri SDK distribution
+
+  Files falling under the above items can be distributed without accepting this
+license agreement, along with the user's products that utilize these execution
+cores. In this case, the distribution as a whole can be distributed under the
+user-specified distribution license. The user-specified distribution license may
+be paid or free, and may be open-source or closed-source.
+  However, this does not mean changing the license of the above items themselves.
+When these execution cores or systems are distributed separately or reconsidered
+for distribution, they retain their original license.
+
+  The Kirikiri Configuration tool (??????.exe) can be distributed without
+accepting this license agreement only when distributed for the purpose of allowing
+secondary users to configure Kirikiri themselves.
+
+  The File Destruction Check Tool can be distributed without accepting this
+license agreement only when distributed for the purpose of allowing users to
+check file destruction themselves.
+
+
+? Usage, Modification, and License Changes
+
+  This software is open-source. The software's source can be obtained from the
+Kirikiri Support Page, or if that's not possible, by contacting the author.
+
+  The source of this software, or parts thereof, can be used or incorporated into
+other software. This applies regardless of whether it's open-source or closed-source.
+  Usage here includes incorporating parts of this software into other software.
+
+  You may modify and distribute this software, but in such cases, it must be
+distributed under the same license as this software or under a license specifically
+approved by the author of this software.
+
+  Modification means making changes to this software. However, modifications to
+binary files distributed by the author of this software as-is (customization
+changes using tools, version resource changes allowed under the [Copyright Display
+and Usage Notification] section above) are not considered modifications.
+
+  In cases of usage or modification, you must either note in your documentation
+that you are using source or binary from this software, or contact and confirm
+with the author of this software before distribution, whichever is appropriate.
+  Regarding the latter, those external to the project may choose to disclose the
+list of software where "contact and confirmation with the author before
+distribution" was performed only to interested parties.
+
+  However, as an exception, while the KAG system (files under kag3\template) is
+open-source, there are no restrictions on its usage or modification.
+
+
+? Plugin Creation
+
+  To create plugins, you may use tp_stub.h, tp_stub.cpp, and tvpsnd.h included
+in Kirikiri's source.
+  When these files are incorporated into plugins specifically for plugin creation
+purposes, this is not considered "usage" as described above. Therefore, in this
+case, you are not required to either note in your documentation that you are using
+source from this software or contact and confirm with the author before
+distribution. Also, you are not required to make your plugin's source open.
+  However, if you incorporate parts of Kirikiri's source other than these files
+into your plugin, or if you use these files for purposes other than plugin
+creation, it will be considered "usage" as described above.
+
+
+? Patch/Code Application
+
+  When patches or additional code from persons other than the author are applied
+to the original source of this software and fed back to the author (contributed),
+it is assumed that these patches or code can be applied under the same license as
+this software (dual license of GNU GPL and this license).
+
+
+? License Changes by the Author
+
+  The author of this software reserves the right to modify/change this license
+without notice. However, this does not extend to applying new licenses to old
+versions of the software that were distributed with previous licenses.
+
+
+? Regarding ERI (Entis Rasterized Image)
+
+  The Kirikiri core includes the runtime library for "Entis Rasterized Image"
+image format by L.Entis. If you use this format, please comply with the separate
+ERI license. If you don't use this format, this doesn't apply.
+  For details, please refer to the ERI club
+  http://www.entis.jp/eri/
+
+
+? Author Contact
+
+  W.Dee <dee@kikyou.info>
+  Kirikiri Download Page: http://kikyou.info/tvp/
